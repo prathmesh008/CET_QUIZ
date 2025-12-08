@@ -47,10 +47,10 @@ export async function getResult(req, res) {
 
 export async function insertResult(req, res) {
     try {
-        const { username, result, attempts, points, acheived } = req.body;
+        const { username, quizId, result, attempts, points, acheived } = req.body;
         if (!username && !result) throw new Error("nodata");
 
-        const data = await results.create({ username, result, attempts, points, acheived });
+        const data = await results.create({ username, quizId, result, attempts, points, acheived });
 
         res.json({ msg: "result saved", data });
     } catch (error) {

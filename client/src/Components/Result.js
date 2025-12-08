@@ -2,12 +2,14 @@ import React, { useEffect } from 'react'
 import '../Styles/Result.css'
 import Resulttable from './Resulttable';
 import { attempts, earnpoints, flagresult } from '../Helper/Helper.js';
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { resetallaction } from '../Redux/Questionreducer.js';
 import { resetresultaction } from '../Redux/Resultreducer.js';
 import { usepublishresult } from '../Hooks/setresult.js';
 function Result() {
+    const location = useLocation();
+    const { quizId } = location.state || { quizId: 'quiz1' };
     const dispatch = useDispatch();
     const { questions: { queue, answers }, result: { result, userid } } = useSelector(state => state);
     useEffect(() => {
@@ -25,7 +27,8 @@ function Result() {
             username: userid,
             attempts: attempt,
             points: earnpoint,
-            acheived: flag ? "Passed" : "Failed"
+            acheived: flag ? "Passed" : "Failed",
+            quizId
         });
     }, []);
     function onrestart() {

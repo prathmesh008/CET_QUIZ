@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { getServerData } from '../Helper/Helper'
+import { useNavigate } from 'react-router-dom'
 
 export default function ResultTable() {
-
+    const navigate = useNavigate();
     const [data, setData] = useState([])
 
     useEffect(() => {
@@ -11,32 +12,32 @@ export default function ResultTable() {
         })
     })
 
-  return (
-    <div>
-        <table>
-            <thead className='table-header'>
-                <tr className='table-row'>
-                    <td>Name</td>
-                    <td>Attemps</td>
-                    <td>Earn Points</td>
-                    <td>Result</td>
-                </tr>
-            </thead>
-            <tbody>
-                { !data ?? <div>No Data Found </div>}
-                {   
-                    data.slice(-5).reverse().map((v, i) => (
-                        <tr className='table-body' key={i}>
-                            <td>{v?.username || ''}</td>
-                            <td>{v?.attempts}</td>
-                            <td>{v?.points || 0}</td>
-                            <td>{v?.acheived || "failed"}</td>
-                        </tr>
-                    ))
-                }
-                
-            </tbody>
-        </table>
-    </div>
-  )
+    return (
+        <div>
+            <table>
+                <thead className='table-header'>
+                    <tr className='table-row'>
+                        <td>Name</td>
+                        <td>Attemps</td>
+                        <td>Earn Points</td>
+                        <td>Result</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {!data ?? <div>No Data Found </div>}
+                    {
+                        data.slice(-5).reverse().map((v, i) => (
+                            <tr className='table-body' key={i} onClick={() => navigate('/result-details', { state: { result: v } })} style={{ cursor: 'pointer' }}>
+                                <td>{v?.username || ''}</td>
+                                <td>{v?.attempts}</td>
+                                <td>{v?.points || 0}</td>
+                                <td>{v?.acheived || "failed"}</td>
+                            </tr>
+                        ))
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    )
 }

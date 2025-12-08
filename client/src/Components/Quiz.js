@@ -118,7 +118,7 @@ function Quiz() {
   if (serverError) return <h3 className='text-light'>{serverError.message || "Unknown Error"}</h3>
 
   if (finish) {
-    return <Navigate to="/result" replace={true} />
+    return <Navigate to="/result" state={{ quizId }} replace={true} />
   }
 
   const currentQuestion = queue[trace];

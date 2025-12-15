@@ -7,7 +7,8 @@ const questionSlice = createSlice({
         queue: [],
         answers: [],
         trace: 0,
-        visited: {} // Map of index -> true
+        visited: {}, // Map of index -> true
+        marked: {} // Map of index -> true
     },
     reducers: {
         startExamAction: (state, action) => {
@@ -43,15 +44,24 @@ const questionSlice = createSlice({
                 queue: [],
                 answers: [],
                 trace: 0,
-                visited: {}
+                visited: {},
+                marked: {}
             }
         },
         setVisitedAction: (state, action) => {
             const index = action.payload;
             state.visited[index] = true;
+        },
+        setMarkedAction: (state, action) => {
+            const index = action.payload;
+            state.marked[index] = true;
+        },
+        unsetMarkedAction: (state, action) => {
+            const index = action.payload;
+            delete state.marked[index];
         }
     }
 });
 
-export const { startExamAction, movenextquestion, moveprevquestion, resetallaction, jumpToQuestionAction, setVisitedAction } = questionSlice.actions;
+export const { startExamAction, movenextquestion, moveprevquestion, resetallaction, jumpToQuestionAction, setVisitedAction, setMarkedAction, unsetMarkedAction } = questionSlice.actions;
 export default questionSlice.reducer;

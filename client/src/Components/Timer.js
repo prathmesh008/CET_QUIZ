@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from 'react';
 
 export default function Timer({ duration, onTimeUp }) {
-    const [timeLeft, setTimeLeft] = useState(duration);
+    const [timeLeft, setTimeLeft] = useState(() => {
+        const savedTime = localStorage.getItem('quizTimer');
+        return savedTime ? parseInt(savedTime, 10) : duration;
+    });
 
     useEffect(() => {
+        localStorage.setItem('quizTimer', timeLeft);
+
         if (timeLeft <= 0) {
             onTimeUp();
             return;
         }
 
         const interval = setInterval(() => {
-            setTimeLeft(prev => prev - 1);
+            setTimeLeft(prev => {
+                const newValue = prev - 1;
+                return newValue;
+            });
         }, 1000);
 
         return () => clearInterval(interval);
@@ -23,15 +31,8 @@ export default function Timer({ duration, onTimeUp }) {
     };
 
     return (
-        <div className="global-timer" style={{
-            color: timeLeft < 60 ? '#dc3545' : '#212529',
-            fontSize: '1.2rem',
-            fontWeight: 'bold',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px'
-        }}>
-            <span style={{ fontSize: '1.5rem' }}>⏱</span> {formatTime(timeLeft)}
-        </div>
+        <span style={{ fontSize: '1.2rem', fontFamily: 'monospace' }}>
+            {formatTime(timeLeft)}
+        </span>
     );
 }

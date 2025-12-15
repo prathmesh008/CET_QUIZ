@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { jumpToQuestion } from '../Hooks/Fetchquestions';
 
-export default function QuestionNavigator({ activeSection, sections }) {
-    const { trace, visited } = useSelector(state => state.questions);
+export default function QuestionNavigator() {
+    const { queue, trace, visited, marked } = useSelector(state => state.questions);
     const { result } = useSelector(state => state.result);
     const dispatch = useDispatch();
 
@@ -12,67 +12,54 @@ export default function QuestionNavigator({ activeSection, sections }) {
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <div style={{ padding: '15px', flex: 1, overflowY: 'auto' }}>
-                {activeSection && sections[activeSection] && (
-                    <div className="question-list" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                        {sections[activeSection].map((q) => {
-                            const isAttempted = result[q.index] !== undefined;
-                            const isCurrent = trace === q.index;
-                            const isVisited = visited && visited[q.index];
+        <div className="palette-grid">
+            {queue.map((q, index) => {
+                // Determine Section Range based on 'trace'
+                let sectionStart = 0;
+                let sectionEnd = 8;
 
-                            let btnClass = 'nav-btn';
-                            if (isCurrent) btnClass += ' current';
-                            else if (isAttempted) btnClass += ' attempted';
-                            else if (isVisited) btnClass += ' unattempted';
-                            else btnClass += ' not-visited';
+                if (trace >= 16) {
+                    sectionStart = 16;
+                    sectionEnd = 24;
+                } else if (trace >= 8) {
+                    sectionStart = 8;
+                    sectionEnd = 16;
+                }
 
-                            return (
-                                <button
-                                    key={q.index}
-                                    className={btnClass}
-                                    onClick={() => handleJump(q.index)}
-                                    style={{
-                                        width: '40px',
-                                        height: '40px',
-                                        borderRadius: '4px',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        padding: 0
-                                    }}
-                                >
-                                    {q.index + 1}
-                                </button>
-                            );
-                        })}
-                    </div>
-                )}
-            </div>
+                // If this question is NOT in the current section, don't render it
+                if (index < sectionStart || index >= sectionEnd) return null;
 
-            <div className="sidebar-legend" style={{
-                padding: '10px 5px',
-                // borderTop: '1px solid var(--border-color)',
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '10px',
-                marginRight: '0px',
-                marginLeft: '5px',
-                marginBottom: '5px'
-            }}>
-                <div className="legend-item">
-                    <div className="legend-box" style={{ backgroundColor: 'var(--success-color)' }}></div>
-                    <span>Answered</span>
-                </div>
-                <div className="legend-item">
-                    <div className="legend-box" style={{ backgroundColor: 'var(--danger-color)' }}></div>
-                    <span>Not Answered</span>
-                </div>
-                <div className="legend-item">
-                    <div className="legend-box" style={{ backgroundColor: 'var(--bg-hover)' }}></div>
-                    <span>Not Visited</span>
-                </div>
-            </div>
-        </div >
+                // Existing logic...
+                const isVisited = visited && visited[index];
+                const isAnswered = result && result[index] !== undefined && result[index] !== null;
+                const isMarked = marked && marked[index];
+
+                let btnClass = 'p-btn';
+
+                if (isMarked && isAnswered) {
+                    btnClass += ' marked-answered';
+                } else if (isAnswered) {
+                    btnClass += ' answered';
+                } else if (isMarked) {
+                    btnClass += ' marked';
+                } else if (isVisited) {
+                    btnClass += ' not-answered';
+                } else {
+                    btnClass += ' not-visited';
+                }
+
+                return (
+                    <button
+                        key={index}
+                        className={btnClass}
+                        onClick={() => handleJump(index)}
+                        title={`Go to Question ${index + 1}`}
+                        style={trace === index ? { filter: 'drop-shadow(0 0 2px #2979ff)' } : {}}
+                    >
+                        {index + 1}
+                    </button>
+                );
+            })}
+        </div>
     );
 }

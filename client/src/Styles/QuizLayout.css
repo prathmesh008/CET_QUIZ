@@ -1,360 +1,623 @@
-/* QuizLayout.css */
+/* UGC NET / Real Exam Interface Style - REFINED UI (Palette Shapes Preserved) */
+
+:root {
+    --header-height: 50px;
+    --subheader-height: 40px;
+    --width-sidebar: 350px;
+    --bg-main: #ffffff;
+    /* White background requested */
+    --bg-white: #ffffff;
+    --bg-sidebar: #e5f2fa;
+    --border-color: #e0e0e0;
+
+    /* Exam Colors */
+    --blue-primary: #337ab7;
+    /* Exam Blue */
+    --blue-dark: #23527c;
+    --text-color: #000;
+    --text-muted: #333;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    /* Strict Exam Font */
+    background-color: var(--bg-main);
+    color: var(--text-color);
+    overflow: hidden;
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    /* Fix sizing issues globally */
+}
+
+/* ... existing styles ... */
+
 .quiz-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 100vh;
-    background-color: var(--bg-dark);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: hidden;
-    color: var(--text-primary);
+    width: 100vw;
+    background-color: var(--bg-main);
 }
 
-/* Top Status Bar */
-.top-status-bar {
-    background-color: #064e3b;
-    /* Dark Green */
-    color: #a7f3d0;
-    text-align: center;
-    padding: 5px;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-/* Header Bar */
-.quiz-header {
+/* NEW: Wrapper for Left Header + Content */
+.left-section-container {
+    flex: 1;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--bg-card);
-    padding: 10px 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+    min-width: 0;
+    height: 100%;
+    /* Force full height */
+    overflow: hidden;
+    /* contain children */
+}
+
+/* 1. TOP HEADER - FIELDSET STYLE */
+.quiz-header-fieldset {
+    margin: 10px 10px 0 10px;
+    /* Same margin as panel */
+    padding: 0 0 0 15px;
+    /* Align tab inside */
+    border: 1px solid #000000;
+    /* Grey border as per image */
+    border-top: 1px solid #000;
+    /* Distinct top border if needed, or uniform */
+    /* Actually image has uniform thin border, maybe slight dark top. Let's use standard border to match image. */
+    border: 1px solid #aaa;
+
     height: 60px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.header-left {
     display: flex;
     align-items: center;
-    gap: 20px;
+    /* Center tab vertically */
+    flex-shrink: 0;
+    background: #fff;
 }
 
-.test-name {
+.header-legend {
+    font-size: 13px;
     font-weight: bold;
-    font-size: 1.1rem;
-    color: var(--text-primary);
+    padding: 0 5px;
+    color: #000;
+    font-family: Arial, sans-serif;
+    margin-left: 5px;
+    /* Slight offset */
 }
 
-.section-badge {
-    background-color: var(--bg-hover);
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-}
+/* 2. MAIN BODY REMOVED - left-panel is direct child now */
 
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.user-info {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-}
-
-.submit-btn {
-    background-color: var(--accent-color);
-    color: white;
-    border: none;
-    padding: 10px 24px;
-    border-radius: 4px;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.submit-btn:hover {
-    background-color: #2563eb;
-}
-
-/* Main Body Layout */
-.quiz-body {
-    display: flex;
+/* LEFT PANEL (Question Area) */
+.left-panel {
     flex: 1;
-    overflow: hidden;
-}
-
-/* Sidebar (Column 1) */
-.quiz-sidebar {
-    width: 180px;
-    /* Adjusted width */
-    background-color: var(--bg-card);
+    /* Take remaining height */
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-}
-
-.sidebar-header {
-    padding: 15px;
-    background-color: var(--bg-card);
-    border-bottom: 1px solid var(--border-color);
-    font-weight: bold;
-    color: var(--text-primary);
-}
-
-.question-grid {
-    padding: 15px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-}
-
-.nav-btn {
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-hover);
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    color: var(--text-primary);
-}
-
-.nav-btn:hover {
-    background-color: #404040;
-}
-
-.nav-btn.current {
-    background-color: var(--accent-color);
-    color: white;
-    border-color: var(--accent-color);
-}
-
-.nav-btn.attempted {
-    background-color: var(--success-color);
-    color: white;
-    border-color: var(--success-color);
-}
-
-/* Visited but Not Answered (Red) */
-.nav-btn.unattempted {
-    background-color: var(--danger-color);
-    color: white;
-    border-color: var(--danger-color);
-}
-
-.nav-btn.not-visited {
-    background-color: var(--bg-hover);
-    color: var(--text-primary);
-}
-
-/* Legend */
-.sidebar-legend {
-    padding: 15px;
-    border-top: 1px solid var(--border-color);
-    font-size: 0.8rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    color: var(--text-secondary);
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.legend-box {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-}
-
-/* Main Question Area (Wrapper for Col 2 & 3) */
-.question-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--bg-dark);
+    background-color: var(--bg-white);
+    border: 1px solid #000;
+    margin: 10px;
+    min-width: 0;
+    box-shadow: none;
     overflow: hidden;
-    /* Prevent scroll on wrapper */
+    /* Keep scrollbars inside parts */
 }
 
 .question-header-bar {
-    padding: 15px 20px;
-    background-color: var(--bg-card);
-    border-bottom: 1px solid var(--border-color);
+    background: #fff;
+    border-bottom: 2px solid #ccc;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-weight: 600;
-    color: var(--text-secondary);
-    height: 50px;
+    height: 40px;
 }
 
-/* Split Layout Container (Inside Questions.js) */
-.questions-split-layout {
-    display: flex;
+.q-label {
+    color: #000;
+    /* Often black or dark red in exams */
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.marks-label {
+    font-size: 17px;
+    font-weight: bold;
+    color: #333;
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+}
+
+.question-area {
     flex: 1;
-    overflow: hidden;
-    height: 100%;
-}
-
-/* Column 2: Question Text Panel */
-.question-text-panel {
-    flex: 1;
-    padding: 30px;
     overflow-y: auto;
-    border-right: 1px solid var(--border-color);
-    background-color: var(--bg-dark);
-}
-
-/* Column 3: Options Panel */
-.options-panel {
-    width: 400px;
-    /* Fixed width for options */
-    padding: 30px;
-    overflow-y: auto;
-    background-color: var(--bg-card);
+    padding: 30px 40px;
+    /* Generous padding like paper */
+    background: #fff;
+    font-size: 20px;
 }
 
 .question-text {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    color: var(--text-primary);
-}
-
-/* Bottom Bar */
-.question-footer {
-    padding: 15px 20px;
-    border-top: 1px solid var(--border-color);
-    background-color: var(--bg-card);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.footer-left {
-    display: flex;
-    gap: 10px;
-}
-
-.footer-right {
-    display: flex;
-    gap: 10px;
-}
-
-.btn-secondary {
-    background-color: transparent;
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    padding: 10px 24px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-.btn-secondary:hover {
-    background-color: var(--bg-hover);
-}
-
-.btn-primary {
-    background-color: var(--accent-color);
-    color: white;
-    border: none;
-    padding: 10px 24px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-.marks-info {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-}
-
-/* Resizer Handle */
-.resizer {
-    width: 5px;
-    background-color: var(--border-color);
-    cursor: col-resize;
-    transition: background-color 0.2s;
-    z-index: 10;
-    flex-shrink: 0;
-}
-
-.resizer:hover,
-.resizer.active {
-    background-color: var(--accent-color);
-}
-
-/* Dropdown in Sidebar */
-select {
-    background-color: var(--bg-hover);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-}
-
-/* Option Card Styles */
-.option-card {
-    background-color: var(--bg-card);
-    border: 2px solid var(--border-color);
-    border-radius: 10px;
-    padding: 15px 20px;
+    font-size: 22px;
+    /* Increased from 16px */
+    line-height: 1.5;
     margin-bottom: 25px;
-    transition: .2s ease;
-    cursor: pointer;
+    font-weight: 500;
+    color: #000;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
 }
 
-.option-card.with-image {
+/* Options */
+.options-list {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.option-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    cursor: pointer;
+    padding: 8px 10px;
+    /* Better touch area */
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.option-item:hover {
+    background: #f5f5f5;
+    /* Subtle hover effect */
+}
+
+.radio-btn {
+    width: 20px;
+    /* Increased from 16px */
+    height: 20px;
+    min-width: 20px;
+    /* Prevent shrink */
+    border: 1px solid #555;
+    border-radius: 50%;
+    margin-top: 4px;
+    /* Align with larger text */
+    display: flex;
+    justify-content: center;
     align-items: center;
+    background: #fff;
 }
 
-.option-card.text-only {
-    display: block;
+.option-item.selected .radio-btn {
+    border-color: #000;
+    border-width: 2px;
 }
 
-.option-card:hover {
-    border-color: var(--accent-color);
-    /* highlight on hover */
-    background-color: var(--bg-hover);
+.option-item.selected .radio-btn::after {
+    content: '';
+    width: 10px;
+    /* Larger inner circle */
+    height: 10px;
+    background: #000;
+    border-radius: 50%;
 }
-
-
-
 
 .option-text {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--text-primary);
+    font-size: 20px;
+    /* Increased from 15px */
+    color: #000;
+    line-height: 1.4;
 }
 
-.option-image {
-    width: 140px;
+/* FOOTER BAR */
+.left-footer {
+    height: 60px;
+    padding: 0 20px;
+    border-top: 1px solid #ccc;
+    background: #f9f9f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-btn {
+    padding: 8px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    /* Square buttons */
+    font-size: 13px;
+    margin-right: 10px;
+    text-transform: Uppercase;
+    /* Usually exams use uppercase or title case */
+    transition: all 0.2s;
+}
+
+/* Style 1: Grey/White (Mark, Clear) */
+.btn-mark,
+.btn-clear {
+    background: #fff;
+    color: #000;
+    border-color: #ccc;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-mark:hover,
+.btn-clear:hover {
+    background: #f0f0f0;
+}
+
+/* Style 2: Blue (Save & Next) */
+.btn-save {
+    background: #337ab7;
+    color: white;
+    border-color: #2e6da4;
+}
+
+.btn-save:hover {
+    background: #286090;
+}
+
+/* RIGHT PANEL (Sidebar) */
+.right-panel {
+    width: var(--width-sidebar);
+    background: var(--bg-sidebar);
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid #ccc; */
+    margin: 0 10px 10px 0;
+    /* Align with left panel */
+}
+
+.sidebar-header {
+    padding: 10px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    /* Profile layout: Text on right of image */
+    justify-content: flex-start;
+    padding-left: 20px;
+    border-bottom: 1px solid #ffffff;
+    min-height: 70px;
+}
+
+.user-img-large {
+    width: 125px;
+    height: 125px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    /* Square/Rectangle profile pic usually? Or default. Keeping user existing if any. */
+    /* User requested placeholder 'like reference'. Usually simple silhouette. */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ccc'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E");
+    background-size: cover;
+}
+
+.user-name-display {
+    font-weight: bold;
+    margin-left: 15px;
+    font-size: 20px;
+    color: #000;
+}
+
+/* LEGEND */
+.legend-container {
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+    background: #e5f2fa;
+    margin-left: 15px;
+}
+
+.legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+
+}
+
+.legend-item {
+    width: 45%;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
+    gap: 7px;
+    /* Added 2px space between icon and text */
+}
+
+/* Tab Style */
+.section-tab {
+    background-color: #337ab7;
+    /* Exam Blue */
+    color: white;
+    padding: 6px 25px;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 4px 4px 0 0;
+    margin-bottom: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: none;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.5px;
+}
+
+
+
+.palette-container {
+    flex: 1;
+    overflow-y: auto;
+    gap: 8px;
+
+    /* Tighter gap */
+}
+
+/* Palette Grid - More Space */
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-left: 26px;
+    margin-right: 26px;
+    margin-top: 6px;
+
+    /* Increased from 8px for better breathing room */
+    padding: 5px;
+}
+
+/* -----------------------------------------------------------
+   EXAM BUTTON SHAPES - ENHANCED STYLING
+   ----------------------------------------------------------- */
+
+/* Base Button Style */
+.p-btn,
+.shape-box {
+    width: 40px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+
+    /* Transition for hover hover effects */
+    transition: all 0.2s;
+
+    /* Default Shadow for depth */
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.15));
+}
+
+/* Specific sizing for grid buttons */
+.palette-grid .p-btn {
+    width: 100%;
+    max-width: 48px;
+    height: 40px;
+    margin: 0 auto;
+}
+
+/* --- STATE STYLES --- */
+
+/* 1. NOT VISITED: Rectangular with distinct border */
+.p-btn.not-visited,
+.shape-not-visited {
+    background: linear-gradient(to bottom, #f9f9f9, #e0e0e0);
+    /* Subtle gradient */
+    color: #000;
+    border: 1px solid #aaa;
+    /* Stronger border */
+    border-radius: 6px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    clip-path: none;
+}
+
+.p-btn.not-visited:hover {
+    background: #e8e8e8;
+    border-color: #888;
+}
+
+/* COMMON POLYGON STYLE for NOT ANSWERED & ANSWERED ONLY (Hexagons) */
+/* COMMON POLYGON STYLE for NOT ANSWERED & ANSWERED ONLY (Hexagons) */
+.shape-answered,
+.p-btn.answered {
+    clip-path: polygon(0% 30%,
+            25% 0%,
+            75% 0%,
+            100% 30%,
+            100% 100%,
+            0% 100%);
+    color: white;
+    border: 2px solid #30791f;
+    border-radius: 0;
+    box-shadow: inset 0 0 0 px rgba(255, 255, 255, 0.25), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+
+}
+
+.p-btn.not-answered,
+.shape-not-answered {
+    /* Hexagon Shape */
+    clip-path: polygon(0% 0%, 100% 0%, 100% 70%, 75% 100%, 25% 100%, 0% 70%);
+    color: white;
+    border: 1px solid #791f1f;
+    border-radius: 0;
+
+    /* Inner Bevel Effect */
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* 2. NOT ANSWERED: Red/Orange Gradient */
+.p-btn.not-answered,
+.shape-not-answered {
+    background: linear-gradient(135deg, #FF7043, #D84315);
+}
+
+/* 3. ANSWERED: Green Gradient */
+.p-btn.answered,
+.shape-answered {
+    background: linear-gradient(135deg, #66BB6A, #2E7D32);
+}
+
+/* 4. MARKED: Purple Gradient - CIRCLE (as requested) */
+.p-btn.marked,
+.shape-marked {
+    background: linear-gradient(135deg, #AB47BC, #6A1B9A);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    /* CIRCLE */
+    clip-path: none;
+    /* No Polygon */
+
+    /* Circular shadows */
+    box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+    filter: none;
+    /* No need for drop-shadow filter on standard shape, standard box-shadow works better */
+}
+
+/* 5. MARKED & ANSWERED: Purple Gradient - CIRCLE + TICK */
+.p-btn.marked-answered,
+.shape-marked-answered {
+    background: linear-gradient(135deg, #7E57C2, #4527A0);
+    color: white;
+    /* Text remains white */
+    border: none;
+    border-radius: 50%;
+    /* CIRCLE */
+    clip-path: none;
+    border: 1px solid #fff;
+    /* Optional extra pop */
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* Tick Mark for Marked & Answered */
+.p-btn.marked-answered::after,
+.shape-marked-answered::after {
+    content: '✓';
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    background: #43A047;
+    color: white;
+    width: 14px;
+    height: 14px;
+    font-size: 10px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+/* Ensure on top */
+
+
+/* Sidebar Footer */
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid #ccc;
+    background: #e5f2fa;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-row-btn {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.side-btn {
+    flex: 1;
+    padding: 10px 5px;
+    font-size: 13px;
+    font-weight: bold;
+    border: 1px solid #bce8f1;
+    background: #bce3f6;
+    /* Light blue info style */
+    color: #31708f;
+    cursor: pointer;
+    border-radius: 2px;
+    text-align: center;
+    transition: background 0.2s;
+}
+
+.side-btn:hover {
+    background: #ffffff;
+}
+
+.sub-btn {
+    background: #337ab7;
+    /* Primary Blue for Submit */
+    color: white;
+    border-color: #2e6da4;
+}
+
+.sub-btn:hover {
+    background: #286090;
+    color: white;
+}
+
+/* Sidebar Toggle Handle */
+.sidebar-toggle {
+    width: 30px;
+    background: #ffffff;
+    /* Slight grey to distinguish strip */
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: 900;
+    /* Extra bold */
+    user-select: none;
+    transition: all 0.2s;
+    font-family: Arial, sans-serif;
+    /* Clean font for >> */
+    letter-spacing: -2px;
+    /* Pull chevrons together */
+    font-size: 22px;
+    z-index: 10;
+}
+
+.sidebar-toggle:hover {
+    background: #e0e0e0;
+    color: #000;
+}
+
+/* Question & Option Image Optimization */
+.question-img {
+    max-width: 100%;
+    max-height: 50vh;
+    /* Cap height to prevent overflow */
     height: auto;
-    border-radius: 5px;
-    object-fit: contain;
+    width: auto;
+    padding: 4px;
+    display: block;
+    margin: 10px auto;
 }
 
-.option-card input[type="radio"] {
-    display: none;
-}
-
-.option-card.selected {
-    border-color: var(--accent-color);
-    background-color: rgba(37, 99, 235, 0.1);
-    /* Light blue tint */
-    box-shadow: 0 0 0 1px var(--accent-color);
+.option-img {
+    max-width: 250px;
+    /* Reasonable limit for options */
+    max-height: 150px;
+    height: auto;
+    width: auto;
+    vertical-align: middle;
+    margin-left: 10px;
+    padding: 2px;
+    background: #fff;
 }

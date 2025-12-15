@@ -25,32 +25,21 @@ function Main() {
     };
 
     return (
-        <div className='container' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-            <div className="glass-container" style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(10px)',
-                padding: '40px',
-                borderRadius: '20px',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '90%',
-                maxWidth: '500px',
-                boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
-            }}>
-                <h1 className='title text-light' style={{ marginBottom: '10px' }}>Quiz Application</h1>
-                <p className="text-light" style={{ textAlign: 'center', marginBottom: '40px', color: 'var(--text-secondary)' }}>
+        <div className='container' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', background: '#f5f5f5' }}>
+            {/* Exam Login Box */}
+            <div className="exam-container">
+                <h1 className='title'>Quiz Application</h1>
+                <p className="text-light" style={{ textAlign: 'center', marginBottom: '30px' }}>
                     Please login to continue
                 </p>
 
-                <div className="input-group" style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%', marginBottom: '30px' }}>
-                    <input ref={nameRef} className='userid' type="text" placeholder="Enter your Name" style={{ width: '100%', boxSizing: 'border-box' }} />
-                    <input ref={rollRef} className='userid' type="text" placeholder="Enter your Roll Number" style={{ width: '100%', boxSizing: 'border-box' }} />
+                <div className="input-group" style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%', marginBottom: '30px' }}>
+                    <input ref={nameRef} className='userid' type="text" placeholder="Enter your Name" />
+                    <input ref={rollRef} className='userid' type="text" placeholder="Enter your Roll Number" />
                 </div>
 
-                <div className='start'>
-                    <button className='btn btn-primary' onClick={handleLogin} style={{ width: '100%', padding: '12px 30px' }}>
+                <div className='start' style={{ width: '100%' }}>
+                    <button className='btn btn-primary' onClick={handleLogin} style={{ width: '100%', padding: '12px 0', fontSize: '16px' }}>
                         Login
                     </button>
                 </div>

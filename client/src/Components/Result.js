@@ -33,6 +33,7 @@ function Result() {
     }, []);
     function onrestart() {
         console.log("Restart quiz");
+        localStorage.removeItem('quizTimer');
         dispatch(resetallaction());
         dispatch(resetresultaction());
     }
@@ -63,7 +64,7 @@ function Result() {
                 </div>
                 <div className='flex'>
                     <span>Quiz Result</span>
-                    <span style={{ color: `${flag ? "#2aff95" : "#ff2a66"}` }} className='bold'>{flag ? "Passed" : "Failed"}</span>
+                    <span style={{ color: `${flag ? "#008000" : "#ff0000"}` }} className='bold'>{flag ? "Passed" : "Failed"}</span>
                 </div>
                 <div className="start">
                     <Link className='btn' to={'/'} onClick={onrestart}>Restart</Link>

@@ -1,66 +1,152 @@
-.userid {
-    width: 100%;
-    padding: 15px 20px;
-    border-radius: 5px;
-    font-size: 1rem;
-    margin-top: 10px;
+/* Main.css - Refactored for Exam Interface Style */
+
+.container {
+    background-color: #ffffff;
+    /* White bg for the whole page/app */
+    font-family: Arial, sans-serif;
+    color: #000;
 }
 
-.quiz-card {
-    background-color: var(--bg-card);
-    padding: 30px;
-    border-radius: 15px;
-    cursor: pointer;
-    width: 200px;
+.exam-container {
+    background-color: #fff;
+    padding: 40px;
+    border: 2px solid #333;
+    /* thicker dark border */
+    border-radius: 4px;
+    /* Slight radius */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 20px;
+    text-transform: uppercase;
     text-align: center;
-    border: 1px solid var(--border-color);
-    transition: transform 0.2s, border-color 0.2s;
-    color: var(--text-primary);
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+    width: 100%;
+}
+
+.text-light {
+    color: #333 !important;
+    /* Force dark text */
+}
+
+/* Inputs */
+.userid {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 16px;
+    margin-top: 10px;
+    background: #fff;
+    color: #000;
+}
+
+.userid:focus {
+    border-color: #337ab7;
+    outline: none;
+}
+
+/* Buttons */
+.btn-primary {
+    background: #337ab7;
+    /* Exam Blue */
+    color: white;
+    border: 1px solid #2e6da4;
+    border-radius: 2px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover {
+    background: #286090;
+}
+
+/* Quiz Selection Cards */
+.quiz-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 220px;
+    text-align: center;
+    transition: all 0.2s;
+    color: #000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .quiz-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent-color);
-    background-color: var(--bg-hover);
+    border-color: #337ab7;
+    background-color: #eaf6ff;
+    transform: translateY(-2px);
 }
 
 .quiz-card h3 {
-    margin-bottom: 10px;
-    color: var(--accent-color);
+    color: #333;
+    font-size: 18px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
 }
 
 .badge {
     display: inline-block;
-    background-color: rgba(59, 130, 246, 0.1);
-    color: var(--accent-color);
+    background-color: #d9edf7;
+    color: #31708f;
     padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 0.8rem;
+    border-radius: 3px;
+    font-size: 13px;
     margin-top: 15px;
+    border: 1px solid #bce8f1;
 }
 
+/* Modal Overlay */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    backdrop-filter: blur(5px);
 }
 
 .modal-content {
-    background-color: var(--bg-card);
+    background-color: #fff;
     padding: 30px;
-    border-radius: 15px;
+    border-radius: 4px;
     max-width: 500px;
     width: 90%;
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
+    border: 1px solid #ccc;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    color: #000;
+}
+
+.modal-content-large {
+    background-color: #fff;
+    padding: 0;
+    border-radius: 4px;
+    max-width: 95vw;
+    width: 95vw;
+    height: 90vh;
+    border: 1px solid #333;
+    color: #000;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
 }
 
 .instructions-list {
@@ -68,7 +154,7 @@
     margin: 20px 0;
     line-height: 1.6;
     padding-left: 20px;
-    color: var(--text-secondary);
+    color: #333;
 }
 
 .modal-actions {
@@ -79,11 +165,14 @@
 }
 
 .btn-secondary {
-    background-color: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 2px;
+    cursor: pointer;
 }
 
 .btn-secondary:hover {
-    background-color: var(--bg-hover);
+    background-color: #e0e0e0;
 }

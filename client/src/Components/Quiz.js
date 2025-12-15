@@ -1,267 +1,253 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react'
-import Questions from './Questions'
-import { movenextquestion, moveprevquestion, setVisitedAction } from '../Redux/Questionreducer'
-import { useSelector, useDispatch } from 'react-redux'
-import { Navigate, useLocation } from 'react-router-dom'
-import { useFetchQuestions, jumpToQuestion } from '../Hooks/Fetchquestions'
-import Timer from './Timer'
-import QuestionNavigator from './QuestionNavigator'
-import '../Styles/QuizLayout.css'
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Navigate, useLocation } from 'react-router-dom';
+import { movenextquestion, setVisitedAction, setMarkedAction, unsetMarkedAction } from '../Redux/Questionreducer';
+import { updateresult } from '../Hooks/setresult';
+import { useFetchQuestions, jumpToQuestion } from '../Hooks/Fetchquestions';
+import Timer from './Timer';
+import Questions from './Questions';
+import QuestionNavigator from './QuestionNavigator';
+import '../Styles/QuizLayout.css';
 
-function Quiz() {
-  const [finish, setFinish] = useState(false);
-  const [showSubmitModal, setShowSubmitModal] = useState(false);
-  const { result, userid, rollNumber } = useSelector(state => state.result);
-  const { queue, trace } = useSelector(state => state.questions);
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const { quizId } = location.state || {}; // Get quizId from navigation state
-  const [{ isLoading, apiData, serverError }] = useFetchQuestions(quizId);
+export default function Quiz() {
+    const [finish, setFinish] = useState(false);
+    const [showSubmitModal, setShowSubmitModal] = useState(false);
+    const [showInstructionsModal, setShowInstructionsModal] = useState(false);
+    const [showSidebar, setShowSidebar] = useState(true);
 
-  // Resizable Sidebar State
-  const [sidebarWidth, setSidebarWidth] = useState(120);
-  const [isResizing, setIsResizing] = useState(false);
-  const sidebarRef = useRef(null);
+    const { queue, trace, visited, marked } = useSelector(state => state.questions);
+    const { result, userid } = useSelector(state => state.result);
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const { quizId } = location.state || {}; // Pass quizId
+    const [{ isLoading, serverError }] = useFetchQuestions(quizId);
 
-  const startResizing = useCallback(() => {
-    setIsResizing(true);
-  }, []);
+    // Section Logic Derived from Trace
+    const activeSectionName = trace < 8 ? "3 point" : (trace < 16 ? "4 point" : "5 point");
 
-  const stopResizing = useCallback(() => {
-    setIsResizing(false);
-  }, []);
+    // Handle Next Section Click
+    const handleNextSection = () => {
+        let nextIndex = 0;
+        if (trace < 8) {
+            nextIndex = 8; // Jump to Section 2
+        } else if (trace < 16) {
+            nextIndex = 16; // Jump to Section 3
+        } else {
+            nextIndex = 0; // Cycle back to Section 1
+        }
 
-  const resize = useCallback((mouseMoveEvent) => {
-    if (isResizing) {
-      const newWidth = mouseMoveEvent.clientX - sidebarRef.current.getBoundingClientRect().left;
-      if (newWidth > 50 && newWidth < 500) { // Min and Max width constraints
-        setSidebarWidth(newWidth);
-      }
-    }
-  }, [isResizing]);
-
-  useEffect(() => {
-    window.addEventListener("mousemove", resize);
-    window.addEventListener("mouseup", stopResizing);
-    return () => {
-      window.removeEventListener("mousemove", resize);
-      window.removeEventListener("mouseup", stopResizing);
+        // Dispatch Jump if within bounds (safety check)
+        if (queue.length > 0) {
+            // If nextIndex is beyond queue, clamp it? Or just go to 0.
+            if (nextIndex >= queue.length) nextIndex = 0;
+            dispatch(jumpToQuestion(nextIndex));
+        }
     };
-  }, [resize, stopResizing]);
 
+    // Initial Visited
+    useEffect(() => {
+        if (queue.length > 0) {
+            dispatch(setVisitedAction(trace));
+        }
+    }, [trace, queue, dispatch]);
 
-  useEffect(() => {
-    if (queue.length > 0) {
-      dispatch(setVisitedAction(trace));
+    const onSaveAndNext = () => {
+        // ... existing logic ...
+        if (marked && marked[trace]) {
+            dispatch(unsetMarkedAction(trace));
+        }
+        if (trace < queue.length - 1) {
+            dispatch(movenextquestion());
+        }
     }
-  }, [trace, queue, dispatch]);
 
-  // Section Logic
-  const sections = queue.reduce((acc, question, index) => {
-    let sectionName = "Section 1";
-    if (index >= 8 && index <= 15) sectionName = "Section 2";
-    if (index >= 16) sectionName = "Section 3";
+    // ... (keep implies exiting logic) ...
 
-    if (!acc[sectionName]) {
-      acc[sectionName] = [];
-    }
-    acc[sectionName].push({ ...question, index });
-    return acc;
-  }, {});
+    // ... inside generic return ...
 
-  const sectionNames = Object.keys(sections).sort();
-  const [activeSection, setActiveSection] = useState(null);
+    const onMarkAndNext = () => {
+        dispatch(setMarkedAction(trace));
+        if (trace < queue.length - 1) {
+            dispatch(movenextquestion());
+        }
+    };
 
-  // Initialize activeSection
-  useEffect(() => {
-    if (queue.length > 0 && !activeSection) {
-      setActiveSection("Section 1");
-    }
-  }, [queue, activeSection]);
+    const onClearResponse = () => {
+        dispatch(updateresult({ trace, checked: undefined }));
+    };
 
-  // Update active section if trace changes
-  useEffect(() => {
-    if (trace >= 0 && trace <= 7) setActiveSection("Section 1");
-    else if (trace >= 8 && trace <= 15) setActiveSection("Section 2");
-    else if (trace >= 16) setActiveSection("Section 3");
-  }, [trace]);
+    const onSubmit = () => {
+        setShowSubmitModal(true);
+    };
 
+    if (isLoading) return <div style={{ textAlign: 'center', marginTop: '20%' }}>Loading Test Interface...</div>;
+    if (serverError) return <div style={{ textAlign: 'center', marginTop: '20%', color: 'red' }}>{serverError.message}</div>;
+    if (finish) return <Navigate to="/result" state={{ quizId }} replace={true} />;
 
-  function onNext() {
-    if (trace < queue.length - 1) {
-      dispatch(movenextquestion());
-    } else {
-      setFinish(true);
-    }
-  }
+    // Legend Stats
+    let stats = { answered: 0, notAnswered: 0, notVisited: 0, marked: 0, markedAnswered: 0 };
+    queue.forEach((_, i) => {
+        const isVisited = visited && visited[i];
+        const isAnswered = result && result[i] !== undefined;
+        const isMarked = marked && marked[i];
 
-  function onPrev() {
-    if (trace > 0) {
-      dispatch(moveprevquestion());
-    }
-  }
+        if (!isVisited) stats.notVisited++;
+        else if (isMarked && isAnswered) stats.markedAnswered++;
+        else if (isMarked) stats.marked++;
+        else if (isAnswered) stats.answered++;
+        else stats.notAnswered++;
+    });
 
-  function onTimeUp() {
-    setFinish(true);
-  }
+    return (
+        <div className="quiz-container">
+            {/* LEFT CONTAINER (Header + Question Area) - Adapts width */}
+            <div className="left-section-container">
+                {/* 1. Header (Restricted to Left Panel) */}
+                {/* 1. Header (Fieldset Style) */}
+                <fieldset className="quiz-header-fieldset">
+                    <legend className="header-legend">Sections</legend>
+                    <div className="section-tab">
+                        {activeSectionName || "English Language"}
+                    </div>
+                </fieldset>
 
-  function onSubmit() {
-    setShowSubmitModal(true);
-  }
+                {/* 2. Main Body (Left Panel Content only) */}
+                <div className="left-panel">
+                    <div className="question-header-bar">
+                        <span className="q-label">Question No. {trace + 1}</span>
+                        <span className="marks-label">{trace < 8 ? "Marks: +3 | -0.25" : (trace < 16 ? "Marks: +4 | -0.25" : "Marks: +5 | -0.25")}</span>
+                    </div>
 
-  if (isLoading) return (
-    <div className="loader-container">
-      <div className="loader"></div>
-      <h3 className='text-light'>Loading Quiz...</h3>
-    </div>
-  )
-  if (serverError) return <h3 className='text-light'>{serverError.message || "Unknown Error"}</h3>
+                    <div className="question-area">
+                        <Questions />
+                    </div>
 
-  if (finish) {
-    return <Navigate to="/result" state={{ quizId }} replace={true} />
-  }
-
-  const currentQuestion = queue[trace];
-  const points = currentQuestion?.points || 1;
-
-  return (
-    <div className='quiz-container'>
-      {/* Header */}
-      <header className="quiz-header" style={{ height: '50px', padding: '5px 20px', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center' }}>
-        <div className="header-left" style={{ display: 'flex', alignItems: 'center' }}>
-          {/* Section Dropdown */}
-          <select
-            value={activeSection || ''}
-            onChange={(e) => {
-              const section = e.target.value;
-              setActiveSection(section);
-              if (section === "Section 1") dispatch(jumpToQuestion(0));
-              else if (section === "Section 2") dispatch(jumpToQuestion(8));
-              else if (section === "Section 3") dispatch(jumpToQuestion(16));
-            }}
-            style={{
-              padding: '4px 8px',
-              borderRadius: '4px',
-              fontSize: '0.9rem',
-              width: 'auto'
-            }}
-          >
-            {sectionNames.map(name => (
-              <option key={name} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Centered Title */}
-        <div className="header-center" style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--text-primary)' }}>
-          Quiz Test 1
-        </div>
-
-        <div className="header-right" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '15px' }}>
-          <div className="user-info" style={{ fontSize: '0.8rem' }}>
-            Name: <strong>{userid || "User"}</strong> | Roll No: <strong>{rollNumber || "N/A"}</strong>
-          </div>
-          <Timer duration={1800} onTimeUp={onTimeUp} />
-          <button className="submit-btn" onClick={onSubmit} style={{ padding: '5px 15px', fontSize: '0.9rem' }}>Submit Test</button>
-        </div>
-      </header>
-
-      {/* Main Body */}
-      <div className="quiz-body" ref={sidebarRef}>
-        {/* Column 1: Navigation Sidebar */}
-        <div className="quiz-sidebar" style={{ width: sidebarWidth }}>
-          <QuestionNavigator activeSection={activeSection} sections={sections} />
-        </div>
-
-        {/* Resizer Handle */}
-        <div
-          className={`resizer ${isResizing ? 'active' : ''}`}
-          onMouseDown={startResizing}
-        ></div>
-
-        {/* Column 2 & 3: Question and Options (Handled by Questions component) */}
-        <div className="question-main" style={{ display: 'flex', flexDirection: 'column' }}>
-          <div className="question-header-bar" style={{ height: '40px', padding: '10px 20px' }}>
-            <span>Question No: {trace + 1} / {trace < 8 ? 8 : (trace < 16 ? 16 : 24)}</span>
-            <span className="marks-info">Marks: {points} | Negative Marks: 0.25</span>
-          </div>
-
-          <Questions onNext={onNext} onPrev={onPrev} />
-
-          {/* Footer with Nav Buttons */}
-          <div className="question-footer" style={{ padding: '15px 20px', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', backgroundColor: 'var(--bg-card)' }}>
-            <button className="btn-secondary" onClick={onPrev} disabled={trace === 0}>Previous</button>
-            <button className="btn-primary" onClick={onNext}>
-              {trace === queue.length - 1 ? 'Finish' : 'Next'}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Submit Confirmation Modal */}
-      {
-        showSubmitModal && (
-          <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1000
-          }}>
-            <div style={{
-              backgroundColor: 'var(--bg-card)',
-              padding: '20px',
-              borderRadius: '8px',
-              boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-              textAlign: 'center',
-              border: '1px solid var(--border-color)',
-              minWidth: '300px'
-            }}>
-              <h3 style={{ color: 'var(--text-primary)', marginBottom: '15px' }}>Submit Test?</h3>
-              <p style={{ color: 'var(--text-secondary)', marginBottom: '20px' }}>Do you want to submit?</p>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-                <button
-                  onClick={() => setFinish(true)}
-                  style={{
-                    backgroundColor: 'var(--accent-color)',
-                    color: 'white',
-                    border: 'none',
-                    padding: '8px 20px',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Yes
-                </button>
-                <button
-                  onClick={() => setShowSubmitModal(false)}
-                  style={{
-                    backgroundColor: 'transparent',
-                    color: 'var(--text-primary)',
-                    border: '1px solid var(--border-color)',
-                    padding: '8px 20px',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  No
-                </button>
-              </div>
+                    <div className="left-footer">
+                        <div>
+                            <button className="footer-btn btn-mark" onClick={onMarkAndNext}>Mark for Review & Next</button>
+                            <button className="footer-btn btn-clear" onClick={onClearResponse}>Clear Response</button>
+                        </div>
+                        <button className="footer-btn btn-save" onClick={onSaveAndNext}>Save & Next</button>
+                    </div>
+                </div>
             </div>
-          </div>
-        )
-      }
-    </div >
-  )
-}
 
-export default Quiz
+            {/* SIDEBAR TOGGLE HANDLE */}
+            <div className="sidebar-toggle" onClick={() => setShowSidebar(!showSidebar)} title="Toggle Sidebar">
+                {showSidebar ? '>>' : '<<'}
+            </div>
+
+            {/* RIGHT PANEL (Sidebar) - Conditionally Rendered */}
+            {showSidebar && (
+                <div className="right-panel">
+                    {/* Timer moved here or profile? Usually timer is top right. Profile is here. */}
+                    {/* User asked for Palette Container to go to top. 
+                    Let's put Profile + Timer in sidebar header? 
+                    Or keep Timer in top right of sidebar? 
+                    Reference usually has layout like:
+                    [ Left Header ] [ Timer/Profile ]
+                    [ Left Content] [ Palette       ]
+                    
+                    But if Right Panel is single flex column, we place them inside.
+                */}
+                    <div className="sidebar-header">
+                        {/* Profile + Timer Layout: Photo Left, Timer Right */}
+                        <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: '0 10px' }}>
+
+                            {/* Left: User Photo */}
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <div className="user-img-large" style={{ marginBottom: '5px' }}></div>
+                                <div style={{ fontSize: '20px', color: '#555' }}>{userid || "Candidate"}</div>
+                            </div>
+
+                            {/* Right: Timer & Info */}
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center' }}>
+                                <div style={{ fontWeight: 'bold', fontSize: '24px', marginBottom: '5px' }}>Time Left:</div>
+                                <div className="timer-pill">
+                                    <Timer duration={1800} onTimeUp={() => {
+                                        localStorage.removeItem('quizTimer');
+                                        setFinish(true);
+                                    }} />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div className="legend-container">
+                        <div className="legend-row">
+                            <div className="legend-item"><div className="shape-box shape-answered">{stats.answered}</div>    Answered</div>
+                            <div className="legend-item"><div className="shape-box shape-not-answered">{stats.notAnswered}</div>  Not Answered</div>
+                            <div className="legend-item"><div className="shape-box shape-not-visited">{stats.notVisited}</div> Not Visited</div>
+                            <div className="legend-item"><div className="shape-box shape-marked">{stats.marked}</div>   Marked for Review</div>
+                            <div className="legend-item" style={{ width: '100%' }}>
+                                <div className="shape-box shape-marked-answered">{stats.markedAnswered}</div>
+                                Answered & Marked for Review
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div className="palette-container">
+                        <QuestionNavigator />
+                    </div>
+
+                    <div className="sidebar-footer">
+                        <div className="footer-row-btn">
+                            <button className="side-btn">Question Paper</button>
+                            <button className="side-btn" onClick={() => setShowInstructionsModal(true)}>Instructions</button>
+                        </div>
+                        <div className="footer-row-btn">
+                            <button className="side-btn" onClick={handleNextSection}>Next Section</button>
+                            <button className="side-btn sub-btn" onClick={onSubmit}>Submit</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Submit Modal */}
+            {showInstructionsModal && (
+                <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 10000 }}>
+                    <div style={{ background: 'white', padding: '25px', borderRadius: '5px', maxWidth: '600px', width: '90%', maxHeight: '85vh', overflowY: 'auto', borderTop: '5px solid #337ab7', boxShadow: '0 5px 15px rgba(0,0,0,0.3)' }}>
+                        <h2 style={{ borderBottom: '1px solid #eee', paddingBottom: '10px', marginTop: 0 }}>General Instructions</h2>
+                        <div style={{ textAlign: 'left', marginTop: '15px', fontSize: '14px', lineHeight: '1.6', color: '#333' }}>
+                            <p><strong>Please read the following instructions carefully:</strong></p>
+                            <ul style={{ paddingLeft: '20px' }}>
+                                <li>The clock has been set at the server and the countdown timer at the top right of the screen will display the time remaining for you to complete the exam.</li>
+                                <li>The question palette at the right of screen shows one of the following statuses of each of the questions numbered:
+                                    <ul style={{ marginTop: '5px', marginBottom: '5px' }}>
+                                        <li><strong>White Box:</strong> You have not visited the question yet.</li>
+                                        <li><strong>Red Hexagon:</strong> You have not answered the question.</li>
+                                        <li><strong>Green Hexagon:</strong> You have answered the question.</li>
+                                        <li><strong>Purple Circle:</strong> You have NOT answered the question but have marked the question for review.</li>
+                                        <li><strong>Purple Circle with Tick:</strong> The question(s) "Answered and Marked for Review" will be considered for evaluation.</li>
+                                    </ul>
+                                </li>
+                                <li>Click on the question number on the question palette to go to that question directly.</li>
+                                <li>Click on <strong>Save & Next</strong> to save your answer for the current question and then go to the next question.</li>
+                            </ul>
+                        </div>
+                        <div style={{ marginTop: '20px', textAlign: 'center', borderTop: '1px solid #eee', paddingTop: '15px' }}>
+                            <button className="footer-btn btn-save" onClick={() => setShowInstructionsModal(false)} style={{ minWidth: '100px' }}>Close</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showSubmitModal && (
+                <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 9999 }}>
+                    <div style={{ background: 'white', padding: '30px', borderRadius: '4px', textAlign: 'center', border: '1px solid #ccc' }}>
+                        <h2>Submit Test?</h2>
+                        <div style={{ marginTop: '20px', display: 'flex', gap: '20px', justifyContent: 'center' }}>
+                            <button className="footer-btn btn-save" onClick={() => {
+                                localStorage.removeItem('quizTimer');
+                                setFinish(true);
+                            }}>Yes</button>
+                            <button className="footer-btn btn-mark" onClick={() => setShowSubmitModal(false)}>No</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}

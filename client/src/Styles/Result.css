@@ -1,15 +1,36 @@
+/* Result.css - Refactored for Exam Interface Style */
+
+.container {
+    background: #ffffff !important;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #000;
+}
+
+.title {
+    color: #000;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
 .flex-center {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    padding: 3em 4em;
-    gap: 1.5em;
-    box-shadow: var(--shadow-lg);
+    background: #fff;
+    border: 1px solid #ccc;
+    /* Simple border */
+    border-radius: 4px;
+    padding: 40px;
+    gap: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     max-width: 600px;
     margin: 0 auto;
+    width: 100%;
 }
 
 .container .flex {
@@ -17,7 +38,7 @@
     justify-content: space-between;
     align-items: center;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid #eee;
 }
 
 .container .flex:last-child {
@@ -25,102 +46,100 @@
 }
 
 .container .flex span {
-    font-size: 1.2em;
-    color: var(--text-secondary);
+    font-size: 16px;
+    color: #333;
 }
 
 .container .flex .bold {
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.container .flex span.achive {
     font-weight: bold;
-    color: #ff2a66;
-    color: #2aff95;
+    color: #000;
 }
 
-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 10px;
-    margin-top: 2em;
-}
+/* Status Colors */
 
-.table-header {
-    color: var(--text-primary);
-    font-size: 1.1em;
-    text-align: center;
-    background: var(--bg-hover);
-    padding: 18px 0;
-    border-radius: 12px;
-}
-
-.table-body {
-    font-size: 1.1em;
-    text-align: center;
-    background: var(--bg-card);
-    padding: 18px 0;
-    transition: all 0.3s ease;
-}
-
-.table-body:hover {
-    background: var(--bg-hover);
-    transform: scale(1.01);
-}
-
-.table-body td {
-    padding: 15px;
-}
-
-.table-body td:first-child {
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-}
-
-.table-body td:last-child {
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-}
-
-/* Button Container Styles */
 .start {
-    margin-top: 2em;
+    margin-top: 30px;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
     width: 100%;
 }
 
 .start .btn {
-    padding: 15px 30px;
-    border-radius: 50px;
-    /* Rounded pill shape looks modern */
+    padding: 10px 20px;
+    border-radius: 2px;
+    /* Rectangular */
     color: #fff;
-    font-size: 1em;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: bold;
     text-decoration: none;
-    transition: all 0.3s ease;
-    border: none;
+    transition: background 0.2s;
+    border: 1px solid transparent;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 150px;
+    min-width: 120px;
+    cursor: pointer;
 }
 
-/* Restart Button - Yellow/Warning */
+/* Restart - Orange/Yellow */
 .start .btn:first-child {
-    background-color: var(--warning-color);
-    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
 }
 
-/* Result Details Button - Primary Blue */
+.start .btn:first-child:hover {
+    background-color: #ec971f;
+}
+
+/* Result Details - Blue */
 .start .btn:last-child {
-    background-color: var(--accent-color);
+    background-color: #337ab7;
+    border-color: #2e6da4;
 }
 
-.start .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    filter: brightness(1.1);
+.start .btn:last-child:hover {
+    background-color: #286090;
+}
+
+/* Table overrides if used in details */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    /* Standard table */
+    margin-top: 20px;
+}
+
+.table-header {
+    color: #000;
+    font-weight: bold;
+    background: #f0f0f0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+    border-radius: 0;
+}
+
+.table-body {
+    background: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 10px;
+}
+
+.table-body:hover {
+    background: #f9f9f9;
+    transform: none;
+}
+
+.table-body td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 0;
+}
+
+.table-body td:first-child,
+.table-body td:last-child {
+    border-radius: 0;
 }

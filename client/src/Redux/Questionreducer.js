@@ -7,18 +7,20 @@ const questionSlice = createSlice({
         queue: [],
         answers: [],
         trace: 0,
-        visited: {}, // Map of index -> true
-        marked: {} // Map of index -> true
+        visited: {},
+        marked: {},
+        quizId: null // Added quizId to state
     },
     reducers: {
         startExamAction: (state, action) => {
-            let { question, answers } = action.payload
+            let { question, answers, quizId } = action.payload; // Extract quizId
 
             return {
                 ...state,
                 queue: question,
-                answers: answers
-            }
+                answers: answers,
+                quizId: quizId // Store quizId
+            };
         },
         movenextquestion: (state) => {
             return {

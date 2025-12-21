@@ -6,6 +6,8 @@
     padding: 20px;
     font-family: Arial, sans-serif;
     color: #000;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
 }
 
 .title {

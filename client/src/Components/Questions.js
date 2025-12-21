@@ -29,20 +29,23 @@ export default function Questions() {
 
     if (!questions) return null;
 
+    const hasOptionImages = questions?.optionImages?.some(img => img && img.trim() !== "");
+
     return (
         <div className="questions-container-inner" style={{ width: '100%' }}>
             {/* Question Text */}
             <div className="question-text">
                 {questions?.questionText || questions?.question}
-                {questions?.questionImage && (
-                    <div style={{ textAlign: 'center', margin: '10px 0' }}>
-                        <img src={questions.questionImage} alt="Diagram" className="question-img" />
-                    </div>
-                )}
             </div>
 
+            {questions?.questionImage && (
+                <div className="question-image-container">
+                    <img src={questions.questionImage} alt="Diagram" className="question-img" />
+                </div>
+            )}
+
             {/* Vertical Options */}
-            <div className="options-list">
+            <div className={`options-list ${hasOptionImages ? 'grid-view' : ''}`}>
                 {questions?.options.map((q, i) => (
                     <div
                         key={i}

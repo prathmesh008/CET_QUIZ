@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const questionmodel = new Schema({
     quizId: { type: String, default: 'quiz1' },
+    setNumber: { type: Number, default: 1 }, // Added for sequential practice sets
     title: { type: String, default: 'Quiz' },
     questions: [
         {

@@ -1,18 +1,18 @@
 import { postServerData } from '../Helper/Helper';
 import * as Action from '../Redux/Resultreducer';
 
-export const pushanswer=(result)=>async (dispatch)=>{
-    try{
+export const pushanswer = (result) => async (dispatch) => {
+    try {
         await dispatch(Action.pushresultaction(result));
-    }catch(err){
+    } catch (err) {
         console.log(err);
     }
 }
 
-export const updateresult=(index)=>async (dispatch)=>{
-    try{
+export const updateresult = (index) => async (dispatch) => {
+    try {
         dispatch(Action.updateresultaction(index));
-    }catch(err){
+    } catch (err) {
         console.log(err);
     }
 }
@@ -31,7 +31,7 @@ export const usepublishresult = (resultdata) => {
             }
 
             await postServerData(
-                `${process.env.REACT_APP_SERVER_HOSTNAME}/api/result`,
+                `${process.env.REACT_APP_SERVER_HOSTNAME}/api/practice/submit`,
                 resultdata,
                 (data) => data
             );

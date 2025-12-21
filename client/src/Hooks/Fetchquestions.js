@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import * as Action from '../Redux/Questionreducer'
 import { getServerData } from "../Helper/Helper";
 
-export const useFetchQuestions = (quizId) => {
+export const useFetchQuestions = (quizId, userid, rollNumber) => {
     const dispatch = useDispatch();
     const [getData, setGetData] = useState({ isLoading: false, apiData: [], serverError: null });
 
@@ -12,18 +12,25 @@ export const useFetchQuestions = (quizId) => {
 
         (async () => {
             try {
-                const url = quizId
-                    ? `${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions?id=${quizId}`
-                    : `${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions`;
+                let url;
+                if (quizId) {
+                    url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions?id=${quizId}`;
+                } else if (userid && rollNumber) {
+                    // Practice Mode: Automatic assignment
+                    url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/practice/start?username=${userid}&rollNumber=${rollNumber}`;
+                } else {
+                    // Fallback or Error
+                    url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions`;
+                }
 
-                const [{ questions, answers }] = await getServerData(url, (data) => data)
+                const [{ questions, answers, quizId: fetchedQuizId }] = await getServerData(url, (data) => data)
 
                 if (questions.length > 0) {
                     setGetData(prev => ({ ...prev, isLoading: false }));
                     setGetData(prev => ({ ...prev, apiData: questions }));
 
                     /** dispatch an action */
-                    dispatch(Action.startExamAction({ question: questions, answers }))
+                    dispatch(Action.startExamAction({ question: questions, answers, quizId: fetchedQuizId }))
 
                 } else {
                     throw new Error("No Question Avalibale");

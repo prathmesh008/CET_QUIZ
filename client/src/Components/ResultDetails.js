@@ -45,7 +45,6 @@ export default function ResultDetails() {
                 <div style={{ display: 'flex', gap: '20px', marginBottom: '20px', fontSize: '1.2em' }}>
                     <span>User: <strong>{result.username}</strong></span>
                     <span>Score: <strong>{result.points}</strong></span>
-                    <span>Result: <strong style={{ color: result.acheived === "Passed" ? "#2aff95" : "#ff2a66" }}>{result.acheived}</strong></span>
                 </div>
 
                 <div className="details-list">

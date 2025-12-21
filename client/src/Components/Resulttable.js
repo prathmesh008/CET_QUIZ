@@ -24,7 +24,6 @@ export default function ResultTable({ currentResult }) {
                         <td>Name</td>
                         <td>Attemps</td>
                         <td>Earn Points</td>
-                        <td>Result</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,7 +34,6 @@ export default function ResultTable({ currentResult }) {
                                 <td>{v?.username || ''}</td>
                                 <td>{v?.attempts}</td>
                                 <td>{v?.points || 0}</td>
-                                <td>{v?.acheived || "failed"}</td>
                             </tr>
                         ))
                     }

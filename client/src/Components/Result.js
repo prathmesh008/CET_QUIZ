@@ -9,13 +9,12 @@ import { resetresultaction } from '../Redux/Resultreducer.js';
 import { usepublishresult } from '../Hooks/setresult.js';
 function Result() {
     const location = useLocation();
-    const { quizId } = location.state || { quizId: 'quiz1' };
+    // Removed old quizId extraction
     const dispatch = useDispatch();
-    const { questions: { queue, answers }, result: { result, userid } } = useSelector(state => state);
-    useEffect(() => {
-        // Perform any side effects or data fetching here
-        console.log(flag)
-    }, []);
+    const { questions: { queue, answers, quizId: reduxQuizId }, result: { result, userid, rollNumber } } = useSelector(state => state);
+    const quizId = location.state?.quizId || reduxQuizId || 'quiz1';
+
+    // ... existing math ...
     const totalpoints = queue.reduce((prev, curr) => prev + (curr.points || 1), 0);
     const attempt = attempts(result);
     const earnpoint = earnpoints(result, answers, queue)
@@ -25,6 +24,7 @@ function Result() {
         usepublishresult({
             result,
             username: userid,
+            rollNumber, // Added rollNumber
             attempts: attempt,
             points: earnpoint,
             acheived: flag ? "Passed" : "Failed",
@@ -62,10 +62,7 @@ function Result() {
                     <span>Total Earn Points : </span>
                     <span className='bold'>{earnpoint || 0}</span>
                 </div>
-                <div className='flex'>
-                    <span>Quiz Result</span>
-                    <span style={{ color: `${flag ? "#008000" : "#ff0000"}` }} className='bold'>{flag ? "Passed" : "Failed"}</span>
-                </div>
+                {/* Pass/Fail Removed */}
                 <div className="start">
                     <Link className='btn' to={'/'} onClick={onrestart}>Restart</Link>
                     <Link className='btn' to={'/result-details'} state={{

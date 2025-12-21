@@ -13,14 +13,15 @@ export default function Quiz() {
     const [finish, setFinish] = useState(false);
     const [showSubmitModal, setShowSubmitModal] = useState(false);
     const [showInstructionsModal, setShowInstructionsModal] = useState(false);
+    const [showQuestionPaper, setShowQuestionPaper] = useState(false);
     const [showSidebar, setShowSidebar] = useState(true);
 
     const { queue, trace, visited, marked } = useSelector(state => state.questions);
-    const { result, userid } = useSelector(state => state.result);
+    const { result, userid, rollNumber } = useSelector(state => state.result);
     const dispatch = useDispatch();
     const location = useLocation();
     const { quizId } = location.state || {}; // Pass quizId
-    const [{ isLoading, serverError }] = useFetchQuestions(quizId);
+    const [{ isLoading, serverError }] = useFetchQuestions(quizId, userid, rollNumber);
 
     // Section Logic Derived from Trace
     const activeSectionName = trace < 8 ? "3 point" : (trace < 16 ? "4 point" : "5 point");
@@ -194,7 +195,7 @@ export default function Quiz() {
 
                     <div className="sidebar-footer">
                         <div className="footer-row-btn">
-                            <button className="side-btn">Question Paper</button>
+                            <button className="side-btn" onClick={() => setShowQuestionPaper(true)}>Question Paper</button>
                             <button className="side-btn" onClick={() => setShowInstructionsModal(true)}>Instructions</button>
                         </div>
                         <div className="footer-row-btn">
@@ -244,6 +245,46 @@ export default function Quiz() {
                                 setFinish(true);
                             }}>Yes</button>
                             <button className="footer-btn btn-mark" onClick={() => setShowSubmitModal(false)}>No</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Question Paper Modal */}
+            {showQuestionPaper && (
+                <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 10001 }}>
+                    <div style={{ background: 'white', width: '90%', height: '90%', display: 'flex', flexDirection: 'column', borderRadius: '4px', overflow: 'hidden' }}>
+                        <div style={{ padding: '15px', background: '#337ab7', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <h3 style={{ margin: 0 }}>Question Paper</h3>
+                            <button onClick={() => setShowQuestionPaper(false)} style={{ background: 'transparent', border: 'none', color: 'white', fontSize: '20px', cursor: 'pointer' }}>✕</button>
+                        </div>
+                        <div style={{ padding: '20px', overflowY: 'auto', flex: 1 }}>
+                            {queue.map((q, index) => (
+                                <div key={index} style={{ marginBottom: '30px', borderBottom: '1px solid #eee', paddingBottom: '20px' }}>
+                                    <div style={{ fontWeight: 'bold', marginBottom: '10px', fontSize: '16px' }}>
+                                        Q{index + 1}. {q.questionText || q.question}
+                                    </div>
+                                    {q.questionImage && (
+                                        <div style={{ margin: '10px 0', maxWidth: '400px' }}>
+                                            <img src={q.questionImage} alt="Q-Img" style={{ maxWidth: '100%', border: '1px solid #ccc' }} />
+                                        </div>
+                                    )}
+                                    <div style={{ marginLeft: '15px' }}>
+                                        {q.options.map((opt, i) => (
+                                            <div key={i} style={{ marginBottom: '5px', fontSize: '14px' }}>
+                                                <span style={{ fontWeight: 'bold', marginRight: '5px' }}>({String.fromCharCode(65 + i)})</span>
+                                                {opt}
+                                                {q.optionImages && q.optionImages[i] && (
+                                                    <img src={q.optionImages[i]} alt="opt" style={{ height: '40px', verticalAlign: 'middle', marginLeft: '10px' }} />
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <div style={{ padding: '10px', borderTop: '1px solid #eee', textAlign: 'right', background: '#f9f9f9' }}>
+                            <button className="footer-btn btn-save" onClick={() => setShowQuestionPaper(false)}>Close</button>
                         </div>
                     </div>
                 </div>

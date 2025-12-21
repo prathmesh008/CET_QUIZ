@@ -12,5 +12,10 @@ router.route('/result')
     .get(Controller.getResult)
     .post(Controller.insertResult)
     .delete(Controller.dropResult);
+
+router.get('/practice/start', Controller.startPractice);
+router.post('/practice/submit', Controller.submitPractice);
+router.get('/user/history', Controller.getUserHistory);
+
 export default router;
 

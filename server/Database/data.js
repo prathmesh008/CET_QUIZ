@@ -490,22 +490,431 @@ const q1 = [
 const a1 = [4, 2, 2, 2, 4, 1, 3, 3, 2, 0, 1, 3, 0, 1, 4, 3, 3, 0, 4, 3, 3, 2, 4, 4];
 
 const q2 = [
+    {
+        id: 1,
+        question: "Which number is missing? 4, 8, 12, __, 20",
+        options: ["(A) 14", "(B) 15", "(C) 16", "(D) 18", "(E) 24"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 3
+    },
+    {
+        id: 2,
+        question: "A square has a perimeter of 20 cm. What is the length of one side?",
+        options: ["(A) 3", "(B) 4", "(C) 5", "(D) 6", "(E) 10"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 3
+    },
+    {
+        id: 3,
+        question: "How many corners does 3 triangles have together?",
+        options: ["(A) 6", "(B) 7", "(C) 8", "(D) 9", "(E) 12"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 3
+    },
+    {
+        id: 4,
+        question: "Which number is the largest?",
+        options: ["(A) 403", "(B) 430", "(C) 340", "(D) 304", "(E) 450"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 3
+    },
+    {
+        id: 5,
+        question: "If today is Tuesday, what day will it be after 10 days?",
+        options: ["(A) Friday", "(B) Saturday", "(C) Sunday", "(D) Monday", "(E) Thursday"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 3
+    },
+    {
+        id: 6,
+        question: "How many tens are there in 370?",
+        options: ["(A) 3", "(B) 7", "(C) 30", "(D) 37", "(E) 300"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 3
+    },
+    {
+        id: 7,
+        question: "Which shape has no corners?",
+        options: ["(A) Square", "(B) Triangle", "(C) Rectangle", "(D) Circle", "(E) Pentagon"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 3
+    },
+    {
+        id: 8,
+        question: "9 + 9 ÷ 3 = ?",
+        options: ["(A) 6", "(B) 9", "(C) 12", "(D) 15", "(E) 18"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 3
+    },
+    {
+        id: 9,
+        question: "A box has 4 red, 3 blue, and 5 green balls. How many balls are there in total?",
+        options: ["(A) 10", "(B) 11", "(C) 12", "(D) 13", "(E) 14"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 4
+    },
+    {
+        id: 10,
+        question: "Which number makes the sum 50? 27 + __ = 50",
+        options: ["(A) 13", "(B) 21", "(C) 22", "(D) 23", "(E) 24"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 4
+    },
+    {
+        id: 11,
+        question: "How many minutes are there in 2 hours and 15 minutes?",
+        options: ["(A) 120", "(B) 135", "(C) 140", "(D) 145", "(E) 150"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 4
+    },
+    {
+        id: 12,
+        question: "A rectangle has length 8 cm and width 3 cm. What is its area?",
+        options: ["(A) 11", "(B) 16", "(C) 24", "(D) 32", "(E) 48"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 4
+    },
+    {
+        id: 13,
+        question: "Which fraction is the biggest?",
+        options: ["(A) 1/2", "(B) 2/3", "(C) 3/4", "(D) 4/5", "(E) 1/3"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 4
+    },
+    {
+        id: 14,
+        question: "What comes next? 2, 6, 18, __",
+        options: ["(A) 24", "(B) 36", "(C) 48", "(D) 54", "(E) 56"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 4
+    },
+    {
+        id: 15,
+        question: "How many faces does a cube have?",
+        options: ["(A) 4", "(B) 5", "(C) 6", "(D) 8", "(E) 12"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 4
+    },
+    {
+        id: 16,
+        question: "If one pencil costs 7 coins, how many coins are needed for 5 pencils?",
+        options: ["(A) 30", "(B) 32", "(C) 34", "(D) 35", "(E) 40"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 4
+    },
+    {
+        id: 17,
+        question: "Three numbers add up to 120. Two of them are 45 and 38. What is the third number?",
+        options: ["(A) 27", "(B) 35", "(C) 37", "(D) 45", "(E) 52"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 5
+    },
+    {
+        id: 18,
+        question: "A clock shows 3:30. What angle is between the hour and minute hand?",
+        options: ["(A) 30°", "(B) 45°", "(C) 60°", "(D) 75°", "(E) 90°"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 5
+    },
+    {
+        id: 19,
+        question: "How many even numbers are there between 10 and 40?",
+        options: ["(A) 14", "(B) 15", "(C) 16", "(D) 17", "(E) 18"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 5
+    },
+    {
+        id: 20,
+        question: "A number becomes 5 times bigger when multiplied by 5. What is the number?",
+        options: ["(A) 1", "(B) 5", "(C) 10", "(D) 25", "(E) 50"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 5
+    },
+    {
+        id: 21,
+        question: "Which shape has the greatest number of sides?",
+        options: ["(A) Triangle", "(B) Square", "(C) Pentagon", "(D) Hexagon", "(E) Octagon"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 5
+    },
+    {
+        id: 22,
+        question: "If 3 apples cost 18 coins, how many coins do 5 apples cost?",
+        options: ["(A) 25", "(B) 28", "(C) 30", "(D) 32", "(E) 35"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 5
+    },
+    {
+        id: 23,
+        question: "How many different ways can you arrange the letters A, B, C?",
+        options: ["(A) 3", "(B) 4", "(C) 5", "(D) 6", "(E) 9"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 5
+    },
+    {
+        id: 24,
+        question: "A number is divisible by both 2 and 5. Which number could it be?",
+        options: ["(A) 12", "(B) 15", "(C) 20", "(D) 22", "(E) 25"],
+        explanation: "",
+        questionImage: "",
+        optionImages: [],
+        points: 5
+    }
+];
+const a2 = [2, 2, 3, 4, 2, 3, 3, 3, 2, 3, 1, 2, 3, 3, 2, 3, 2, 2, 2, 0, 4, 2, 3, 2];
 
-]
-const a2=[]
+const q3 = [
+    {
+        "id": 1,
+        "question": "What is the basis of the modern periodic table?",
+        "options": [
+            "(A) Atomic mass",
+            "(B) Atomic number",
+            "(C) Valency",
+            "(D) Atomic volume"
+        ],
+        "correctIndex": 1,
+        "points": 3
+    },
+    {
+        "id": 2,
+        "question": "Who introduced the concept of atomic number in the periodic table?",
+        "options": [
+            "(A) Mendeleev",
+            "(B) Bohr",
+            "(C) Henry Moseley",
+            "(D) Dalton"
+        ],
+        "correctIndex": 2,
+        "points": 3
+    },
+    {
+        "id": 3,
+        "question": "What happens to atomic size as we move from left to right across a period?",
+        "options": [
+            "(A) It increases",
+            "(B) It decreases",
+            "(C) It remains the same",
+            "(D) It first increases and then decreases"
+        ],
+        "correctIndex": 1,
+        "points": 3
+    },
+    {
+        "id": 4,
+        "question": "Why are noble gases placed in Group 18 of the periodic table?",
+        "options": [
+            "(A) Because they have large atomic size",
+            "(B) Because their valence shell is completely filled",
+            "(C) Because they are highly reactive",
+            "(D) Because they have high atomic mass"
+        ],
+        "correctIndex": 1,
+        "points": 3
+    },
+    {
+        "id": 5,
+        "question": "Why do elements of the same group have similar chemical properties?",
+        "options": [
+            "(A) They have the same atomic mass",
+            "(B) They have the same number of valence electrons",
+            "(C) They have the same atomic size",
+            "(D) They belong to the same period"
+        ],
+        "correctIndex": 1,
+        "points": 3
+    },
+    {
+        "id": 6,
+        "question": "What does the modern periodic law state?",
+        "options": [
+            "(A) Properties of elements are a function of atomic mass",
+            "(B) Properties of elements depend on atomic size",
+            "(C) Properties of elements are a periodic function of their atomic number",
+            "(D) Properties of elements depend on valency"
+        ],
+        "correctIndex": 2,
+        "points": 3
+    },
+    {
+        "id": 7,
+        "question": "What was one limitation of Mendeleev’s periodic table?",
+        "options": [
+            "(A) Groups were not present",
+            "(B) Periods were not present",
+            "(C) Atomic number was not considered",
+            "(D) Noble gases were not included"
+        ],
+        "correctIndex": 2,
+        "points": 3
+    },
+    {
+        "id": 8,
+        "question": "What is one difference between a group and a period in the periodic table?",
+        "options": [
+            "(A) A group is horizontal and a period is vertical",
+            "(B) Both group and period are horizontal",
+            "(C) A group is a vertical column and a period is a horizontal row",
+            "(D) Groups contain only metals"
+        ],
+        "correctIndex": 2,
+        "points": 3
+    },
+    {
+        "id": 9,
+        "question": "What is the relationship between valency and group number?",
+        "options": [
+            "(A) Elements of the same group have the same valency",
+            "(B) Valency is always greater than the group number",
+            "(C) Valency depends on the period number",
+            "(D) There is no relation"
+        ],
+        "correctIndex": 0,
+        "points": 3
+    },
+    {
+        "id": 10,
+        "question": "Why do lithium and sodium have similar properties?",
+        "options": [
+            "(A) Both are non-metals",
+            "(B) Both have the same atomic mass",
+            "(C) Both have one electron in their valence shell",
+            "(D) Both belong to the same period"
+        ],
+        "correctIndex": 2,
+        "points": 3
+    },
+    {
+        "id": 11,
+        "question": "Why does atomic radius increase on moving down a group?",
+        "options": [
+            "(A) Nuclear charge decreases",
+            "(B) New electron shells are added",
+            "(C) Valency increases",
+            "(D) Number of electrons decreases"
+        ],
+        "correctIndex": 1,
+        "points": 4
+    },
+    {
+        "id": 12,
+        "question": "Why does electronegativity increase across a period?",
+        "options": [
+            "(A) Due to increase in atomic size",
+            "(B) Due to increase in effective nuclear charge",
+            "(C) Due to decrease in valency",
+            "(D) Due to addition of new shells"
+        ],
+        "correctIndex": 1,
+        "points": 4
+    },
+    {
+        "id": 13,
+        "question": "Why is hydrogen not placed with alkali metals in the periodic table?",
+        "options": [
+            "(A) Because hydrogen is a metal",
+            "(B) Because hydrogen has a high atomic number",
+            "(C) Because hydrogen is a non-metal and has different properties",
+            "(D) Because hydrogen is a noble gas"
+        ],
+        "correctIndex": 2,
+        "points": 4
+    },
+    {
+        "id": 14,
+        "question": "What are the group and period of the element with atomic number 17?",
+        "options": [
+            "(A) Group 16, Period 3",
+            "(B) Group 17, Period 2",
+            "(C) Group 17, Period 3",
+            "(D) Group 18, Period 3"
+        ],
+        "correctIndex": 2,
+        "points": 5
+    },
+    {
+        "id": 15,
+        "question": "What is the nature of an element with electronic configuration 2,8,3?",
+        "options": [
+            "(A) Non-metal",
+            "(B) Metalloid",
+            "(C) Metal",
+            "(D) Noble gas"
+        ],
+        "correctIndex": 2,
+        "points": 5
+    }
+];
+
+const a3 = [1, 2, 1, 1, 1, 2, 2, 2, 0, 2, 1, 1, 2, 2, 2];
 
 
 export default [
     {
         quizId: 'quiz1',
+        setNumber: 1,
         title: 'Quiz 1',
         questions: q1,
         answers: a1
     },
     {
         quizId: 'quiz2',
+        setNumber: 2,
         title: 'Quiz 2',
         questions: q2,
         answers: a2
+    },
+    {
+        quizId: 'quiz3',
+        setNumber: 3,
+        title: 'Periodic Classification',
+        questions: q3,
+        answers: a3
     }
 ];

@@ -42,14 +42,64 @@ export default function Quiz() {
 
     // Access Control & Guard
     useEffect(() => {
-        if (!activeQuizId) {
-            // Wait for ID to load
+        // 1. Check for Reload (Refreshed Page)
+        // This MUST be checked first to prevent starting a new session on reload
+        const navEntries = performance.getEntriesByType("navigation");
+        let isReload = false;
+
+        // Check if we already handled this reload event in the current SPA session
+        // This prevents the 'Reload' status from persisting if the user is redirected to Dashboard
+        // and then navigates BACK to the Quiz (since performance entries are static for the document)
+        if (window.quizReloadHandled) {
+            console.log("DEBUG: Reload already handled in this session. Treating as navigation.");
+        } else {
+            console.log("DEBUG: Checking Reload Status");
+            console.log("DEBUG: Current Path:", window.location.pathname);
+
+            if (navEntries.length > 0) {
+                const nav = navEntries[0];
+                console.log("DEBUG: Nav Entry:", nav.type, nav.name);
+
+                if (nav.type === 'reload') {
+                    const navPath = new URL(nav.name).pathname;
+                    console.log("DEBUG: Nav Path:", navPath);
+
+                    const currentPath = window.location.pathname;
+                    if (navPath === currentPath) {
+                        console.log("DEBUG: MATCH! Declaring Reload.");
+                        isReload = true;
+                    } else {
+                        console.log("DEBUG: NO MATCH. Ignoring Reload type.");
+                    }
+                }
+            } else if (window.performance && window.performance.navigation && window.performance.navigation.type === 1) {
+                console.log("DEBUG: Fallback triggers reload.");
+                isReload = true;
+            }
+        }
+
+        if (isReload) {
+            console.log("DEBUG: Reload detected -> Triggering Submit Modal");
+            // Mark as handled so we don't re-trigger loop
+            window.quizReloadHandled = true;
+
+            // Show the Submit Modal immediately
+            setShowSubmitModal(true);
             return;
+        }
+
+        if (!activeQuizId) {
+            console.log("DEBUG: No activeQuizId");
+            // If we are showing modal due to reload, we might not have activeQuizId if state was lost...
+            // But if state is lost, showing modal is tricky because submitting might fail.
+            // Assuming Redux state rehydrates or we accept this risk as per user request.
+            if (!isReload) return;
         }
 
         const isSubmitted = localStorage.getItem(`quiz_submitted_${activeQuizId}`);
         if (isSubmitted) {
-            setFinish(true); // Redirects to result via existing logic check
+            // User reloaded or revisited a submitted quiz -> Go to Dashboard
+            setFinish('dashboard');
         }
     }, [activeQuizId]);
 
@@ -90,12 +140,18 @@ export default function Quiz() {
 
         // Handle Back Button
         const handlePopState = (e) => {
-            const confirmLeave = window.confirm("Test will be submitted if you go back. Are you sure?");
-            if (confirmLeave) {
-                handleUnload();
-                window.history.back(); // Proceed back
-            } else {
-                window.history.pushState(null, document.title, window.location.href); // Stay on page
+            // Prevent leaving quiz. 
+            // We want Back Button to act as "Submit Assessment"
+
+            // Push state back immediately to lock navigation
+            window.history.pushState(null, document.title, window.location.href);
+
+            const confirmSubmit = window.confirm("Going back will submit your test. Are you sure you want to proceed?");
+            if (confirmSubmit) {
+                // Treat as Submission
+                localStorage.removeItem('quizTimer');
+                localStorage.setItem(`quiz_submitted_${activeQuizId}`, 'true');
+                setFinish(true); // Triggers redirect to /result
             }
         };
 
@@ -176,6 +232,9 @@ export default function Quiz() {
     if (isLoading) return <div style={{ textAlign: 'center', marginTop: '20%' }}>Loading Test Interface...</div>;
     if (serverError) return <div style={{ textAlign: 'center', marginTop: '20%', color: 'red' }}>{serverError.message}</div>;
     if (!activeQuizId && !finish) return <Navigate to="/select-quiz" replace={true} />;
+
+    // Redirect logic
+    if (finish === 'dashboard') return <Navigate to="/select-quiz" replace={true} />;
     if (finish) return <Navigate to="/result" state={{ quizId: activeQuizId }} replace={true} />;
 
     // Legend Stats

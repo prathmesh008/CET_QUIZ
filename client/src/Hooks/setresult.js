@@ -25,9 +25,9 @@ export const usepublishresult = (resultdata) => {
             // FIX 1: correct empty check
             const resultEmpty = !result || result.length === 0;
 
-            // FIX 2: correct condition
-            if (resultEmpty || !username) {
-                throw new Error("no result");
+            // FIX 2: Relaxed condition - Allow empty result if username exists
+            if (!username) {
+                throw new Error("no username");
             }
 
             await postServerData(

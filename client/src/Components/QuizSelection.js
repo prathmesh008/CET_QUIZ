@@ -187,7 +187,7 @@ export default function QuizSelection() {
                             }}>
                                 <div>
                                     <div style={{ background: 'rgba(255,255,255,0.2)', width: 'fit-content', padding: '6px 12px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: '600', marginBottom: '16px' }}>READY TO START</div>
-                                    <h2 style={{ fontSize: '1.75rem', fontWeight: '700', marginBottom: '8px', lineHeight: '1.2' }}>Start New<br />Assessment</h2>
+                                    <h2 style={{ fontSize: '1.75rem', fontWeight: '700', marginBottom: '8px', lineHeight: '1.2' }}>Start New Assessment</h2>
                                     <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0', fontSize: '0.95rem', opacity: 0.9, lineHeight: '1.8' }}>
                                         <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><CheckCircle size={16} /> 60 Minute Duration</li>
                                         <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><CheckCircle size={16} /> 24 Questions</li>

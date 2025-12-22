@@ -21,6 +21,7 @@ function Main() {
 
         dispatch(setuserid(name));
         dispatch(setRollNumber(roll));
+        localStorage.setItem('quiz_auth_data', JSON.stringify({ userid: name, rollNumber: roll }));
         navigate('/select-quiz');
     };
 

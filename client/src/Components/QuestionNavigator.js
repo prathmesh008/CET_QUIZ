@@ -7,6 +7,8 @@ export default function QuestionNavigator() {
     const { result } = useSelector(state => state.result);
     const dispatch = useDispatch();
 
+    if (!queue) return null; // Safety check
+
     const handleJump = (index) => {
         dispatch(jumpToQuestion(index));
     };

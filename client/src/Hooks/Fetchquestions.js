@@ -5,7 +5,7 @@ import { getServerData } from "../Helper/Helper";
 
 export const useFetchQuestions = (quizId, userid, rollNumber) => {
     const dispatch = useDispatch();
-    const [getData, setGetData] = useState({ isLoading: false, apiData: [], serverError: null });
+    const [getData, setGetData] = useState({ isLoading: true, apiData: [], serverError: null });
 
     useEffect(() => {
         setGetData(prev => ({ ...prev, isLoading: true }));

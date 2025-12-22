@@ -1,6 +1,7 @@
 const q1 = [
     {
         id: 1,
+        topic: "Logical Reasoning",
         question: "1). Which square was divided into two different figures?",
         options: [
             "Option A",
@@ -22,6 +23,7 @@ const q1 = [
     },
     {
         id: 2,
+        topic: "Numerical Ability",
         question: "2). Lizzy has 7 coins of a kind. She buys three fruits at the market. Each fruit has a different price. How much is the most expensive fruit?",
         options: [
             "(A) 2 coins",
@@ -41,6 +43,7 @@ const q1 = [
     },
     {
         id: 3,
+        topic: "Numerical Ability",
         question: "3). The rectangle on the right consists of 4 rows and 7 columns.In total, it consists of 28 white squares.Ira paints 2 rows and 1 column.How many squares remain white?",
         options: [
             '(A) 8',
@@ -56,6 +59,7 @@ const q1 = [
     },
     {
         id: 4,
+        topic: "Logical Reasoning",
         question: "4). Firefighter Fred wants to put out the fire.What is the smallest number of ladders he has to climb in the picture on the right, to get to the fire without jumping?",
         options: [
             '(A) 4',
@@ -71,6 +75,7 @@ const q1 = [
     },
     {
         id: 5,
+        topic: "Logical Reasoning",
         question: "5). Ben has built a structure. A cat has thrown a cube off his structure:Which of these structures did Ben build?",
         options: [
             "Option A",
@@ -92,6 +97,7 @@ const q1 = [
     },
     {
         id: 6,
+        topic: "Logical Reasoning",
         question: "6). Alex hangs a poster on his kitchen wall.the kitchen wall has white and grey tiles of the same size seepicture.How many grey tiles are completely covered by the poster?",
         options: [
             "(A) 15",
@@ -107,6 +113,7 @@ const q1 = [
     },
     {
         id: 7,
+        topic: "Logical Reasoning",
         question: "7). Tim has black and white squares of paper. He glues the squares on the inside of awindow. This creates the pattern shown on the right.What pattern can you see from the outside?",
         options: [
             "Option A",
@@ -128,6 +135,7 @@ const q1 = [
     },
     {
         id: 8,
+        topic: "Numerical Ability",
         question: "8). 213, 214 and 215 are three consecutive three-digit numbers.Mohammad writes three consecutive four-digit numbers in a row.His sister erases a few digits from each of the three numbers.",
         options: [
             "(A) 3 8 9, 3, 9 9",
@@ -143,6 +151,7 @@ const q1 = [
     },
     {
         id: 9,
+        topic: "Logical Reasoning",
         question: "9). Lisa writes the numbers 1, 2, 4, 5 and 6 in the circles of the pattern. She writeseach of the five numbers exactly once, and if she adds up the numbers alongone of the three straight lines, she gets 11 each time.Which number did she write in the circle with the question mark?",
         options: [
             "(A) 1",
@@ -158,6 +167,7 @@ const q1 = [
     },
     {
         id: 10,
+        topic: "Verbal Ability",
         question: "10). These five fruits are in a basket: [apple] [grape] [cherry] [strawberry] [banana]. Ann likes [cherry]. Ben likes [apple] [grape] [cherry] [strawberry] [banana].",
         inlineImages: {
             apple: "/photos/q10/apple.png",
@@ -186,6 +196,7 @@ const q1 = [
     },
     {
         id: 11,
+        topic: "Logical Reasoning",
         question: "11). The wizard Adam built the tower on the right out of 8 discs. He magically makes discs disappear one after the other: First the second disc from the bottom, then from the new tower the third disc from the bottom. Then he makes the fourth disc from bottom of the newly created tower disappear. At the end, he removes the fifth disc from the bottom of the now newly created tower. What tower does Adam get?",           // text with or without inline images
         questionImage: "/photos/q11/q11.png",          // path to question image OR "" if none
 
@@ -209,6 +220,7 @@ const q1 = [
     },
     {
         id: 12,
+        topic: "Numerical Ability",
         question: "12). Penguin Peter goes fishing every day and brings 9 fish for his two children. Every day he gives 5 fish to the first child he sees. The other child then gets 4 fish. In the last few days, a child has had a total of 26 fish. How many fish did the other child get?",           // text with or without inline images
         questionImage: "",          // path to question image OR "" if none
 
@@ -228,6 +240,7 @@ const q1 = [
     },
     {
         id: 13,
+        topic: "Numerical Ability",
         question: "13. 7 cards with the numbers from 1 to 7 are placed in these four overlapping rings: If you add up the numbers of all the cards in a ring, the result is always 10. What number is on the card with the question mark?",
         questionImage: "/photos/q13/q13.png",
 
@@ -249,6 +262,7 @@ const q1 = [
     },
     {
         id: 14,
+        topic: "Logical Reasoning",
         question: "14). Lucas has these five pieces of a puzzle available: He wants to lay a caterpillar consisting of a head, a tail and 1, 2 or 3 parts in between. How many different caterpillars can Lucas build?",
         questionImage: "/photos/q14/q14.png",
 
@@ -269,6 +283,7 @@ const q1 = [
     },
     {
         id: 15,
+        topic: "Logical Reasoning",
         question: "15. Kangaroo Joey hops through a maze.The arrows of a field indicate how far, and in which direction,Joey has to bounce. A field with three arrows means that Joey bounces in the direction of the arrows, skipping two spaces, and landing in the 3rd space. Through which exit will Joey leave the maze, if he starts in the bottom left field with the three arrows?",
         questionImage: "/photos/q15/q15.png",
 
@@ -290,6 +305,7 @@ const q1 = [
     },
     {
         id: 16,
+        topic: "Numerical Ability",
         question: "16. Two types of tiles were used for a kitchen floor: rectangular [rectangle] and square [square]. This picture shows part of the installed kitchen floor: The rectangular tiles are 23 cm long and 11 cm wide. What is the length of a side of a small square tile?",
         questionImage: "/photos/q16/q16.png",
 
@@ -313,6 +329,7 @@ const q1 = [
     },
     {
         id: 17,
+        topic: "Numerical Ability",
         question: "17). Mia has 3 cards with three-digit numbers on them. If she adds the three numbers together, she gets the number 782. Unfortunately, a worm has eaten one digit of each card. What number does she get when she adds up the three digits that the worm has eaten?",
         questionImage: "/photos/q17/q17.png",
 
@@ -333,6 +350,7 @@ const q1 = [
     },
     {
         id: 18,
+        topic: "Numerical Ability",
         question: "18. Lucy weighs building blocks and obtains the following values: How much do the three different building blocks weigh together?",
         questionImage: "/photos/q18/q18.png",
 
@@ -353,6 +371,7 @@ const q1 = [
     },
     {
         id: 19,
+        topic: "Logical Reasoning",
         question: "19. 60 children stand in a row. Each child has a high-visibility vest and a backpack.The colours of their high-visibility vests always alternate: yellow, green, yellow, green, ...The colours of their backpacks make the following pattern: red, brown, purple, red, brown,purple, ... How many children have a yellow safety vest and a purple backpack?",
         questionImage: "",
 
@@ -373,6 +392,7 @@ const q1 = [
     },
     {
         id: 20,
+        topic: "Logical Reasoning",
         question: "20. Cards of the same shape hide the same digits. Cards with different shapes hide different digits. Kim lays out the cards in such a way that the calculations are correct.[exam] \n What number does Kim get for the calculation[ques]?",
         questionImage: "",
         inlineImages: {
@@ -396,6 +416,7 @@ const q1 = [
     },
     {
         id: 21,
+        topic: "Logical Reasoning",
         question: "21. There are exactly 2 frogs in each row and in each column – see picture. Two of the six frogs jump to one of their neighbouring fields at the same time when it is empty. After that, there are again two frogs in each row and in each column. How many possibilities are there for two frogs to jump like this?",
         questionImage: "/photos/q21/q21.png",
 
@@ -416,6 +437,7 @@ const q1 = [
     },
     {
         id: 22,
+        topic: "Numerical Ability",
         question: "22. The picture on the right shows a honeycomb with 9 cells. There is honey in some cells. The numbers in the cells indicate how many neighbouring cells contain honey. How many cells are filled with honey?",
         questionImage: "/photos/q22/q22.png",
 
@@ -436,6 +458,7 @@ const q1 = [
     },
     {
         id: 23,
+        topic: "Logical Reasoning",
         question: "Kanga wants to build a figure out of these three parts: [pic] \n He can also rotate or flip the parts. Which of the five pieces can he NOT make?",
         questionImage: "",
         inlineImages: {
@@ -462,6 +485,7 @@ const q1 = [
     },
     {
         id: 24,
+        topic: "Logical Reasoning",
         question: "This tray of biscuits lies in the kitchen. Three girls take biscuits from the tray in an unknown order: Tina takes all the heart-shaped cookies that are still on the tray. Emma takes all the white cookies that are still on the tray. Rosa takes all the large cookies that are still on the tray. One of the girls takes 3 biscuits, one takes 6 biscuits and one takes 7 biscuits. Which of the following cookies did one of the girls take?",
         questionImage: "/photos/q24/q24.png",
 
@@ -492,6 +516,7 @@ const a1 = [4, 2, 2, 2, 4, 1, 3, 3, 2, 0, 1, 3, 0, 1, 4, 3, 3, 0, 4, 3, 3, 2, 4,
 const q2 = [
     {
         id: 1,
+        topic: "Numerical Ability",
         question: "Which number is missing? 4, 8, 12, __, 20",
         options: ["(A) 14", "(B) 15", "(C) 16", "(D) 18", "(E) 24"],
         explanation: "",
@@ -501,6 +526,7 @@ const q2 = [
     },
     {
         id: 2,
+        topic: "Numerical Ability",
         question: "A square has a perimeter of 20 cm. What is the length of one side?",
         options: ["(A) 3", "(B) 4", "(C) 5", "(D) 6", "(E) 10"],
         explanation: "",
@@ -510,6 +536,7 @@ const q2 = [
     },
     {
         id: 3,
+        topic: "Numerical Ability",
         question: "How many corners does 3 triangles have together?",
         options: ["(A) 6", "(B) 7", "(C) 8", "(D) 9", "(E) 12"],
         explanation: "",
@@ -519,6 +546,7 @@ const q2 = [
     },
     {
         id: 4,
+        topic: "Numerical Ability",
         question: "Which number is the largest?",
         options: ["(A) 403", "(B) 430", "(C) 340", "(D) 304", "(E) 450"],
         explanation: "",
@@ -528,6 +556,7 @@ const q2 = [
     },
     {
         id: 5,
+        topic: "Logical Reasoning",
         question: "If today is Tuesday, what day will it be after 10 days?",
         options: ["(A) Friday", "(B) Saturday", "(C) Sunday", "(D) Monday", "(E) Thursday"],
         explanation: "",
@@ -537,6 +566,7 @@ const q2 = [
     },
     {
         id: 6,
+        topic: "Numerical Ability",
         question: "How many tens are there in 370?",
         options: ["(A) 3", "(B) 7", "(C) 30", "(D) 37", "(E) 300"],
         explanation: "",
@@ -546,6 +576,7 @@ const q2 = [
     },
     {
         id: 7,
+        topic: "Logical Reasoning",
         question: "Which shape has no corners?",
         options: ["(A) Square", "(B) Triangle", "(C) Rectangle", "(D) Circle", "(E) Pentagon"],
         explanation: "",
@@ -555,6 +586,7 @@ const q2 = [
     },
     {
         id: 8,
+        topic: "Numerical Ability",
         question: "9 + 9 ÷ 3 = ?",
         options: ["(A) 6", "(B) 9", "(C) 12", "(D) 15", "(E) 18"],
         explanation: "",
@@ -564,6 +596,7 @@ const q2 = [
     },
     {
         id: 9,
+        topic: "Numerical Ability",
         question: "A box has 4 red, 3 blue, and 5 green balls. How many balls are there in total?",
         options: ["(A) 10", "(B) 11", "(C) 12", "(D) 13", "(E) 14"],
         explanation: "",
@@ -573,6 +606,7 @@ const q2 = [
     },
     {
         id: 10,
+        topic: "Numerical Ability",
         question: "Which number makes the sum 50? 27 + __ = 50",
         options: ["(A) 13", "(B) 21", "(C) 22", "(D) 23", "(E) 24"],
         explanation: "",
@@ -582,6 +616,7 @@ const q2 = [
     },
     {
         id: 11,
+        topic: "Numerical Ability",
         question: "How many minutes are there in 2 hours and 15 minutes?",
         options: ["(A) 120", "(B) 135", "(C) 140", "(D) 145", "(E) 150"],
         explanation: "",
@@ -591,6 +626,7 @@ const q2 = [
     },
     {
         id: 12,
+        topic: "Numerical Ability",
         question: "A rectangle has length 8 cm and width 3 cm. What is its area?",
         options: ["(A) 11", "(B) 16", "(C) 24", "(D) 32", "(E) 48"],
         explanation: "",
@@ -600,6 +636,7 @@ const q2 = [
     },
     {
         id: 13,
+        topic: "Numerical Ability",
         question: "Which fraction is the biggest?",
         options: ["(A) 1/2", "(B) 2/3", "(C) 3/4", "(D) 4/5", "(E) 1/3"],
         explanation: "",
@@ -609,6 +646,7 @@ const q2 = [
     },
     {
         id: 14,
+        topic: "Logical Reasoning",
         question: "What comes next? 2, 6, 18, __",
         options: ["(A) 24", "(B) 36", "(C) 48", "(D) 54", "(E) 56"],
         explanation: "",
@@ -618,6 +656,7 @@ const q2 = [
     },
     {
         id: 15,
+        topic: "Numerical Ability",
         question: "How many faces does a cube have?",
         options: ["(A) 4", "(B) 5", "(C) 6", "(D) 8", "(E) 12"],
         explanation: "",
@@ -627,6 +666,7 @@ const q2 = [
     },
     {
         id: 16,
+        topic: "Numerical Ability",
         question: "If one pencil costs 7 coins, how many coins are needed for 5 pencils?",
         options: ["(A) 30", "(B) 32", "(C) 34", "(D) 35", "(E) 40"],
         explanation: "",
@@ -636,6 +676,7 @@ const q2 = [
     },
     {
         id: 17,
+        topic: "Numerical Ability",
         question: "Three numbers add up to 120. Two of them are 45 and 38. What is the third number?",
         options: ["(A) 27", "(B) 35", "(C) 37", "(D) 45", "(E) 52"],
         explanation: "",
@@ -645,6 +686,7 @@ const q2 = [
     },
     {
         id: 18,
+        topic: "Numerical Ability",
         question: "A clock shows 3:30. What angle is between the hour and minute hand?",
         options: ["(A) 30°", "(B) 45°", "(C) 60°", "(D) 75°", "(E) 90°"],
         explanation: "",
@@ -654,6 +696,7 @@ const q2 = [
     },
     {
         id: 19,
+        topic: "Numerical Ability",
         question: "How many even numbers are there between 10 and 40?",
         options: ["(A) 14", "(B) 15", "(C) 16", "(D) 17", "(E) 18"],
         explanation: "",
@@ -663,6 +706,7 @@ const q2 = [
     },
     {
         id: 20,
+        topic: "Numerical Ability",
         question: "A number becomes 5 times bigger when multiplied by 5. What is the number?",
         options: ["(A) 1", "(B) 5", "(C) 10", "(D) 25", "(E) 50"],
         explanation: "",
@@ -672,6 +716,7 @@ const q2 = [
     },
     {
         id: 21,
+        topic: "Logical Reasoning",
         question: "Which shape has the greatest number of sides?",
         options: ["(A) Triangle", "(B) Square", "(C) Pentagon", "(D) Hexagon", "(E) Octagon"],
         explanation: "",
@@ -681,6 +726,7 @@ const q2 = [
     },
     {
         id: 22,
+        topic: "Numerical Ability",
         question: "If 3 apples cost 18 coins, how many coins do 5 apples cost?",
         options: ["(A) 25", "(B) 28", "(C) 30", "(D) 32", "(E) 35"],
         explanation: "",
@@ -690,6 +736,7 @@ const q2 = [
     },
     {
         id: 23,
+        topic: "Numerical Ability",
         question: "How many different ways can you arrange the letters A, B, C?",
         options: ["(A) 3", "(B) 4", "(C) 5", "(D) 6", "(E) 9"],
         explanation: "",
@@ -699,6 +746,7 @@ const q2 = [
     },
     {
         id: 24,
+        topic: "Numerical Ability",
         question: "A number is divisible by both 2 and 5. Which number could it be?",
         options: ["(A) 12", "(B) 15", "(C) 20", "(D) 22", "(E) 25"],
         explanation: "",
@@ -712,6 +760,7 @@ const a2 = [2, 2, 3, 4, 2, 3, 3, 3, 2, 3, 1, 2, 3, 3, 2, 3, 2, 2, 2, 0, 4, 2, 3,
 const q3 = [
     {
         "id": 1,
+        "topic": "Chemistry",
         "question": "What is the basis of the modern periodic table?",
         "options": [
             "(A) Atomic mass",
@@ -724,6 +773,7 @@ const q3 = [
     },
     {
         "id": 2,
+        "topic": "Chemistry",
         "question": "Who introduced the concept of atomic number in the periodic table?",
         "options": [
             "(A) Mendeleev",
@@ -736,6 +786,7 @@ const q3 = [
     },
     {
         "id": 3,
+        "topic": "Chemistry",
         "question": "What happens to atomic size as we move from left to right across a period?",
         "options": [
             "(A) It increases",
@@ -748,6 +799,7 @@ const q3 = [
     },
     {
         "id": 4,
+        "topic": "Chemistry",
         "question": "Why are noble gases placed in Group 18 of the periodic table?",
         "options": [
             "(A) Because they have large atomic size",
@@ -760,6 +812,7 @@ const q3 = [
     },
     {
         "id": 5,
+        "topic": "Chemistry",
         "question": "Why do elements of the same group have similar chemical properties?",
         "options": [
             "(A) They have the same atomic mass",
@@ -772,6 +825,7 @@ const q3 = [
     },
     {
         "id": 6,
+        "topic": "Chemistry",
         "question": "What does the modern periodic law state?",
         "options": [
             "(A) Properties of elements are a function of atomic mass",
@@ -784,6 +838,7 @@ const q3 = [
     },
     {
         "id": 7,
+        "topic": "Chemistry",
         "question": "What was one limitation of Mendeleev’s periodic table?",
         "options": [
             "(A) Groups were not present",
@@ -796,6 +851,7 @@ const q3 = [
     },
     {
         "id": 8,
+        "topic": "Chemistry",
         "question": "What is one difference between a group and a period in the periodic table?",
         "options": [
             "(A) A group is horizontal and a period is vertical",
@@ -808,6 +864,7 @@ const q3 = [
     },
     {
         "id": 9,
+        "topic": "Chemistry",
         "question": "What is the relationship between valency and group number?",
         "options": [
             "(A) Elements of the same group have the same valency",
@@ -820,6 +877,7 @@ const q3 = [
     },
     {
         "id": 10,
+        "topic": "Chemistry",
         "question": "Why do lithium and sodium have similar properties?",
         "options": [
             "(A) Both are non-metals",
@@ -832,6 +890,7 @@ const q3 = [
     },
     {
         "id": 11,
+        "topic": "Chemistry",
         "question": "Why does atomic radius increase on moving down a group?",
         "options": [
             "(A) Nuclear charge decreases",
@@ -844,6 +903,7 @@ const q3 = [
     },
     {
         "id": 12,
+        "topic": "Chemistry",
         "question": "Why does electronegativity increase across a period?",
         "options": [
             "(A) Due to increase in atomic size",
@@ -856,6 +916,7 @@ const q3 = [
     },
     {
         "id": 13,
+        "topic": "Chemistry",
         "question": "Why is hydrogen not placed with alkali metals in the periodic table?",
         "options": [
             "(A) Because hydrogen is a metal",
@@ -868,6 +929,7 @@ const q3 = [
     },
     {
         "id": 14,
+        "topic": "Chemistry",
         "question": "What are the group and period of the element with atomic number 17?",
         "options": [
             "(A) Group 16, Period 3",
@@ -880,6 +942,7 @@ const q3 = [
     },
     {
         "id": 15,
+        "topic": "Chemistry",
         "question": "What is the nature of an element with electronic configuration 2,8,3?",
         "options": [
             "(A) Non-metal",
@@ -895,26 +958,29 @@ const q3 = [
 const a3 = [1, 2, 1, 1, 1, 2, 2, 2, 0, 2, 1, 1, 2, 2, 2];
 
 
+// Combine and flatten questions with their answers
+const q1WithAnswers = q1.map((q, i) => ({ ...q, answer: a1[i] }));
+const q2WithAnswers = q2.map((q, i) => ({ ...q, answer: a2[i] }));
+const q3WithAnswers = q3.map((q, i) => ({ ...q, answer: q.correctIndex !== undefined ? q.correctIndex : a3[i] }));
+
+// ======================================================
+// ADD NEW QUESTIONS HERE
+// ======================================================
+const newQuestions = [
+    // Example Format:
+    /*
+    {
+        question: "What is 2 + 2?",
+        options: ["(A) 3", "(B) 4", "(C) 5", "(D) 6"],
+        answer: 1, // Index of correct option (0 = A, 1 = B, etc.)
+        points: 4
+    },
+    */
+];
+
 export default [
-    {
-        quizId: 'quiz1',
-        setNumber: 1,
-        title: 'Quiz 1',
-        questions: q1,
-        answers: a1
-    },
-    {
-        quizId: 'quiz2',
-        setNumber: 2,
-        title: 'Quiz 2',
-        questions: q2,
-        answers: a2
-    },
-    {
-        quizId: 'quiz3',
-        setNumber: 3,
-        title: 'Periodic Classification',
-        questions: q3,
-        answers: a3
-    }
+    ...q1WithAnswers,
+    ...q2WithAnswers,
+    ...q3WithAnswers,
+    ...newQuestions
 ];

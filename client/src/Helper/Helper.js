@@ -6,25 +6,26 @@ export function attempts(result) {
     return result.filter(r => r !== undefined).length;
 }
 
-export function earnpoints(result, answers, queue) {
-    let totalScore = 24; // Starting points
+export function earnpoints(result, answers, queue, negativeMarking = 0) {
+    let totalScore = 0;
 
-    // Iterate through all questions
+    // Safety check just in case
+    if (!result || !answers || !queue) return 0;
+
     for (let i = 0; i < queue.length; i++) {
-        // Determine points for this question based on index
-        let questionPoints = 3;
-        if (i >= 8 && i < 16) questionPoints = 4;
-        else if (i >= 16) questionPoints = 5;
-
+        // If user hasn't attempted, result[i] will be undefined
         const userAnswer = result[i];
         const correctAnswer = answers[i];
+        const questionPoints = queue[i]?.points || 1; // Default to 1 mark if undefined
 
-        // Check if answered
-        if (userAnswer !== undefined) {
+        // Check if user attempted the question
+        if (userAnswer !== undefined && userAnswer !== null) {
             if (userAnswer === correctAnswer) {
+                // Correct Answer
                 totalScore += questionPoints;
             } else {
-                totalScore -= 0.25;
+                // Incorrect Answer (optional negative marking)
+                totalScore -= negativeMarking;
             }
         }
     }

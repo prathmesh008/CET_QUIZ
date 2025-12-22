@@ -6,6 +6,7 @@ const resultmodel = new Schema({
     rollNumber: { type: String }, // Added rollNumber
     quizId: { type: String, default: 'quiz1' },
     result: { type: Array, default: [] },
+    questionIds: { type: [String], default: [] }, // Store question IDs for analysis
     attempts: { type: Number },
     points: { type: Number, default: 0 },
     acheived: { type: String, default: "failed" },

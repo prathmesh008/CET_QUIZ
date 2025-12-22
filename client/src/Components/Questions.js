@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateresult } from '../Hooks/setresult'
 
 export default function Questions() {
-    const { trace } = useSelector(state => state.questions);
+    const { queue, trace } = useSelector(state => state.questions);
     const result = useSelector(state => state.result.result);
-    // Get question content
-    const questions = useSelector(state => state.questions.queue[state.questions.trace])
+    // Get question content safely
+    const questions = queue && queue.length > 0 ? queue[trace] : undefined;
     const dispatch = useDispatch()
     const [selectedOption, setSelectedOption] = useState(null);
 

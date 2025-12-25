@@ -759,204 +759,916 @@ const a2 = [2, 2, 3, 4, 2, 3, 3, 3, 2, 3, 1, 2, 3, 3, 2, 3, 2, 2, 2, 0, 4, 2, 3,
 
 const q3 = [
     {
-        "id": 1,
-        "topic": "Chemistry",
-        "question": "What is the basis of the modern periodic table?",
-        "options": [
-            "(A) Atomic mass",
-            "(B) Atomic number",
-            "(C) Valency",
-            "(D) Atomic volume"
+        id: 1,
+        topic: "Circadian Rhythm",
+        question: "What controls the sleep–wake cycle in humans?",
+        options: [
+            "(A) Heart rhythm", "(B) Circadian rhythm", "(C) Digestive cycle", "(D) Blood pressure", "(E) Respiratory rhythm"
         ],
-        "correctIndex": 1,
-        "points": 3
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 2,
-        "topic": "Chemistry",
-        "question": "Who introduced the concept of atomic number in the periodic table?",
-        "options": [
-            "(A) Mendeleev",
-            "(B) Bohr",
-            "(C) Henry Moseley",
-            "(D) Dalton"
+        id: 2,
+        topic: "Circadian Rhythm",
+        question: "The circadian rhythm follows approximately how many hours?",
+        options: [
+            "(A) 12 hours", "(B) 18 hours", "(C) 24 hours", "(D) 36 hours", "(E) 48 hours"
         ],
-        "correctIndex": 2,
-        "points": 3
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 3,
-        "topic": "Chemistry",
-        "question": "What happens to atomic size as we move from left to right across a period?",
-        "options": [
-            "(A) It increases",
-            "(B) It decreases",
-            "(C) It remains the same",
-            "(D) It first increases and then decreases"
+        id: 3,
+        topic: "Circadian Rhythm",
+        question: "Which hormone increases at night to induce sleep?",
+        options: [
+            "(A) Adrenaline", "(B) Insulin", "(C) Melatonin", "(D) Thyroxine", "(E) Cortisol"
         ],
-        "correctIndex": 1,
-        "points": 3
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 4,
-        "topic": "Chemistry",
-        "question": "Why are noble gases placed in Group 18 of the periodic table?",
-        "options": [
-            "(A) Because they have large atomic size",
-            "(B) Because their valence shell is completely filled",
-            "(C) Because they are highly reactive",
-            "(D) Because they have high atomic mass"
+        id: 4,
+        topic: "Circadian Rhythm",
+        question: "Which factor most strongly affects circadian rhythm?",
+        options: [
+            "(A) Sound", "(B) Temperature", "(C) Light", "(D) Food", "(E) Exercise"
         ],
-        "correctIndex": 1,
-        "points": 3
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 5,
-        "topic": "Chemistry",
-        "question": "Why do elements of the same group have similar chemical properties?",
-        "options": [
-            "(A) They have the same atomic mass",
-            "(B) They have the same number of valence electrons",
-            "(C) They have the same atomic size",
-            "(D) They belong to the same period"
+        id: 5,
+        topic: "Circadian Rhythm",
+        question: "Exposure to bright light at night mainly affects which hormone?",
+        options: [
+            "(A) Insulin", "(B) Melatonin", "(C) Estrogen", "(D) Testosterone", "(E) Growth hormone"
         ],
-        "correctIndex": 1,
-        "points": 3
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 6,
-        "topic": "Chemistry",
-        "question": "What does the modern periodic law state?",
-        "options": [
-            "(A) Properties of elements are a function of atomic mass",
-            "(B) Properties of elements depend on atomic size",
-            "(C) Properties of elements are a periodic function of their atomic number",
-            "(D) Properties of elements depend on valency"
+        id: 6,
+        topic: "Circadian Rhythm",
+        question: "Which organ controls the circadian rhythm?",
+        options: [
+            "(A) Heart", "(B) Liver", "(C) Brain", "(D) Kidney", "(E) Lungs"
         ],
-        "correctIndex": 2,
-        "points": 3
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 7,
-        "topic": "Chemistry",
-        "question": "What was one limitation of Mendeleev’s periodic table?",
-        "options": [
-            "(A) Groups were not present",
-            "(B) Periods were not present",
-            "(C) Atomic number was not considered",
-            "(D) Noble gases were not included"
+        id: 7,
+        topic: "Circadian Rhythm",
+        question: "Which part of the brain regulates circadian rhythm?",
+        options: [
+            "(A) Cerebellum", "(B) Hypothalamus", "(C) Medulla", "(D) Pons", "(E) Thalamus"
         ],
-        "correctIndex": 2,
-        "points": 3
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 8,
-        "topic": "Chemistry",
-        "question": "What is one difference between a group and a period in the periodic table?",
-        "options": [
-            "(A) A group is horizontal and a period is vertical",
-            "(B) Both group and period are horizontal",
-            "(C) A group is a vertical column and a period is a horizontal row",
-            "(D) Groups contain only metals"
+        id: 8,
+        topic: "Circadian Rhythm",
+        question: "Irregular sleep timings mainly disturb which system?",
+        options: [
+            "(A) Digestive", "(B) Nervous", "(C) Circadian", "(D) Respiratory", "(E) Muscular"
         ],
-        "correctIndex": 2,
-        "points": 3
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 9,
-        "topic": "Chemistry",
-        "question": "What is the relationship between valency and group number?",
-        "options": [
-            "(A) Elements of the same group have the same valency",
-            "(B) Valency is always greater than the group number",
-            "(C) Valency depends on the period number",
-            "(D) There is no relation"
+        id: 9,
+        topic: "Circadian Rhythm",
+        question: "Jet lag is caused due to disruption of?",
+        options: [
+            "(A) Heart rhythm", "(B) Respiratory rhythm", "(C) Circadian rhythm", "(D) Blood flow", "(E) Digestion"
         ],
-        "correctIndex": 0,
-        "points": 3
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 10,
-        "topic": "Chemistry",
-        "question": "Why do lithium and sodium have similar properties?",
-        "options": [
-            "(A) Both are non-metals",
-            "(B) Both have the same atomic mass",
-            "(C) Both have one electron in their valence shell",
-            "(D) Both belong to the same period"
+        id: 10,
+        topic: "Circadian Rhythm",
+        question: "Which light helps reset circadian rhythm naturally?",
+        options: [
+            "(A) Blue light", "(B) Red light", "(C) Morning sunlight", "(D) Tube light", "(E) Candle light"
         ],
-        "correctIndex": 2,
-        "points": 3
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 11,
-        "topic": "Chemistry",
-        "question": "Why does atomic radius increase on moving down a group?",
-        "options": [
-            "(A) Nuclear charge decreases",
-            "(B) New electron shells are added",
-            "(C) Valency increases",
-            "(D) Number of electrons decreases"
+        id: 11,
+        topic: "Circadian Rhythm",
+        question: "Using mobile phones before sleep mainly affects?",
+        options: [
+            "(A) Vision", "(B) Hearing", "(C) Circadian rhythm", "(D) Memory", "(E) Digestion"
         ],
-        "correctIndex": 1,
-        "points": 4
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 12,
-        "topic": "Chemistry",
-        "question": "Why does electronegativity increase across a period?",
-        "options": [
-            "(A) Due to increase in atomic size",
-            "(B) Due to increase in effective nuclear charge",
-            "(C) Due to decrease in valency",
-            "(D) Due to addition of new shells"
+        id: 12,
+        topic: "Circadian Rhythm",
+        question: "Melatonin is released by which gland?",
+        options: [
+            "(A) Pituitary", "(B) Thyroid", "(C) Pineal", "(D) Adrenal", "(E) Pancreas"
         ],
-        "correctIndex": 1,
-        "points": 4
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 13,
-        "topic": "Chemistry",
-        "question": "Why is hydrogen not placed with alkali metals in the periodic table?",
-        "options": [
-            "(A) Because hydrogen is a metal",
-            "(B) Because hydrogen has a high atomic number",
-            "(C) Because hydrogen is a non-metal and has different properties",
-            "(D) Because hydrogen is a noble gas"
+        id: 13,
+        topic: "Circadian Rhythm",
+        question: "Which habit improves circadian rhythm?",
+        options: [
+            "(A) Late-night meals", "(B) Irregular sleep", "(C) Consistent sleep time", "(D) Night screen use", "(E) Caffeine at night"
         ],
-        "correctIndex": 2,
-        "points": 4
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 14,
-        "topic": "Chemistry",
-        "question": "What are the group and period of the element with atomic number 17?",
-        "options": [
-            "(A) Group 16, Period 3",
-            "(B) Group 17, Period 2",
-            "(C) Group 17, Period 3",
-            "(D) Group 18, Period 3"
+        id: 14,
+        topic: "Circadian Rhythm",
+        question: "Circadian rhythm disruption can cause?",
+        options: [
+            "(A) Better sleep", "(B) Insomnia", "(C) Improved focus", "(D) Faster digestion", "(E) Stronger immunity"
         ],
-        "correctIndex": 2,
-        "points": 5
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
     },
     {
-        "id": 15,
-        "topic": "Chemistry",
-        "question": "What is the nature of an element with electronic configuration 2,8,3?",
-        "options": [
-            "(A) Non-metal",
-            "(B) Metalloid",
-            "(C) Metal",
-            "(D) Noble gas"
+        id: 15,
+        topic: "Circadian Rhythm",
+        question: "Which worker is most affected by circadian rhythm disturbance?",
+        options: [
+            "(A) Day-shift worker", "(B) Night-shift worker", "(C) Student", "(D) Athlete", "(E) Teacher"
         ],
-        "correctIndex": 2,
-        "points": 5
-    }
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 16,
+        topic: "Circadian Rhythm",
+        question: "Caffeine late at night affects sleep by blocking?",
+        options: [
+            "(A) Melatonin", "(B) Insulin", "(C) Serotonin", "(D) Adrenaline", "(E) Dopamine"
+        ],
+        correctIndex: 0,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 17,
+        topic: "Circadian Rhythm",
+        question: "The internal biological clock is also called?",
+        options: [
+            "(A) Pulse clock", "(B) Heart clock", "(C) Biological clock", "(D) Brain timer", "(E) Sleep counter"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 18,
+        topic: "Circadian Rhythm",
+        question: "Which age group commonly faces circadian rhythm delay?",
+        options: [
+            "(A) Infants", "(B) Children", "(C) Teenagers", "(D) Adults", "(E) Elderly"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 19,
+        topic: "Circadian Rhythm",
+        question: "Blue light mainly comes from?",
+        options: [
+            "(A) Sunset", "(B) Mobile screens", "(C) Moonlight", "(D) Candle", "(E) Bulb filament"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 20,
+        topic: "Circadian Rhythm",
+        question: "Best time to sleep for healthy circadian rhythm?",
+        options: [
+            "(A) After midnight", "(B) Early morning", "(C) Late night", "(D) Consistent night time", "(E) Any time"
+        ],
+        correctIndex: 3,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 21,
+        topic: "Circadian Rhythm",
+        question: "Circadian rhythm also affects?",
+        options: [
+            "(A) Sleep only", "(B) Digestion only", "(C) Hormones and sleep", "(D) Hearing", "(E) Vision"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 22,
+        topic: "Circadian Rhythm",
+        question: "Which activity should be avoided before sleep?",
+        options: [
+            "(A) Reading", "(B) Meditation", "(C) Heavy screen use", "(D) Light stretching", "(E) Dim lights"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 23,
+        topic: "Circadian Rhythm",
+        question: "Waking up at the same time daily helps?",
+        options: [
+            "(A) Digestion", "(B) Heart rate", "(C) Circadian rhythm", "(D) Blood sugar", "(E) Muscle growth"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 24,
+        topic: "Circadian Rhythm",
+        question: "Which hormone increases in early morning?",
+        options: [
+            "(A) Melatonin", "(B) Cortisol", "(C) Insulin", "(D) Estrogen", "(E) Progesterone"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 25,
+        topic: "Circadian Rhythm",
+        question: "Which lifestyle factor worsens circadian rhythm?",
+        options: [
+            "(A) Morning walk", "(B) Sunlight exposure", "(C) Late-night scrolling", "(D) Fixed sleep time", "(E) Exercise"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 26,
+        topic: "Circadian Rhythm",
+        question: "Circadian rhythm disruption may lead to?",
+        options: [
+            "(A) Obesity", "(B) Diabetes", "(C) Mood issues", "(D) All of these", "(E) None"
+        ],
+        correctIndex: 3,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 27,
+        topic: "Circadian Rhythm",
+        question: "Which sense detects light to regulate circadian rhythm?",
+        options: [
+            "(A) Ear", "(B) Skin", "(C) Eyes", "(D) Nose", "(E) Tongue"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 28,
+        topic: "Circadian Rhythm",
+        question: "Sleeping during the day and staying awake at night causes?",
+        options: [
+            "(A) Balanced rhythm", "(B) Circadian misalignment", "(C) Better focus", "(D) Faster recovery", "(E) No effect"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 29,
+        topic: "Circadian Rhythm",
+        question: "Which vitamin is linked with sunlight exposure?",
+        options: [
+            "(A) Vitamin A", "(B) Vitamin B", "(C) Vitamin C", "(D) Vitamin D", "(E) Vitamin K"
+        ],
+        correctIndex: 3,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 30,
+        topic: "Circadian Rhythm",
+        question: "Natural circadian rhythm is aligned with?",
+        options: [
+            "(A) Clock time", "(B) Sun cycle", "(C) Food time", "(D) Work time", "(E) Screen time"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 31,
+        topic: "Circadian Rhythm",
+        question: "Which habit helps reset circadian rhythm fastest?",
+        options: [
+            "(A) Night workouts", "(B) Morning sunlight", "(C) Late dinners", "(D) Midnight snacks", "(E) Blue light"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 32,
+        topic: "Circadian Rhythm",
+        question: "Circadian rhythm is an example of?",
+        options: [
+            "(A) Reflex action", "(B) Biological rhythm", "(C) Voluntary action", "(D) Hormonal disorder", "(E) Nerve impulse"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 33,
+        topic: "Circadian Rhythm",
+        question: "Which system mainly coordinates circadian rhythm?",
+        options: [
+            "(A) Digestive", "(B) Respiratory", "(C) Nervous", "(D) Excretory", "(E) Skeletal"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 34,
+        topic: "Circadian Rhythm",
+        question: "Poor circadian rhythm can affect mental health?",
+        options: [
+            "(A) Yes", "(B) No", "(C) Only children", "(D) Only elderly", "(E) Only athletes"
+        ],
+        correctIndex: 0,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 35,
+        topic: "Circadian Rhythm",
+        question: "Which is NOT controlled by circadian rhythm?",
+        options: [
+            "(A) Sleep", "(B) Hormones", "(C) Body temperature", "(D) Heartbeat", "(E) Alertness"
+        ],
+        correctIndex: 3,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 36,
+        topic: "Circadian Rhythm",
+        question: "Late-night eating affects circadian rhythm by?",
+        options: [
+            "(A) Improving sleep", "(B) Delaying internal clock", "(C) Increasing melatonin", "(D) Reducing stress", "(E) No effect"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 37,
+        topic: "Circadian Rhythm",
+        question: "Which is a sign of circadian rhythm disorder?",
+        options: [
+            "(A) Deep sleep", "(B) Early sleepiness", "(C) Difficulty sleeping at night", "(D) High energy", "(E) Good focus"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 38,
+        topic: "Circadian Rhythm",
+        question: "Which device emits maximum blue light?",
+        options: [
+            "(A) TV", "(B) Laptop", "(C) Mobile phone", "(D) Bulb", "(E) Candle"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 39,
+        topic: "Circadian Rhythm",
+        question: "Which sleep habit is healthiest?",
+        options: [
+            "(A) Random sleep time", "(B) Fixed sleep-wake time", "(C) Late sleep", "(D) Day sleep", "(E) Split sleep"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 40,
+        topic: "Circadian Rhythm",
+        question: "Circadian rhythm disruption increases risk of?",
+        options: [
+            "(A) Better memory", "(B) Chronic diseases", "(C) Faster growth", "(D) Stronger immunity", "(E) None"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 41,
+        topic: "Circadian Rhythm",
+        question: "Which hormone decreases in daylight?",
+        options: [
+            "(A) Cortisol", "(B) Insulin", "(C) Melatonin", "(D) Adrenaline", "(E) Growth hormone"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 42,
+        topic: "Circadian Rhythm",
+        question: "The body clock responds directly to?",
+        options: [
+            "(A) Sound waves", "(B) Light signals", "(C) Smell", "(D) Taste", "(E) Touch"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 43,
+        topic: "Circadian Rhythm",
+        question: "Best way to improve sleep naturally?",
+        options: [
+            "(A) Sleeping pills", "(B) Consistent routine", "(C) Late workouts", "(D) Heavy meals", "(E) Screen time"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 44,
+        topic: "Circadian Rhythm",
+        question: "Which job often disrupts circadian rhythm?",
+        options: [
+            "(A) Teacher", "(B) Farmer", "(C) Night guard", "(D) Doctor (day)", "(E) Shopkeeper"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 45,
+        topic: "Circadian Rhythm",
+        question: "Circadian rhythm is synchronized mainly by?",
+        options: [
+            "(A) Food", "(B) Exercise", "(C) Light", "(D) Water", "(E) Sound"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 46,
+        topic: "Circadian Rhythm",
+        question: "Which activity delays melatonin release?",
+        options: [
+            "(A) Reading", "(B) Meditation", "(C) Screen exposure", "(D) Warm bath", "(E) Dark room"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 47,
+        topic: "Circadian Rhythm",
+        question: "Sleep disorders due to circadian issues are called?",
+        options: [
+            "(A) Insomnia", "(B) Parasomnia", "(C) Circadian rhythm disorders", "(D) Narcolepsy", "(E) Apnea"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 48,
+        topic: "Circadian Rhythm",
+        question: "Which age group needs most sleep?",
+        options: [
+            "(A) Adults", "(B) Teenagers", "(C) Elderly", "(D) Children", "(E) Middle-aged"
+        ],
+        correctIndex: 3,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 49,
+        topic: "Circadian Rhythm",
+        question: "Which factor does NOT reset circadian rhythm?",
+        options: [
+            "(A) Sunlight", "(B) Sleep time", "(C) Meals", "(D) Mobile games", "(E) Routine"
+        ],
+        correctIndex: 3,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 50,
+        topic: "Circadian Rhythm",
+        question: "Best sleep environment includes?",
+        options: [
+            "(A) Bright lights", "(B) Noisy room", "(C) Dark and quiet room", "(D) Warm screens", "(E) Late meals"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 51,
+        topic: "Circadian Rhythm",
+        question: "Circadian rhythm also affects body temperature?",
+        options: [
+            "(A) Yes", "(B) No", "(C) Only in winter", "(D) Only in summer", "(E) Only children"
+        ],
+        correctIndex: 0,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 52,
+        topic: "Circadian Rhythm",
+        question: "Which hormone peaks at night?",
+        options: [
+            "(A) Cortisol", "(B) Insulin", "(C) Melatonin", "(D) Adrenaline", "(E) Glucagon"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 53,
+        topic: "Circadian Rhythm",
+        question: "Which habit helps deep sleep?",
+        options: [
+            "(A) Late caffeine", "(B) Regular routine", "(C) Mobile use", "(D) Heavy dinner", "(E) Late exercise"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 54,
+        topic: "Circadian Rhythm",
+        question: "Circadian rhythm mismatch causes daytime?",
+        options: [
+            "(A) Alertness", "(B) Sleepiness", "(C) Energy", "(D) Focus", "(E) Motivation"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 55,
+        topic: "Circadian Rhythm",
+        question: "Which hormone prepares body for waking up?",
+        options: [
+            "(A) Melatonin", "(B) Cortisol", "(C) Estrogen", "(D) Progesterone", "(E) Oxytocin"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 56,
+        topic: "Circadian Rhythm",
+        question: "Which sense organ sends light info to brain?",
+        options: [
+            "(A) Ear", "(B) Eye", "(C) Skin", "(D) Tongue", "(E) Nose"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 57,
+        topic: "Circadian Rhythm",
+        question: "Circadian rhythm disturbance is common in?",
+        options: [
+            "(A) Athletes", "(B) Night-shift workers", "(C) Children", "(D) Farmers", "(E) Teachers"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 58,
+        topic: "Circadian Rhythm",
+        question: "Which is a natural circadian cue?",
+        options: [
+            "(A) Alarm clock", "(B) Sunrise", "(C) Mobile notification", "(D) TV", "(E) Music"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 59,
+        topic: "Circadian Rhythm",
+        question: "Which improves circadian alignment?",
+        options: [
+            "(A) Sleeping late", "(B) Skipping meals", "(C) Morning routine", "(D) Night gaming", "(E) Late workouts"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 60,
+        topic: "Circadian Rhythm",
+        question: "Circadian rhythm helps maintain?",
+        options: [
+            "(A) Biological balance", "(B) Only sleep", "(C) Only digestion", "(D) Only hormones", "(E) Only heart rate"
+        ],
+        correctIndex: 0,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 61,
+        topic: "Circadian Rhythm",
+        question: "Which hormone reduces stress in morning?",
+        options: [
+            "(A) Melatonin", "(B) Cortisol", "(C) Insulin", "(D) Adrenaline", "(E) Serotonin"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 62,
+        topic: "Circadian Rhythm",
+        question: "Circadian rhythm is innate or learned?",
+        options: [
+            "(A) Learned", "(B) Trained", "(C) Innate", "(D) Artificial", "(E) Random"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 63,
+        topic: "Circadian Rhythm",
+        question: "Which habit damages circadian rhythm the most?",
+        options: [
+            "(A) Late-night screens", "(B) Morning walk", "(C) Fixed routine", "(D) Sunlight", "(E) Meditation"
+        ],
+        correctIndex: 0,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 64,
+        topic: "Circadian Rhythm",
+        question: "Which chemical signals sleep onset?",
+        options: [
+            "(A) Dopamine", "(B) Melatonin", "(C) Cortisol", "(D) Insulin", "(E) Adrenaline"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 65,
+        topic: "Circadian Rhythm",
+        question: "Which improves sleep quality?",
+        options: [
+            "(A) Dark room", "(B) Bright room", "(C) Noise", "(D) Screens", "(E) Late food"
+        ],
+        correctIndex: 0,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 66,
+        topic: "Circadian Rhythm",
+        question: "Circadian rhythm is best described as?",
+        options: [
+            "(A) Random cycle", "(B) 24-hour biological cycle", "(C) Weekly cycle", "(D) Monthly cycle", "(E) Yearly cycle"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 67,
+        topic: "Circadian Rhythm",
+        question: "Which hormone keeps you awake during day?",
+        options: [
+            "(A) Melatonin", "(B) Cortisol", "(C) Progesterone", "(D) Oxytocin", "(E) Estrogen"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 68,
+        topic: "Circadian Rhythm",
+        question: "Which behavior aligns circadian rhythm?",
+        options: [
+            "(A) Sleeping late daily", "(B) Random schedule", "(C) Consistent routine", "(D) Night screens", "(E) Late caffeine"
+        ],
+        correctIndex: 2,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 69,
+        topic: "Circadian Rhythm",
+        question: "Circadian rhythm disruption can affect productivity?",
+        options: [
+            "(A) Yes", "(B) No", "(C) Only students", "(D) Only workers", "(E) Only elderly"
+        ],
+        correctIndex: 0,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
+    {
+        id: 70,
+        topic: "Circadian Rhythm",
+        question: "Best natural way to reset circadian rhythm?",
+        options: [
+            "(A) Sleeping pills", "(B) Morning sunlight", "(C) Late workouts", "(D) Night screens", "(E) Heavy meals"
+        ],
+        correctIndex: 1,
+        points: 4,
+        explanation: "",
+        questionImage: "",
+        optionImages: []
+    },
 ];
-
-const a3 = [1, 2, 1, 1, 1, 2, 2, 2, 0, 2, 1, 1, 2, 2, 2];
-
 
 // Combine and flatten questions with their answers
 const q1WithAnswers = q1.map((q, i) => ({ ...q, answer: a1[i] }));

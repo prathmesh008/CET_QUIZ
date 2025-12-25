@@ -65,6 +65,7 @@ export default function QuizSelection() {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard', 'performance', 'history'
+    const [selectedQuizId, setSelectedQuizId] = useState(null);
 
     useEffect(() => {
         if (rollNumber) {
@@ -84,7 +85,12 @@ export default function QuizSelection() {
         localStorage.removeItem('quizTimer');
         dispatch(resetallaction());
         dispatch(resetQuizData());
-        navigate('/quiz');
+        if (selectedQuizId) {
+            navigate('/quiz', { state: { quizId: selectedQuizId } });
+        } else {
+            navigate('/quiz');
+        }
+        setSelectedQuizId(null);
     };
 
     const logout = () => {
@@ -93,10 +99,9 @@ export default function QuizSelection() {
     };
 
     const retryQuiz = (quizId) => {
-        localStorage.removeItem('quizTimer');
-        dispatch(resetallaction());
-        dispatch(resetQuizData());
-        navigate('/quiz', { state: { quizId } });
+        localStorage.removeItem(`quiz_submitted_${quizId}`);
+        setSelectedQuizId(quizId);
+        setShowModal(true);
     };
 
     // --- Stats Logic ---

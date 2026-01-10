@@ -3,7 +3,7 @@ import results from "../models/resultschema.js";
 import User from "../models/userSchema.js";
 import quizzes from '../Database/data.js'
 
-// --- Helpers ---
+
 const AVAILABLE_EXAMS = [
     { id: 'IIT-JEE', label: 'IIT-JEE (Engineering)', subjects: ['Physics', 'Chemistry', 'Mathematics'] },
     { id: 'NEET', label: 'NEET (Medical)', subjects: ['Physics', 'Chemistry', 'Biology'] },
@@ -13,19 +13,19 @@ const AVAILABLE_EXAMS = [
 ];
 
 const determineExamType = (topic) => {
-    // Map topics to Exams
+
     const t = topic?.toLowerCase() || "";
     if (t.includes('logic') || t.includes('numerical') || t.includes('reasoning')) return ['Bank PO', 'SSC'];
     if (t.includes('circadian') || t.includes('biology')) return ['NEET'];
     if (t.includes('verbal')) return ['Bank PO', 'SSC'];
     if (t.includes('physics') || t.includes('chem')) return ['IIT-JEE', 'NEET'];
     if (t.includes('math')) return ['IIT-JEE', 'SSC'];
-    return ['General']; // Default
+    return ['General'];
 };
 
-// --- Endpoints ---
 
-// --- Endpoints ---
+
+
 
 export async function getExams(req, res) {
     try {
@@ -43,7 +43,7 @@ export async function updateExamEnrollment(req, res) {
         let user = await User.findOne({ rollNumber });
         if (!user) throw new Error("User not found (Must start via Login)");
 
-        // Allow creating user here effectively if logic changes, but safer to rely on session start
+
         if (activeExam) {
             user.currentExam = activeExam;
             if (!user.enrolledExams.includes(activeExam)) {
@@ -63,7 +63,7 @@ export async function getQuestions(req, res) {
         const { id, ids, examType } = req.query;
         let q = [];
 
-        // Special handling for Retaking Practice Quizzes (which use dynamic IDs)
+
         if (id && id.startsWith('practice-')) {
             const resultRecord = await results.findOne({ quizId: id });
             if (resultRecord && resultRecord.questionIds && resultRecord.questionIds.length > 0) {
@@ -73,7 +73,7 @@ export async function getQuestions(req, res) {
             }
         }
 
-        // Standard Fetch
+
         if (q.length === 0) {
             if (ids) {
                 const idList = ids.split(',');
@@ -81,7 +81,7 @@ export async function getQuestions(req, res) {
             } else if (id) {
                 q = await Questions.find({ quizId: id });
             } else {
-                // Filter by Exam Type if provided
+
                 const query = {};
                 if (examType && examType !== 'All') {
                     query.examType = { $in: [examType] };
@@ -90,7 +90,7 @@ export async function getQuestions(req, res) {
             }
         }
 
-        // Wrapper for specialized clients
+
         if (id || ids) {
             if (q.length > 0) {
                 const responseQuestions = q.map(quest => ({
@@ -133,7 +133,7 @@ export async function insertquestions(req, res) {
         for (const q of quizzes) {
             const exists = await Questions.findOne({ question: q.question });
             if (!exists) {
-                // Auto-tagging fallback
+
                 const derivedExamType = q.examType || determineExamType(q.topic);
                 const derivedSubject = q.subject || q.topic;
 
@@ -207,29 +207,32 @@ export async function dropResult(req, res) {
 
 export async function startPractice(req, res) {
     try {
-        const { username, rollNumber } = req.query;
+        const { username, rollNumber, examType } = req.query;
         if (!username || !rollNumber) throw new Error("Username and Roll Number are required");
 
-        // 1. Fetch User Context
         let user = await User.findOne({ rollNumber });
         if (!user) {
-            // In this logic, user must exist. But for robustness:
-            // If coming from login this shouldn't happen usually
-            // If we fallback, assume 'General'
-            user = await User.create({ username, rollNumber, currentExam: 'General', enrolledExams: ['General'] });
+            user = await User.create({ username, rollNumber, currentExam: examType || 'General', enrolledExams: [examType || 'General'] });
+        } else if (examType && user.currentExam !== examType) {
+            // Update context if explicit examType provided
+            user.currentExam = examType;
+            if (!user.enrolledExams.includes(examType)) {
+                user.enrolledExams.push(examType);
+            }
+            await user.save();
         }
 
         const targetExam = user.currentExam || 'General';
 
-        // Fetch unattempted questions filtered by Exam Type
-        // We look for questions that contain the targetExam in their examType array
+
+
         let questionPool = await Questions.find({
             _id: { $nin: user.attemptedQuestions || [] },
             examType: { $in: [targetExam] }
         }).limit(24);
 
         if (questionPool.length === 0) {
-            // Reset Progress logic if needed, OR just return empty saying content exhausted
+
             return res.status(404).json({ error: `No more questions available for ${targetExam}.` });
         }
 
@@ -249,7 +252,7 @@ export async function startPractice(req, res) {
 
         const responseAnswers = questionPool.map(q => q.answer);
 
-        // Track session
+
         user.currentSessionQuestions = questionPool.map(q => q._id);
         await user.save();
 

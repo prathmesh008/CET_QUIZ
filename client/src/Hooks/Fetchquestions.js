@@ -16,10 +16,10 @@ export const useFetchQuestions = (quizId, userid, rollNumber, examType) => {
                 if (quizId) {
                     url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions?id=${quizId}`;
                 } else if (userid && rollNumber) {
-                    // Practice Mode: Automatic assignment
+                    
                     url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/practice/start?username=${userid}&rollNumber=${rollNumber}&examType=${examType || 'General'}`;
                 } else {
-                    // Fallback or Error
+                    
                     url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions`;
                 }
 
@@ -29,7 +29,7 @@ export const useFetchQuestions = (quizId, userid, rollNumber, examType) => {
                     setGetData(prev => ({ ...prev, isLoading: false }));
                     setGetData(prev => ({ ...prev, apiData: questions }));
 
-                    /** dispatch an action */
+                    
                     dispatch(Action.startExamAction({ question: questions, answers, quizId: fetchedQuizId }))
 
                 } else {
@@ -46,19 +46,19 @@ export const useFetchQuestions = (quizId, userid, rollNumber, examType) => {
 }
 
 
-/** MoveAction Dispatch function */
+
 export const MoveNextQuestion = () => async (dispatch) => {
     try {
-        dispatch(Action.movenextquestion()); /** increase trace by 1 */
+        dispatch(Action.movenextquestion()); 
     } catch (error) {
         console.log(error)
     }
 }
 
-/** PrevAction Dispatch function */
+
 export const MovePrevQuestion = () => async (dispatch) => {
     try {
-        dispatch(Action.moveprevquestion()); /** decrease trace by 1 */
+        dispatch(Action.moveprevquestion()); 
     } catch (error) {
         console.log(error)
     }

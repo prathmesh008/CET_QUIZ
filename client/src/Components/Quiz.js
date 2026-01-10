@@ -25,13 +25,13 @@ export default function Quiz() {
     const stateExamType = location.state?.examType;
     const currentExamType = stateExamType || activeExam || 'General';
 
-    // activeQuizId is the one we use for Logic (Submission check, Back button, etc.)
+    
     const activeQuizId = stateQuizId || reduxQuizId;
 
-    // Only pass stateQuizId to fetcher. If undefined, fetcher initiates new session.
+    
     const [{ isLoading, serverError }] = useFetchQuestions(stateQuizId, userid, rollNumber, currentExamType);
 
-    // ESC Key Listener for Modal
+    
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (showSubmitModal && e.key === 'Escape') {
@@ -42,16 +42,16 @@ export default function Quiz() {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [showSubmitModal]);
 
-    // Access Control & Guard
+    
     useEffect(() => {
-        // 1. Check for Reload (Refreshed Page)
-        // This MUST be checked first to prevent startin a new session on reload
+        
+        
         const navEntries = performance.getEntriesByType("navigation");
         let isReload = false;
 
-        // Check if we already handled this reload event in the current SPA session
-        // This prevents the 'Reload' status from persisting if the user is redirected to Dashboard
-        // and then navigates BACK to the Quiz (since performance entries are static for the document)
+        
+        
+        
         if (window.quizReloadHandled) {
             console.log("DEBUG: Reload already handled in this session. Treating as navigation.");
         } else {
@@ -82,30 +82,30 @@ export default function Quiz() {
 
         if (isReload) {
             console.log("DEBUG: Reload detected -> Triggering Submit Modal");
-            // Mark as handled so we don't re-trigger loop
+            
             window.quizReloadHandled = true;
 
-            // Show the Submit Modal immediately
+            
             setShowSubmitModal(true);
             return;
         }
 
         if (!activeQuizId) {
             console.log("DEBUG: No activeQuizId");
-            // If we are showing modal due to reload, we might not have activeQuizId if state was lost...
-            // But if state is lost, showing modal is tricky because submitting might fail.
-            // Assuming Redux state rehydrates or we accept this risk as per user request.
+            
+            
+            
             if (!isReload) return;
         }
 
         const isSubmitted = localStorage.getItem(`quiz_submitted_${activeQuizId}`);
         if (isSubmitted) {
-            // User reloaded or revisited a submitted quiz -> Go to Dashboard
+            
             setFinish('dashboard');
         }
     }, [activeQuizId]);
 
-    // Reload/Close Tab/Back Button Logic
+    
     useEffect(() => {
         if (finish || !activeQuizId) return;
 
@@ -116,10 +116,10 @@ export default function Quiz() {
         };
 
         const handleUnload = () => {
-            // Mark as submitted immediately to prevent re-entry
+            
             localStorage.setItem(`quiz_submitted_${activeQuizId}`, 'true');
 
-            // Calculate stats locally
+            
             const totalPoints = (queue || []).reduce((prev, curr) => prev + (curr.points || 1), 0);
             const attemptCount = attempts(result);
             const earnPoint = earnpoints(result, answers, (queue || []));
@@ -137,28 +137,28 @@ export default function Quiz() {
             };
 
             const blob = new Blob([JSON.stringify(submissionData)], { type: 'application/json' });
-            // Use sendBeacon for reliable background sending on unload
+            
             navigator.sendBeacon(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/practice/submit`, blob);
         };
 
-        // Handle Back Button
+        
         const handlePopState = (e) => {
-            // Prevent leaving quiz. 
-            // We want Back Button to act as "Submit Assessment"
+            
+            
 
-            // Push state back immediately to lock navigation
+            
             window.history.pushState(null, document.title, window.location.href);
 
             const confirmSubmit = window.confirm("Going back will submit your test. Are you sure you want to proceed?");
             if (confirmSubmit) {
-                // Treat as Submission
+                
                 localStorage.removeItem('quizTimer');
                 localStorage.setItem(`quiz_submitted_${activeQuizId}`, 'true');
-                setFinish(true); // Triggers redirect to /result
+                setFinish(true); 
             }
         };
 
-        // Push state to trap back button
+        
         window.history.pushState(null, document.title, window.location.href);
 
         window.addEventListener('beforeunload', handleBeforeUnload);
@@ -170,31 +170,31 @@ export default function Quiz() {
             window.removeEventListener('unload', handleUnload);
             window.removeEventListener('popstate', handlePopState);
         };
-    }, [queue, result, answers, userid, rollNumber, activeQuizId, finish]); // Dependencies for latest state
+    }, [queue, result, answers, userid, rollNumber, activeQuizId, finish]); 
 
-    // Section Logic Derived from Trace
+    
     const activeSectionName = trace < 8 ? "3 point" : (trace < 16 ? "4 point" : "5 point");
 
-    // Handle Next Section Click
+    
     const handleNextSection = () => {
         let nextIndex = 0;
         if (trace < 8) {
-            nextIndex = 8; // Jump to Section 2
+            nextIndex = 8; 
         } else if (trace < 16) {
-            nextIndex = 16; // Jump to Section 3
+            nextIndex = 16; 
         } else {
-            nextIndex = 0; // Cycle back to Section 1
+            nextIndex = 0; 
         }
 
-        // Dispatch Jump if within bounds (safety check)
+        
         if (queue.length > 0) {
-            // If nextIndex is beyond queue, clamp it? Or just go to 0.
+            
             if (nextIndex >= queue.length) nextIndex = 0;
             dispatch(jumpToQuestion(nextIndex));
         }
     };
 
-    // Initial Visited
+    
     useEffect(() => {
         if (queue.length > 0) {
             dispatch(setVisitedAction(trace));
@@ -202,11 +202,11 @@ export default function Quiz() {
     }, [trace, queue, dispatch]);
 
     const onSaveAndNext = () => {
-        // Unmark if previously marked
+        
         if (marked && marked[trace]) {
             dispatch(unsetMarkedAction(trace));
         }
-        // Move next
+        
         if (trace < queue.length - 1) {
             dispatch(movenextquestion());
         }
@@ -227,16 +227,16 @@ export default function Quiz() {
         setShowSubmitModal(true);
     };
 
-    // --- EARLY RETURNS (Executed after all Hooks) ---
+    
     if (isLoading) return <div style={{ textAlign: 'center', marginTop: '20%' }}>Loading Test Interface...</div>;
     if (serverError) return <div style={{ textAlign: 'center', marginTop: '20%', color: 'red' }}>{serverError.message}</div>;
     if (!activeQuizId && !finish) return <Navigate to="/select-quiz" replace={true} />;
 
-    // Redirect logic
+    
     if (finish === 'dashboard') return <Navigate to="/select-quiz" replace={true} />;
     if (finish) return <Navigate to="/result" state={{ quizId: activeQuizId }} replace={true} />;
 
-    // Legend Stats
+    
     let stats = { answered: 0, notAnswered: 0, notVisited: 0, marked: 0, markedAnswered: 0 };
     if (queue) {
         queue.forEach((_, i) => {
@@ -254,10 +254,10 @@ export default function Quiz() {
 
     return (
         <div className="quiz-container">
-            {/* LEFT CONTAINER (Header + Question Area) - Adapts width */}
+            {}
             <div className="left-section-container">
-                {/* 1. Header (Restricted to Left Panel) */}
-                {/* 1. Header (Fieldset Style) */}
+                {}
+                {}
                 <fieldset className="quiz-header-fieldset">
                     <legend className="header-legend">Sections</legend>
                     <div className="section-tab">
@@ -265,7 +265,7 @@ export default function Quiz() {
                     </div>
                 </fieldset>
 
-                {/* 2. Main Body (Left Panel Content only) */}
+                {}
                 <div className="left-panel">
                     <div className="question-header-bar">
                         <span className="q-label">Question No. {trace + 1}</span>
@@ -286,35 +286,27 @@ export default function Quiz() {
                 </div>
             </div>
 
-            {/* SIDEBAR TOGGLE HANDLE */}
+            {}
             <div className="sidebar-toggle" onClick={() => setShowSidebar(!showSidebar)} title="Toggle Sidebar">
                 {showSidebar ? '>>' : '<<'}
             </div>
 
-            {/* RIGHT PANEL (Sidebar) - Conditionally Rendered */}
+            {}
             {showSidebar && (
                 <div className="right-panel">
-                    {/* Timer moved here or profile? Usually timer is top right. Profile is here. */}
-                    {/* User asked for Palette Container to go to top. 
-                    Let's put Profile + Timer in sidebar header? 
-                    Or keep Timer in top right of sidebar? 
-                    Reference usually has layout like:
-                    [ Left Header ] [ Timer/Profile ]
-                    [ Left Content] [ Palette       ]
-                    
-                    But if Right Panel is single flex column, we place them inside.
-                */}
+                    {}
+                    {}
                     <div className="sidebar-header">
-                        {/* Profile + Timer Layout: Photo Left, Timer Right */}
+                        {}
                         <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', padding: '0 10px' }}>
 
-                            {/* Left: User Photo */}
+                            {}
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <div className="user-img-large" style={{ marginBottom: '5px' }}></div>
                                 <div style={{ fontSize: '20px', color: '#555' }}>{userid || "Candidate"}</div>
                             </div>
 
-                            {/* Right: Timer & Info */}
+                            {}
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center' }}>
                                 <div style={{ fontWeight: 'bold', fontSize: '24px', marginBottom: '5px' }}>Time Left:</div>
                                 <div className="timer-pill">
@@ -360,7 +352,7 @@ export default function Quiz() {
                 </div>
             )}
 
-            {/* Submit Modal */}
+            {}
             {showInstructionsModal && (
                 <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 10000 }}>
                     <div style={{ background: 'white', padding: '25px', borderRadius: '5px', maxWidth: '600px', width: '90%', maxHeight: '85vh', overflowY: 'auto', borderTop: '5px solid #337ab7', boxShadow: '0 5px 15px rgba(0,0,0,0.3)' }}>
@@ -447,13 +439,13 @@ export default function Quiz() {
                 </div>
             )}
 
-            {/* Question Paper Modal */}
-            {/* CBT Question Paper Modal */}
+            {}
+            {}
             {showQuestionPaper && (
                 <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 10001 }}>
                     <div style={{ background: '#f1f5f9', width: '95%', height: '95%', display: 'flex', flexDirection: 'column', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
 
-                        {/* 1. Header Bar */}
+                        {}
                         <div style={{ padding: '0 20px', height: '60px', background: '#347ab7', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
                             <div style={{ fontWeight: '700', fontSize: '1.25rem' }}>Question Paper</div>
                             <button
@@ -464,21 +456,21 @@ export default function Quiz() {
                             </button>
                         </div>
 
-                        {/* 2. Content Area (Split Panel) */}
+                        {}
                         <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
 
-                            {/* LEFT PANEL: Navigation & Status */}
+                            {}
                             <div style={{ width: '320px', background: 'white', borderRight: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
 
-                                {/* Section Tabs (Mock Logic based on index range) */}
+                                {}
                                 <div style={{ display: 'flex', borderBottom: '1px solid #e2e8f0', background: '#f8fafc' }}>
                                     <div style={{ flex: 1, padding: '12px', textAlign: 'center', background: 'white', borderBottom: '2px solid #347ab7', fontWeight: 'bold', color: '#1e293b', fontSize: '0.9rem', cursor: 'pointer' }}>
                                         All Sections
                                     </div>
-                                    {/* Additional tabs could be added dynamically if sections were strictly defined */}
+                                    {}
                                 </div>
 
-                                {/* Question Grid */}
+                                {}
                                 <div style={{ flex: 1, overflowY: 'auto', padding: '16px', alignContent: 'flex-start' }}>
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px' }}>
                                         {queue.map((_, i) => {
@@ -486,15 +478,15 @@ export default function Quiz() {
                                             const isAnswered = result && result[i] !== undefined;
                                             const isMarked = marked && marked[i];
 
-                                            // Determine Style based on Status
-                                            let bg = '#e2e8f0'; // Not Visited (Grey)
+                                            
+                                            let bg = '#e2e8f0'; 
                                             let color = '#475569';
                                             let border = 'none';
 
                                             if (!isVisited) {
                                                 bg = '#f1f5f9';
                                             } else if (isMarked && isAnswered) {
-                                                bg = '#7e22ce'; // Purple (Marked & Answered)
+                                                bg = '#7e22ce'; 
                                                 color = 'white';
                                                 border = 'none';
                                             } else if (isMarked) {
@@ -502,14 +494,14 @@ export default function Quiz() {
                                                 color = '#7e22ce';
                                                 border = '2px solid #7e22ce';
                                             } else if (isAnswered) {
-                                                bg = '#22c55e'; // Green (Answered)
+                                                bg = '#22c55e'; 
                                                 color = 'white';
                                             } else {
-                                                bg = '#ef4444'; // Red (Not Answered) (Assuming visited means red if no answer?)
-                                                // Actually CBT logic: Visited + No Answer = Red. Not Visited = Grey.
+                                                bg = '#ef4444'; 
+                                                
                                                 color = 'white';
                                             }
-                                            // Override for strictly "Not Visited"
+                                            
                                             if (!isVisited) { bg = '#f1f5f9'; color = '#000'; border = '1px solid #cbd5e1'; }
 
 
@@ -523,7 +515,7 @@ export default function Quiz() {
                                                     style={{
                                                         width: '40px',
                                                         height: '40px',
-                                                        borderRadius: '50%', // Circle or Rounded Square depending on preference. CBT usually rounded square/circle.
+                                                        borderRadius: '50%', 
                                                         background: bg,
                                                         color: color,
                                                         border: border || 'none',
@@ -542,7 +534,7 @@ export default function Quiz() {
                                     </div>
                                 </div>
 
-                                {/* Legend */}
+                                {}
                                 <div style={{ padding: '16px', background: '#f8fafc', borderTop: '1px solid #e2e8f0', fontSize: '0.8rem' }}>
                                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><div style={{ width: '16px', height: '16px', background: '#22c55e', borderRadius: '50%' }}></div> Answered</div>
@@ -553,7 +545,7 @@ export default function Quiz() {
                                 </div>
                             </div>
 
-                            {/* RIGHT PANEL: Question List (Read-Only) */}
+                            {}
                             <div style={{ flex: 1, padding: '30px', overflowY: 'auto', background: '#ffffff' }}>
                                 {queue.map((q, index) => (
                                     <div key={index} style={{ marginBottom: '32px', paddingBottom: '24px', borderBottom: '1px solid #e2e8f0' }}>

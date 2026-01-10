@@ -17,7 +17,7 @@ router.get('/practice/start', Controller.startPractice);
 router.post('/practice/submit', Controller.submitPractice);
 router.get('/user/history', Controller.getUserHistory);
 
-// New Routes
+
 router.get('/exams', Controller.getExams);
 router.post('/user/enroll', Controller.updateExamEnrollment);
 

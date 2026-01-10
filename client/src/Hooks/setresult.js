@@ -22,10 +22,10 @@ export const usepublishresult = (resultdata) => {
 
     (async () => {
         try {
-            // FIX 1: correct empty check
+            
             const resultEmpty = !result || result.length === 0;
 
-            // FIX 2: Relaxed condition - Allow empty result if username exists
+            
             if (!username) {
                 throw new Error("no username");
             }

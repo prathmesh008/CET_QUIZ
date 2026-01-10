@@ -1,4 +1,4 @@
-/* Result.css - Refactored for Exam Interface Style */
+
 
 .container {
     background: #ffffff !important;
@@ -7,7 +7,7 @@
     font-family: Arial, sans-serif;
     color: #000;
     overflow-y: auto;
-    /* Enable vertical scrolling */
+    
 }
 
 .title {
@@ -25,7 +25,7 @@
     flex-direction: column;
     background: #fff;
     border: 1px solid #ccc;
-    /* Simple border */
+    
     border-radius: 4px;
     padding: 40px;
     gap: 15px;
@@ -57,7 +57,7 @@
     color: #000;
 }
 
-/* Status Colors */
+
 
 .start {
     margin-top: 30px;
@@ -70,7 +70,7 @@
 .start .btn {
     padding: 10px 20px;
     border-radius: 2px;
-    /* Rectangular */
+    
     color: #fff;
     font-size: 14px;
     font-weight: bold;
@@ -84,7 +84,7 @@
     cursor: pointer;
 }
 
-/* Restart - Orange/Yellow */
+
 .start .btn:first-child {
     background-color: #f0ad4e;
     border-color: #eea236;
@@ -94,7 +94,7 @@
     background-color: #ec971f;
 }
 
-/* Result Details - Blue */
+
 .start .btn:last-child {
     background-color: #337ab7;
     border-color: #2e6da4;
@@ -104,11 +104,11 @@
     background-color: #286090;
 }
 
-/* Table overrides if used in details */
+
 table {
     width: 100%;
     border-collapse: collapse;
-    /* Standard table */
+    
     margin-top: 20px;
 }
 

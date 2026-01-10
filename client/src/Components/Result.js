@@ -10,12 +10,12 @@ import { resetresultaction } from '../Redux/Resultreducer.js';
 import { usepublishresult } from '../Hooks/setresult.js';
 function Result() {
     const location = useLocation();
-    // Removed old quizId extraction
+    
     const dispatch = useDispatch();
     const { questions: { queue, answers, quizId: reduxQuizId }, result: { result, userid, rollNumber } } = useSelector(state => state);
     const quizId = location.state?.quizId || reduxQuizId || 'quiz1';
 
-    // ... existing math ...
+    
     const totalpoints = queue.reduce((prev, curr) => prev + (curr.points || 1), 0);
     const attempt = attempts(result);
     const earnpoint = earnpoints(result, answers, queue)
@@ -25,7 +25,7 @@ function Result() {
         usepublishresult({
             result,
             username: userid,
-            rollNumber, // Added rollNumber
+            rollNumber, 
             attempts: attempt,
             points: earnpoint,
             acheived: flag ? "Passed" : "Failed",
@@ -38,17 +38,17 @@ function Result() {
         navigate('/select-quiz');
     }
 
-    // Calculate accuracy for display
+    
     const accuracy = queue.length > 0 ? Math.round((earnpoint / totalpoints) * 100) : 0;
 
-    // Mock time taken for now as it's not strictly tracked in global state yet, 
-    // or passed via location state if available. If not, maybe show "-"
+    
+    
     const timeTaken = location.state?.timeTaken || "--";
 
     return (
         <DashboardLayout activePage="results">
             <div style={{ maxWidth: '800px', margin: '0 auto', fontFamily: '"Inter", "Segoe UI", sans-serif' }}>
-                {/* Header in Layout Context */}
+                {}
                 <div style={{ marginBottom: '32px' }}>
                     <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: '#0f172a', margin: '0 0 8px 0' }}>Assessment Result</h1>
                     <p style={{ fontSize: '1.05rem', color: '#64748b', margin: 0 }}>Summary of your submitted attempt</p>
@@ -62,7 +62,7 @@ function Result() {
                     overflow: 'hidden',
                     border: '1px solid #e2e8f0'
                 }}>
-                    {/* Result Summary Section */}
+                    {}
                     <div style={{ padding: '40px' }}>
                         <div style={{
                             display: 'grid',
@@ -103,7 +103,7 @@ function Result() {
                             </span>
                         </div>
 
-                        {/* Action Buttons */}
+                        {}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '400px', margin: '0 auto' }}>
                             <Link
                                 to={'/result-details'}

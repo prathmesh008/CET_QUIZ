@@ -7,7 +7,7 @@ export default function QuestionNavigator() {
     const { result } = useSelector(state => state.result);
     const dispatch = useDispatch();
 
-    if (!queue) return null; // Safety check
+    if (!queue) return null; 
 
     const handleJump = (index) => {
         dispatch(jumpToQuestion(index));
@@ -16,7 +16,7 @@ export default function QuestionNavigator() {
     return (
         <div className="palette-grid">
             {queue.map((q, index) => {
-                // Determine Section Range based on 'trace'
+                
                 let sectionStart = 0;
                 let sectionEnd = 8;
 
@@ -28,10 +28,10 @@ export default function QuestionNavigator() {
                     sectionEnd = 16;
                 }
 
-                // If this question is NOT in the current section, don't render it
+                
                 if (index < sectionStart || index >= sectionEnd) return null;
 
-                // Existing logic...
+                
                 const isVisited = visited && visited[index];
                 const isAnswered = result && result[index] !== undefined && result[index] !== null;
                 const isMarked = marked && marked[index];

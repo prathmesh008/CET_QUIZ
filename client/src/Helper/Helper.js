@@ -11,22 +11,22 @@ export function attempts(result) {
 export function earnpoints(result, answers, queue, negativeMarking = 0) {
     let totalScore = 0;
 
-    // Safety check just in case
+    
     if (!result || !answers || !queue) return 0;
 
     for (let i = 0; i < queue.length; i++) {
-        // If user hasn't attempted, result[i] will be undefined
+        
         const userAnswer = result[i];
         const correctAnswer = answers[i];
-        const questionPoints = queue[i]?.points || 1; // Default to 1 mark if undefined
+        const questionPoints = queue[i]?.points || 1; 
 
-        // Check if user attempted the question
+        
         if (userAnswer !== undefined && userAnswer !== null) {
             if (userAnswer === correctAnswer) {
-                // Correct Answer
+                
                 totalScore += questionPoints;
             } else {
-                // Incorrect Answer (optional negative marking)
+                
                 totalScore -= negativeMarking;
             }
         }
@@ -35,18 +35,18 @@ export function earnpoints(result, answers, queue, negativeMarking = 0) {
 }
 
 export function flagresult(totalPoints, earnPoints) {
-    return (totalPoints * 33 / 100) <= earnPoints; /** earn 33% marks */
+    return (totalPoints * 33 / 100) <= earnPoints; 
 }
 
-/** check user auth  */
-/** check user auth  */
+
+
 export function CheckUserExist({ children }) {
     const auth = useSelector(state => state.result.userid);
     const dispatch = useDispatch();
     const [isChecking, setIsChecking] = useState(true);
 
     useEffect(() => {
-        // If auth is missing, try to restore from localStorage
+        
         if (!auth) {
             const savedData = localStorage.getItem('quiz_auth_data');
             if (savedData) {
@@ -71,14 +71,14 @@ export function CheckUserExist({ children }) {
     return <Navigate to={'/'} replace={true}></Navigate>
 }
 
-/** get server data */
+
 export async function getServerData(url, callback) {
     const data = await (await axios.get(url))?.data;
     return callback ? callback(data) : data;
 }
 
 
-/** post server data */
+
 export async function postServerData(url, result, callback) {
     const data = await (await axios.post(url, result))?.data;
     return callback ? callback(data) : data;

@@ -14,7 +14,7 @@ function Main() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch Exams
+        
         getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/exams`, (data) => {
             setExams(data || []);
             if (data && data.length > 0) setSelectedExam(data[0].id);
@@ -35,26 +35,26 @@ function Main() {
             return;
         }
 
-        // 1. Dispatch State Locally
+        
         dispatch(setuserid(name));
         dispatch(setRollNumber(roll));
         dispatch(setActiveExam(selectedExam));
 
-        // 2. Persist to Local Storage (Client-side fail-safe)
+        
         localStorage.setItem('quiz_auth_data', JSON.stringify({
             userid: name,
             rollNumber: roll,
             activeExam: selectedExam
         }));
 
-        // 3. Persist to Server (Truth)
+        
         try {
             await postServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/user/enroll`, {
                 rollNumber: roll,
                 activeExam: selectedExam
             });
-            // Proceed only after server confirmation for robustness, 
-            // though we could do it optimistically. Waiting ensures "Lock" logic is respected.
+            
+            
             navigate('/select-quiz');
         } catch (error) {
             console.error(error);
@@ -65,7 +65,7 @@ function Main() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', background: '#f5f7fa', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif' }}>
 
-            {/* Assessment Portal Card */}
+            {}
             <div style={{
                 background: '#ffffff',
                 padding: '40px',
@@ -76,13 +76,13 @@ function Main() {
                 boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
             }}>
 
-                {/* Header */}
+                {}
                 <div style={{ marginBottom: '25px', textAlign: 'center', borderBottom: '1px solid #e1e4e8', paddingBottom: '20px' }}>
                     <h2 style={{ margin: '0 0 5px 0', fontSize: '1.5rem', color: '#24292e', fontWeight: '700' }}>Assessment Login Portal</h2>
                     <p style={{ margin: '0', fontSize: '0.9rem', color: '#586069' }}>Computer-Based Test (CBT) Environment</p>
                 </div>
 
-                {/* Instruction Block */}
+                {}
                 <div style={{
                     background: '#f6f8fa',
                     border: '1px solid #e1e4e8',
@@ -96,7 +96,7 @@ function Main() {
                     <strong>Instructions:</strong> Please enter your details and select the exam category you wish to attempt.
                 </div>
 
-                {/* Input Fields */}
+                {}
                 <div style={{ marginBottom: '25px' }}>
                     <div style={{ marginBottom: '15px' }}>
                         <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', color: '#24292e', marginBottom: '8px' }}>Candidate Name</label>
@@ -168,7 +168,7 @@ function Main() {
                     </div>
                 </div>
 
-                {/* Submit Logic */}
+                {}
                 <button
                     onClick={handleLogin}
                     style={{
@@ -189,7 +189,7 @@ function Main() {
                     Proceed to Assessment
                 </button>
 
-                {/* Footer Disclaimer */}
+                {}
                 <p style={{
                     marginTop: '20px',
                     textAlign: 'center',

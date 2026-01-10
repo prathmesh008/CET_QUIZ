@@ -33,12 +33,12 @@ export default function DashboardLayout({ children, activePage = 'dashboard', on
         } else if (onTabChange) {
             onTabChange(item.id);
         }
-        setIsMobileOpen(false); // Close mobile menu on navigate
+        setIsMobileOpen(false); 
     };
 
     return (
         <div className="dashboard-container-flex">
-            {/* Mobile Overlay */}
+            {}
             {isMobileOpen && (
                 <div
                     style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 40 }}
@@ -46,9 +46,9 @@ export default function DashboardLayout({ children, activePage = 'dashboard', on
                 />
             )}
 
-            {/* Persistent Left Sidebar */}
+            {}
             <div className={`dashboard-sidebar ${isMobileOpen ? 'open' : ''}`}>
-                {/* Logo Area */}
+                {}
                 <div style={{ padding: '32px 24px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h2 style={{ margin: 0, fontSize: '1.25rem', color: '#0f172a', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <div style={{ width: '32px', height: '32px', background: 'linear-gradient(135deg, #347ab7 0%, #1e40af 100%)', borderRadius: '8px' }}></div>
@@ -59,7 +59,7 @@ export default function DashboardLayout({ children, activePage = 'dashboard', on
                     </button>
                 </div>
 
-                {/* Navigation Items */}
+                {}
                 <div style={{ flex: 1, padding: '32px 16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {navItems.map(item => (
                         <div
@@ -85,7 +85,7 @@ export default function DashboardLayout({ children, activePage = 'dashboard', on
                     ))}
                 </div>
 
-                {/* User Profile & Logout */}
+                {}
                 <div style={{ padding: '24px', borderTop: '1px solid #f1f5f9', background: '#f8fafc' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
                         <div style={{
@@ -137,13 +137,13 @@ export default function DashboardLayout({ children, activePage = 'dashboard', on
                 </div>
             </div>
 
-            {/* Main Content Area */}
+            {}
             <div className="dashboard-main">
                 <div style={{ padding: '16px 20px', background: 'white', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', minHeight: '64px' }}>
                     <button className="mobile-menu-toggle" style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer' }} onClick={() => setIsMobileOpen(true)}>
                         <Menu size={24} color="#0f172a" />
                     </button>
-                    {/* Optional Top Bar Content */}
+                    {}
                 </div>
 
                 <div className="dashboard-content-wrapper">

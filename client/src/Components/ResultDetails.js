@@ -7,9 +7,9 @@ import DashboardLayout from './DashboardLayout';
 export default function ResultDetails() {
     const location = useLocation();
     const navigate = useNavigate();
-    const { result } = location.state || {}; // { username, result: [], points, questionIds: [], ... }
+    const { result } = location.state || {}; 
 
-    // Local state for fetched questions
+    
     const [questions, setQuestions] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -21,24 +21,24 @@ export default function ResultDetails() {
             try {
                 let url;
                 if (result.questionIds && result.questionIds.length > 0) {
-                    // Fetch specific questions by IDs
+                    
                     const idsParam = result.questionIds.join(',');
                     url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions?ids=${idsParam}`;
                 } else if (result.quizId && !result.quizId.startsWith('practice-')) {
-                    // Legacy: Fetch by static quizId
+                    
                     url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions?id=${result.quizId}`;
                 } else {
-                    // Fallback: This might fail for dynamic quizzes without IDs, but worth a try or just show error
-                    // For now, if no questionIds and dynamic ID, we can't reconstruct reliably without storing Qs
-                    // We'll try fetching ALL and hope (not efficient but fallback)
+                    
+                    
+                    
                     url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions`;
                 }
 
                 const data = await getServerData(url);
 
-                // If we used questionIds, we need to sort 'data' to match the order of 'result.questionIds'
-                // because MongoDB $in does not preserve order.
-                // If we used questionIds, we need to sort 'data' to match the order of 'result.questionIds'
+                
+                
+                
                 if (result.questionIds && result.questionIds.length > 0) {
                     const sortedData = result.questionIds.map(id => data.find(q => q._id === id || q.id === id) || null);
                     setQuestions(sortedData);
@@ -61,13 +61,13 @@ export default function ResultDetails() {
     if (isLoading) return <div className='container' style={{ color: 'white', marginTop: '20px' }}>Loading Details...</div>
     if (error) return <div className='container' style={{ color: 'red', marginTop: '20px' }}>Error loading questions: {error.message}</div>
 
-    const userAnswers = result.result; // user's selected option indexes
+    const userAnswers = result.result; 
 
     return (
         <DashboardLayout activePage="results">
             <div style={{ maxWidth: '900px', margin: '0 auto', fontFamily: 'Inter, sans-serif' }}>
 
-                {/* Header */}
+                {}
                 <div style={{ marginBottom: '32px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', cursor: 'pointer', color: '#64748b' }} onClick={() => navigate('/select-quiz')}>
                         <span style={{ fontSize: '1.2rem', lineHeight: 0 }}>←</span> <span style={{ fontSize: '0.9rem', fontWeight: '600' }}>Back to Dashboard</span>
@@ -76,7 +76,7 @@ export default function ResultDetails() {
                     <p style={{ fontSize: '1.05rem', color: '#64748b', margin: '4px 0 0 0' }}>Detailed breakdown of your performance</p>
                 </div>
 
-                {/* Summary Card */}
+                {}
                 <div style={{ background: 'white', padding: '24px', borderRadius: '16px', border: '1px solid #e2e8f0', marginBottom: '32px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', boxShadow: '0 2px 4px -1px rgba(0,0,0,0.06)' }}>
                     <div>
                         <div style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: '4px' }}>Candidate ID</div>
@@ -106,7 +106,7 @@ export default function ResultDetails() {
                     </div>
                 </div>
 
-                {/* Questions List */}
+                {}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                     {questions.map((q, i) => {
                         const userAns = userAnswers[i];
@@ -120,7 +120,7 @@ export default function ResultDetails() {
                             );
                         }
 
-                        const correctAns = q.answer; // From DB (0-based index)
+                        const correctAns = q.answer; 
 
                         const isCorrect = userAns === correctAns;
                         const isSkipped = userAns === undefined || userAns === null;
@@ -154,7 +154,7 @@ export default function ResultDetails() {
                                                 let textColor = '#475569';
                                                 let icon = null;
 
-                                                // Styling Logic
+                                                
                                                 const isUserChoice = optIndex === userAns;
                                                 const isCorrectChoice = optIndex === correctAns;
 

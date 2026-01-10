@@ -26,7 +26,7 @@ import {
 import '../Styles/Dashboard.css';
 import DashboardLayout from './DashboardLayout';
 
-// --- Sub-Components ---
+
 
 const StatCard = ({ label, value, icon: Icon, colorClass }) => (
     <div className="card metric-card">
@@ -60,31 +60,31 @@ export default function QuizSelection() {
     const dispatch = useDispatch();
     const { userid, rollNumber, activeExam } = useSelector(state => state.result);
 
-    // Sync Active Exam from Server on Load
+    
     useEffect(() => {
         if (rollNumber) {
-            // We reuse getQuestions logic or a specialized one. 
-            // Ideally we need getUserProfile. But we can update enrollment which returns partial user.
-            // Or we just rely on local state if persistence works.
-            // But let's verify context for robustness as requested.
-            // For now, trusting local state + login flow is standard. 
-            // If user refreshes, Helper.js restores from LocalStorage.
-            // If we want to be "server-driven", we should fetch user.currentExam here:
-            // But we don't have a direct /user/me endpoint. 
-            // We can assume Helper.js restoration is sufficient or add a fast verification.
-            // Let's stick to the current "sticky" logic since login sets it on server.
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         }
     }, [rollNumber]);
     const [showModal, setShowModal] = useState(false);
     const [history, setHistory] = useState([]);
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard', 'performance', 'history'
+    const [currentView, setCurrentView] = useState('dashboard'); 
     const [selectedQuizId, setSelectedQuizId] = useState(null);
     const [availableExams, setAvailableExams] = useState([]);
 
     useEffect(() => {
-        // Fetch Available Exams
+        
         getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/exams`, (data) => {
             setAvailableExams(data || []);
         });
@@ -98,7 +98,7 @@ export default function QuizSelection() {
                 setHistory(data || []);
                 setLoading(false);
             });
-            // Fetch questions for topic analysis
+            
             getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions`, (data) => {
                 setQuestions(data || []);
             });
@@ -123,7 +123,7 @@ export default function QuizSelection() {
         setShowModal(true);
     };
 
-    // --- Stats Logic ---
+    
     const stats = useMemo(() => {
         if (!history.length) return null;
         const total = history.length;
@@ -135,7 +135,7 @@ export default function QuizSelection() {
 
     }, [history]);
 
-    // --- Focus Areas Logic ---
+    
     const focusAreas = useMemo(() => {
         if (!history.length || !questions.length) return [];
 
@@ -168,7 +168,7 @@ export default function QuizSelection() {
         }).sort((a, b) => a.accuracy - b.accuracy);
     }, [history, questions]);
 
-    // --- Chart Logic ---
+    
     const chartData = useMemo(() => {
         return [...history].reverse().map((h, i) => ({
             attempt: `Test ${i + 1}`,
@@ -180,14 +180,14 @@ export default function QuizSelection() {
         })).slice(-10);
     }, [history]);
 
-    // --- Render ---
+    
 
     return (
         <DashboardLayout activePage={currentView} onTabChange={setCurrentView}>
 
             <div style={{}}>
 
-                {/* --- DASHBOARD VIEW --- */}
+                {}
                 {currentView === 'dashboard' && (
                     <>
                         <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -198,7 +198,7 @@ export default function QuizSelection() {
                                 </p>
                             </div>
 
-                            {/* Exam Selector Display (Read Only) */}
+                            {}
                             <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600' }}>Exam Category:</span>
                                 <div style={{
@@ -296,7 +296,7 @@ export default function QuizSelection() {
                             <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#0f172a', margin: 0 }}>Recent Activity</h3>
                             <button onClick={() => setCurrentView('history')} style={{ background: 'none', border: 'none', color: '#347ab7', fontWeight: '600', cursor: 'pointer' }}>View All History →</button>
                         </div>
-                        {/* Compact History Table for Dashboard */}
+                        {}
                         <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
                             {history.length > 0 ? (
                                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
@@ -326,7 +326,7 @@ export default function QuizSelection() {
                     </>
                 )}
 
-                {/* --- PERFORMANCE / RESULTS VIEW --- */}
+                {}
                 {(currentView === 'performance' || currentView === 'results') && (
                     <>
                         <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
@@ -338,7 +338,7 @@ export default function QuizSelection() {
                         </div>
 
                         <div className="dashboard-analytics-grid">
-                            {/* Score Trend Chart */}
+                            {}
                             <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '24px', minHeight: '350px' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
                                     <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: '600', color: '#0f172a' }}>Lifetime Score Trend</h4>
@@ -358,7 +358,7 @@ export default function QuizSelection() {
                                 )}
                             </div>
 
-                            {/* Focus Areas */}
+                            {}
                             <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '24px' }}>
                                 <h4 style={{ margin: '0 0 20px 0', fontSize: '1rem', fontWeight: '600', color: '#0f172a' }}>Topic Strength</h4>
                                 {focusAreas.length > 0 ? (
@@ -383,7 +383,7 @@ export default function QuizSelection() {
                     </>
                 )}
 
-                {/* --- HISTORY VIEW --- */}
+                {}
                 {currentView === 'history' && (
                     <>
                         <div style={{ marginBottom: '32px' }}>
@@ -437,13 +437,13 @@ export default function QuizSelection() {
                 <div className="modal-overlay" style={{ background: 'rgba(15, 23, 42, 0.7)', backdropFilter: 'blur(4px)', position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100 }}>
                     <div style={{ background: 'white', width: '95%', maxWidth: '1000px', height: '90vh', borderRadius: '8px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', display: 'flex', flexDirection: 'column', overflow: 'hidden', fontFamily: 'Arial, sans-serif' }}>
 
-                        {/* Header */}
+                        {}
                         <div style={{ padding: '16px 24px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', background: '#f8fafc' }}>
                             <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '700', color: '#0f172a', textAlign: 'center' }}>Please read the following instructions carefully</h3>
                             <button onClick={() => setShowModal(false)} style={{ position: 'absolute', right: '16px', top: '16px', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}><X size={24} /></button>
                         </div>
 
-                        {/* Scrollable Content */}
+                        {}
                         <div style={{ flex: 1, padding: '32px', overflowY: 'auto' }}>
 
                             <div style={{ marginBottom: '20px', fontWeight: '600', fontSize: '1rem', color: '#334155' }}>
@@ -451,7 +451,7 @@ export default function QuizSelection() {
                                 <div>Total Time Available: 60 Mins</div>
                             </div>
 
-                            {/* Info Table */}
+                            {}
                             <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '32px', fontSize: '0.9rem', border: '1px solid #cbd5e1' }}>
                                 <thead>
                                     <tr style={{ background: '#f1f5f9', textAlign: 'center' }}>
@@ -476,11 +476,11 @@ export default function QuizSelection() {
                             </table>
 
                             <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '32px', marginBottom: '24px' }}>
-                                {/* Left Side: Legend */}
+                                {}
                                 <div>
                                     <h4 style={{ margin: '0 0 16px 0', textDecoration: 'underline', fontSize: '1rem' }}>Legend:</h4>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', fontSize: '0.9rem' }}>
-                                        {/* 1. Not Visited */}
+                                        {}
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                             <div style={{
                                                 width: '40px', height: '35px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px',
@@ -489,7 +489,7 @@ export default function QuizSelection() {
                                             }}>1</div>
                                             <span>You have not visited the question yet.</span>
                                         </div>
-                                        {/* 3. Not Answered - Hexagon Top Flat */}
+                                        {}
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                             <div style={{
                                                 width: '40px', height: '35px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px', color: 'white',
@@ -500,7 +500,7 @@ export default function QuizSelection() {
                                             }}>3</div>
                                             <span>You have not answered the question.</span>
                                         </div>
-                                        {/* 5. Answered - Hexagon Bottom Flat */}
+                                        {}
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                             <div style={{
                                                 width: '40px', height: '35px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px', color: 'white',
@@ -510,7 +510,7 @@ export default function QuizSelection() {
                                             }}>5</div>
                                             <span>You have answered the question.</span>
                                         </div>
-                                        {/* 7. Marked - Circle */}
+                                        {}
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                             <div style={{
                                                 width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px', color: 'white',
@@ -525,7 +525,7 @@ export default function QuizSelection() {
 
                         </div>
 
-                        {/* Footer / Action Area */}
+                        {}
                         <div style={{ padding: '16px 24px', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                 <span style={{ fontSize: '0.9rem', fontWeight: '600' }}>Choose Language:</span>

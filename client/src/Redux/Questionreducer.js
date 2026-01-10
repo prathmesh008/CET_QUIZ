@@ -9,17 +9,17 @@ const questionSlice = createSlice({
         trace: 0,
         visited: {},
         marked: {},
-        quizId: null // Added quizId to state
+        quizId: null 
     },
     reducers: {
         startExamAction: (state, action) => {
-            let { question, answers, quizId } = action.payload; // Extract quizId
+            let { question, answers, quizId } = action.payload; 
 
             return {
                 ...state,
                 queue: question,
                 answers: answers,
-                quizId: quizId // Store quizId
+                quizId: quizId 
             };
         },
         movenextquestion: (state) => {

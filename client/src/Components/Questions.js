@@ -5,12 +5,12 @@ import { updateresult } from '../Hooks/setresult'
 export default function Questions() {
     const { queue, trace } = useSelector(state => state.questions);
     const result = useSelector(state => state.result.result);
-    // Get question content safely
+    
     const questions = queue && queue.length > 0 ? queue[trace] : undefined;
     const dispatch = useDispatch()
     const [selectedOption, setSelectedOption] = useState(null);
 
-    // Sync local state with Redux result when question changes
+    
     useEffect(() => {
         const previouslyAnswered = result && result[trace];
         if (previouslyAnswered !== undefined) {
@@ -33,7 +33,7 @@ export default function Questions() {
 
     return (
         <div className="questions-container-inner" style={{ width: '100%' }}>
-            {/* Question Text */}
+            {}
             <div className="question-text">
                 {questions?.questionText || questions?.question}
             </div>
@@ -44,7 +44,7 @@ export default function Questions() {
                 </div>
             )}
 
-            {/* Vertical Options */}
+            {}
             <div className={`options-list ${hasOptionImages ? 'grid-view' : ''}`}>
                 {questions?.options.map((q, i) => (
                     <div

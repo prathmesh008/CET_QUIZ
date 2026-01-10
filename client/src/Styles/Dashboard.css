@@ -1,4 +1,4 @@
-/* Dashboard.css - Mimicking Tailwind System */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
@@ -14,15 +14,15 @@
     --slate-900: #0f172a;
 
     --primary: #2563eb;
-    /* blue-600 */
+    
     --primary-hover: #1d4ed8;
-    /* blue-700 */
+    
     --success: #10b981;
-    /* emerald-500 */
+    
     --warning: #f59e0b;
-    /* amber-500 */
+    
     --danger: #ef4444;
-    /* red-500 */
+    
 }
 
 body {
@@ -37,7 +37,7 @@ body {
     flex-direction: column;
 }
 
-/* Sticky Navbar */
+
 .dashboard-nav {
     position: sticky;
     top: 0;
@@ -78,7 +78,7 @@ body {
     color: var(--slate-700);
 }
 
-/* Base Badge */
+
 .badge {
     padding: 0.125rem 0.5rem;
     border-radius: 9999px;
@@ -104,7 +104,7 @@ body {
     color: #1e40af;
 }
 
-/* Buttons */
+
 .btn {
     display: inline-flex;
     align-items: center;
@@ -151,7 +151,7 @@ body {
     background-color: var(--slate-50);
 }
 
-/* Cards */
+
 .card {
     background-color: white;
     border-radius: 0.75rem;
@@ -182,7 +182,7 @@ body {
     padding: 1.25rem;
 }
 
-/* Grid Layouts */
+
 .grid-cols-4 {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -225,7 +225,7 @@ body {
     }
 }
 
-/* Table */
+
 .table-container {
     width: 100%;
     overflow-x: auto;
@@ -259,7 +259,7 @@ body {
     border-bottom: none;
 }
 
-/* Metric Card Specifics */
+
 .metric-card {
     padding: 1.5rem;
     display: flex;
@@ -275,7 +275,7 @@ body {
 
 .metric-value {
     font-size: 1.875rem;
-    /* 3xl */
+    
     font-weight: 700;
     color: var(--slate-900);
     margin-top: 0.25rem;
@@ -289,7 +289,7 @@ body {
     color: var(--slate-600);
 }
 
-/* Interactive Action Card */
+
 .action-card {
     display: flex;
     align-items: center;
@@ -304,7 +304,7 @@ body {
     border-color: var(--slate-300);
 }
 
-/* Modal */
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -312,7 +312,7 @@ body {
     right: 0;
     bottom: 0;
     background-color: rgba(15, 23, 42, 0.4);
-    /* slate-900/40 */
+    
     backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
@@ -330,7 +330,7 @@ body {
     overflow: hidden;
 }
 
-/* Responsive Grid Classes for QuizSelection */
+
 .dashboard-hero-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr);
@@ -363,18 +363,18 @@ body {
 
     .dashboard-stat-grid {
         grid-template-columns: 1fr 1fr;
-        /* Keep 2 cols on tablet */
+        
     }
 }
 
 @media (max-width: 640px) {
     .dashboard-stat-grid {
         grid-template-columns: 1fr;
-        /* Stack on mobile */
+        
         grid-template-rows: auto;
     }
 
-    /* Modal responsiveness */
+    
     .modal-content-large {
         width: 100% !important;
         height: 100% !important;
@@ -385,7 +385,7 @@ body {
     }
 }
 
-/* Dashboard Layout Classes */
+
 .dashboard-container-flex {
     display: flex;
     min-height: 100vh;
@@ -422,11 +422,11 @@ body {
     margin: 0 auto;
 }
 
-/* Mobile Layout */
+
 @media (max-width: 768px) {
     .dashboard-sidebar {
         transform: translateX(-100%);
-        /* Hide sidebar off-screen */
+        
     }
 
     .dashboard-sidebar.open {
@@ -442,9 +442,9 @@ body {
         padding: 20px;
     }
 
-    /* Toggle Button (Only visible on mobile) */
+    
     .mobile-menu-toggle {
         display: block !important;
-        /* Force visible */
+        
     }
 }

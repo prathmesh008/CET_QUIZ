@@ -4,17 +4,17 @@ const { Schema } = mongoose;
 const questionmodel = new Schema({
     question: { type: String, default: "" },
     options: { type: [String], default: [] },
-    answer: { type: Number, required: true }, // Correct Option Index
+    answer: { type: Number, required: true }, 
 
-    // Optional Medata
+    
     id: { type: Number },
     questionImage: { type: String, default: "" },
     optionImages: { type: [String], default: [] },
     inlineImages: { type: Object, default: {} },
     topic: { type: String, default: "General" },
-    subject: { type: String, default: "General" }, // New Field
-    difficulty: { type: String, enum: ['Easy', 'Medium', 'Hard'], default: 'Medium' }, // New Field
-    examType: { type: [String] }, // New Field: IIT-JEE, NEET, SSC, etc.
+    subject: { type: String, default: "General" }, 
+    difficulty: { type: String, enum: ['Easy', 'Medium', 'Hard'], default: 'Medium' }, 
+    examType: { type: [String] }, 
 
     createdAt: { type: Date, default: Date.now }
 });

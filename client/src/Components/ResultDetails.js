@@ -38,8 +38,9 @@ export default function ResultDetails() {
 
                 // If we used questionIds, we need to sort 'data' to match the order of 'result.questionIds'
                 // because MongoDB $in does not preserve order.
+                // If we used questionIds, we need to sort 'data' to match the order of 'result.questionIds'
                 if (result.questionIds && result.questionIds.length > 0) {
-                    const sortedData = result.questionIds.map(id => data.find(q => q._id === id || q.id === id)).filter(Boolean);
+                    const sortedData = result.questionIds.map(id => data.find(q => q._id === id || q.id === id) || null);
                     setQuestions(sortedData);
                 } else {
                     setQuestions(data);
@@ -83,23 +84,23 @@ export default function ResultDetails() {
                     </div>
                     <div>
                         <div style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: '4px' }}>Score</div>
-                        <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '1.1rem' }}>{result.points} / {questions.reduce((a, b) => a + (b.points || 1), 0)}</div>
+                        <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '1.1rem' }}>{result.points} / {questions.reduce((a, b) => a + ((b && b.points) || 1), 0)}</div>
                     </div>
                     <div>
                         <div style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: '4px' }}>Accuracy</div>
                         <div style={{ fontWeight: '700', color: '#0f172a', fontSize: '1.1rem' }}>
-                            {Math.round((result.points / questions.reduce((a, b) => a + (b.points || 1), 0)) * 100) || 0}%
+                            {Math.round((result.points / questions.reduce((a, b) => a + ((b && b.points) || 1), 0)) * 100) || 0}%
                         </div>
                     </div>
                     <div>
                         <div style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: '4px' }}>Status</div>
                         <div style={{
                             fontWeight: '700',
-                            color: result.points >= (questions.reduce((a, b) => a + (b.points || 1), 0) * 0.5) ? '#059669' : '#b91c1c',
+                            color: result.points >= (questions.reduce((a, b) => a + ((b && b.points) || 1), 0) * 0.5) ? '#059669' : '#b91c1c',
                             fontSize: '1.1rem',
                             display: 'flex', alignItems: 'center', gap: '8px'
                         }}>
-                            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: result.points >= (questions.reduce((a, b) => a + (b.points || 1), 0) * 0.5) ? '#059669' : '#b91c1c' }}></span>
+                            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: result.points >= (questions.reduce((a, b) => a + ((b && b.points) || 1), 0) * 0.5) ? '#059669' : '#b91c1c' }}></span>
                             {result.acheived || "Completed"}
                         </div>
                     </div>
@@ -108,8 +109,18 @@ export default function ResultDetails() {
                 {/* Questions List */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                     {questions.map((q, i) => {
+                        const userAns = userAnswers[i];
+
+                        if (!q) {
+                            return (
+                                <div key={i} style={{ background: '#fff7ed', padding: '24px', borderRadius: '16px', border: '1px solid #fed7aa', marginBottom: '24px', color: '#9a3412' }}>
+                                    <strong>Question {i + 1}:</strong> Content Unavailable (The question may have been deleted from the database).
+                                    <div style={{ marginTop: '8px', fontSize: '0.9rem' }}>Your recorded answer index: {userAns !== undefined ? userAns : 'Skipped'}</div>
+                                </div>
+                            );
+                        }
+
                         const correctAns = q.answer; // From DB (0-based index)
-                        const userAns = userAnswers[i]; // user's answer index
 
                         const isCorrect = userAns === correctAns;
                         const isSkipped = userAns === undefined || userAns === null;
@@ -144,20 +155,23 @@ export default function ResultDetails() {
                                                 let icon = null;
 
                                                 // Styling Logic
-                                                if (optIndex === correctAns) {
+                                                const isUserChoice = optIndex === userAns;
+                                                const isCorrectChoice = optIndex === correctAns;
+
+                                                if (isCorrectChoice) {
                                                     bgColor = '#ecfdf5';
                                                     borderColor = '#10b981';
                                                     textColor = '#065f46';
-                                                    icon = <span style={{ marginLeft: 'auto', color: '#059669', fontWeight: '700', fontSize: '0.85rem' }}>Correct Answer</span>;
+                                                    icon = <span style={{ marginLeft: 'auto', color: '#059669', fontWeight: '700', fontSize: '0.85rem' }}>
+                                                        {isUserChoice ? 'Your Answer (Correct)' : 'Correct Answer'}
+                                                    </span>;
                                                 }
 
-                                                if (optIndex === userAns) {
-                                                    if (optIndex !== correctAns) {
-                                                        bgColor = '#fef2f2';
-                                                        borderColor = '#ef4444';
-                                                        textColor = '#991b1b';
-                                                        icon = <span style={{ marginLeft: 'auto', color: '#dc2626', fontWeight: '700', fontSize: '0.85rem' }}>Your Answer</span>;
-                                                    }
+                                                if (isUserChoice && !isCorrectChoice) {
+                                                    bgColor = '#fef2f2';
+                                                    borderColor = '#ef4444';
+                                                    textColor = '#991b1b';
+                                                    icon = <span style={{ marginLeft: 'auto', color: '#dc2626', fontWeight: '700', fontSize: '0.85rem' }}>Your Answer (Incorrect)</span>;
                                                 }
 
                                                 return (

@@ -2,9 +2,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetallaction } from '../Redux/Questionreducer';
-import { resetQuizData, resetresultaction } from '../Redux/Resultreducer';
+import { resetQuizData, resetresultaction, setActiveExam } from '../Redux/Resultreducer';
 
-import { getServerData } from '../Helper/Helper';
+import { getServerData, postServerData } from '../Helper/Helper';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import {
     LayoutDashboard,
@@ -20,7 +20,8 @@ import {
     CheckCircle,
     AlertCircle,
     X,
-    LogOut
+    LogOut,
+    ChevronDown
 } from 'lucide-react';
 import '../Styles/Dashboard.css';
 import DashboardLayout from './DashboardLayout';
@@ -57,20 +58,43 @@ const ActionCardModule = ({ title, description, icon: Icon, onClick, locked }) =
 export default function QuizSelection() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { userid, rollNumber } = useSelector(state => state.result);
+    const { userid, rollNumber, activeExam } = useSelector(state => state.result);
 
+    // Sync Active Exam from Server on Load
+    useEffect(() => {
+        if (rollNumber) {
+            // We reuse getQuestions logic or a specialized one. 
+            // Ideally we need getUserProfile. But we can update enrollment which returns partial user.
+            // Or we just rely on local state if persistence works.
+            // But let's verify context for robustness as requested.
+            // For now, trusting local state + login flow is standard. 
+            // If user refreshes, Helper.js restores from LocalStorage.
+            // If we want to be "server-driven", we should fetch user.currentExam here:
+            // But we don't have a direct /user/me endpoint. 
+            // We can assume Helper.js restoration is sufficient or add a fast verification.
+            // Let's stick to the current "sticky" logic since login sets it on server.
+        }
+    }, [rollNumber]);
     const [showModal, setShowModal] = useState(false);
-    const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [history, setHistory] = useState([]);
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard', 'performance', 'history'
     const [selectedQuizId, setSelectedQuizId] = useState(null);
+    const [availableExams, setAvailableExams] = useState([]);
+
+    useEffect(() => {
+        // Fetch Available Exams
+        getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/exams`, (data) => {
+            setAvailableExams(data || []);
+        });
+    }, []);
 
     useEffect(() => {
         if (rollNumber) {
             setLoading(true);
-            getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/user/history?rollNumber=${rollNumber}`, (data) => {
+            const url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/user/history?rollNumber=${rollNumber}&examType=${activeExam || 'General'}`;
+            getServerData(url, (data) => {
                 setHistory(data || []);
                 setLoading(false);
             });
@@ -79,23 +103,18 @@ export default function QuizSelection() {
                 setQuestions(data || []);
             });
         }
-    }, [rollNumber]);
+    }, [rollNumber, activeExam]);
 
     const startQuiz = () => {
         localStorage.removeItem('quizTimer');
         dispatch(resetallaction());
         dispatch(resetQuizData());
         if (selectedQuizId) {
-            navigate('/quiz', { state: { quizId: selectedQuizId } });
+            navigate('/quiz', { state: { quizId: selectedQuizId, examType: activeExam } });
         } else {
-            navigate('/quiz');
+            navigate('/quiz', { state: { examType: activeExam } });
         }
         setSelectedQuizId(null);
-    };
-
-    const logout = () => {
-        dispatch(resetresultaction());
-        navigate('/');
     };
 
     const retryQuiz = (quizId) => {
@@ -112,13 +131,7 @@ export default function QuizSelection() {
         const avgScore = total > 0 ? (totalPointsEarned / total).toFixed(0) : 0;
         const maxScore = history.length > 0 ? Math.max(...history.map(h => h.points || 0)) : 0;
 
-        // Level logic
-        let level = "Beginner";
-        if (total > 5) level = "Intermediate";
-        if (total > 15) level = "Advanced";
-        if (total > 30) level = "Expert";
-
-        return { total, avgScore, maxScore, level };
+        return { total, avgScore, maxScore };
 
     }, [history]);
 
@@ -146,7 +159,6 @@ export default function QuizSelection() {
             });
         });
 
-        // Convert to array and sort by accuracy (ascending -> weak areas first)
         return Object.keys(topicStats).map(topic => {
             const { correct, total } = topicStats[topic];
             return {
@@ -178,12 +190,32 @@ export default function QuizSelection() {
                 {/* --- DASHBOARD VIEW --- */}
                 {currentView === 'dashboard' && (
                     <>
-                        <div style={{ marginBottom: '32px' }}>
-                            <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: '#0f172a', margin: '0 0 8px 0' }}>Welcome {userid || 'Candidate'}</h1>
-                            <p style={{ fontSize: '1.05rem', color: '#64748b', margin: 0 }}>Assessment overview & performance summary</p>
+                        <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div>
+                                <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: '#0f172a', margin: '0 0 8px 0' }}>Welcome {userid || 'Candidate'}</h1>
+                                <p style={{ fontSize: '1.05rem', color: '#64748b', margin: 0 }}>
+                                    Targeting: <strong style={{ color: '#347ab7' }}>{activeExam || 'General'}</strong>
+                                </p>
+                            </div>
+
+                            {/* Exam Selector Display (Read Only) */}
+                            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600' }}>Exam Category:</span>
+                                <div style={{
+                                    padding: '8px 16px',
+                                    borderRadius: '8px',
+                                    background: '#f1f5f9',
+                                    fontSize: '0.95rem',
+                                    fontWeight: '700',
+                                    color: '#334155',
+                                    border: '1px solid #e2e8f0'
+                                }}>
+                                    {activeExam || 'General'}
+                                </div>
+                            </div>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.4fr) minmax(0, 2fr)', gap: '24px', marginBottom: '40px' }}>
+                        <div className="dashboard-hero-grid">
                             <div style={{
                                 background: 'linear-gradient(135deg, #347ab7 0%, #245682 100%)',
                                 borderRadius: '16px', padding: '32px', color: 'white',
@@ -192,11 +224,11 @@ export default function QuizSelection() {
                             }}>
                                 <div>
                                     <div style={{ background: 'rgba(255,255,255,0.2)', width: 'fit-content', padding: '6px 12px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: '600', marginBottom: '16px' }}>READY TO START</div>
-                                    <h2 style={{ fontSize: '1.75rem', fontWeight: '700', marginBottom: '8px', lineHeight: '1.2' }}>Start New Assessment</h2>
+                                    <h2 style={{ fontSize: '1.75rem', fontWeight: '700', marginBottom: '8px', lineHeight: '1.2' }}>Start {activeExam || 'New'} Assessment</h2>
                                     <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0', fontSize: '0.95rem', opacity: 0.9, lineHeight: '1.8' }}>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><CheckCircle size={16} /> 60 Minute Duration</li>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><CheckCircle size={16} /> 24 Questions</li>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><CheckCircle size={16} /> Auto-save Enabled</li>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><CheckCircle size={16} /> Exam Specific Questions</li>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><CheckCircle size={16} /> Performance Tracking</li>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><CheckCircle size={16} /> Instant Analysis</li>
                                     </ul>
                                 </div>
                                 <button onClick={() => setShowModal(true)} style={{
@@ -205,7 +237,7 @@ export default function QuizSelection() {
                                 }}>Start Assessment <ChevronRight size={18} /></button>
                             </div>
 
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: '24px' }}>
+                            <div className="dashboard-stat-grid">
                                 <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gridRow: 'span 2' }}>
                                     <div style={{ position: 'relative', width: '130px', height: '130px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                         <svg width="130" height="130" viewBox="0 0 100 100">
@@ -300,12 +332,12 @@ export default function QuizSelection() {
                         <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                             <div>
                                 <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: '#0f172a', margin: '0 0 8px 0' }}>Performance Analytics</h1>
-                                <p style={{ fontSize: '1.05rem', color: '#64748b', margin: 0 }}>Detailed breakdown of your lifetime assessment data</p>
+                                <p style={{ fontSize: '1.05rem', color: '#64748b', margin: 0 }}>Detailed breakdown for <strong>{activeExam || 'all exams'}</strong></p>
                             </div>
                             <button onClick={() => setCurrentView('history')} style={{ background: 'none', border: 'none', color: '#347ab7', fontWeight: '600', cursor: 'pointer', paddingBottom: '4px' }}>View All History →</button>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px', marginBottom: '40px' }}>
+                        <div className="dashboard-analytics-grid">
                             {/* Score Trend Chart */}
                             <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '24px', minHeight: '350px' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
@@ -356,7 +388,7 @@ export default function QuizSelection() {
                     <>
                         <div style={{ marginBottom: '32px' }}>
                             <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: '#0f172a', margin: '0 0 8px 0' }}>Assessment History</h1>
-                            <p style={{ fontSize: '1.05rem', color: '#64748b', margin: 0 }}>Complete log of all your assessment attempts</p>
+                            <p style={{ fontSize: '1.05rem', color: '#64748b', margin: 0 }}>Log of attempts for <strong>{activeExam}</strong></p>
                         </div>
 
                         <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
@@ -375,7 +407,7 @@ export default function QuizSelection() {
                                         {history.map((record, index) => (
                                             <tr key={index} style={{ borderBottom: '1px solid #f1f5f9' }}>
                                                 <td style={{ padding: '16px 24px', color: '#334155', fontWeight: '500' }}>{new Date(record.createdAt).toLocaleDateString()}</td>
-                                                <td style={{ padding: '16px 24px', fontWeight: '600', color: '#0f172a' }}>Standard Assessment <span style={{ fontWeight: '400', color: '#94a3b8', marginLeft: '8px' }}>#{record.quizId}</span></td>
+                                                <td style={{ padding: '16px 24px', fontWeight: '600', color: '#0f172a' }}>{record.examType || 'Standard'} Assessment <span style={{ fontWeight: '400', color: '#94a3b8', marginLeft: '8px' }}>#{record.quizId}</span></td>
                                                 <td style={{ padding: '16px 24px', fontWeight: '700', color: '#0f172a' }}>{record.points}%</td>
                                                 <td style={{ padding: '16px 24px' }}>
                                                     <span style={{
@@ -394,7 +426,7 @@ export default function QuizSelection() {
                                     </tbody>
                                 </table>
                             ) : (
-                                <div style={{ padding: '48px', textAlign: 'center', color: '#94a3b8' }}>No logs found.</div>
+                                <div style={{ padding: '48px', textAlign: 'center', color: '#94a3b8' }}>No logs found for {activeExam}.</div>
                             )}
                         </div>
                     </>
@@ -424,7 +456,7 @@ export default function QuizSelection() {
                                 <thead>
                                     <tr style={{ background: '#f1f5f9', textAlign: 'center' }}>
                                         <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Section #</th>
-                                        <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Section Name</th>
+                                        <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Exam Category</th>
                                         <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>No. of Questions</th>
                                         <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Max Score</th>
                                         <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Marks per Question</th>
@@ -434,7 +466,7 @@ export default function QuizSelection() {
                                 <tbody>
                                     <tr style={{ textAlign: 'center' }}>
                                         <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>1</td>
-                                        <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>General Assessment</td>
+                                        <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>{activeExam}</td>
                                         <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>24</td>
                                         <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>96</td>
                                         <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>4</td>
@@ -464,7 +496,7 @@ export default function QuizSelection() {
                                                 background: 'linear-gradient(135deg, #FF7043, #D84315)',
                                                 clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 75% 100%, 25% 100%, 0% 70%)',
                                                 filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))',
-                                                border: '1px solid #791f1f' // Border simulated via filter or pseudo if needed, clip-path cuts border so bg is enough
+                                                border: '1px solid #791f1f'
                                             }}>3</div>
                                             <span>You have not answered the question.</span>
                                         </div>
@@ -487,65 +519,8 @@ export default function QuizSelection() {
                                             }}>7</div>
                                             <span>You have NOT answered the question, but have marked the question for review.</span>
                                         </div>
-                                        {/* 9. Marked & Answered - Circle + Tick */}
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                            <div style={{ position: 'relative', width: '40px', height: '40px' }}>
-                                                <div style={{
-                                                    width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px', color: 'white',
-                                                    background: 'linear-gradient(135deg, #7E57C2, #4527A0)', borderRadius: '50%', border: '1px solid #fff',
-                                                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
-                                                }}>9</div>
-                                                <div style={{
-                                                    position: 'absolute', bottom: '0', right: '0', width: '14px', height: '14px', background: '#43A047', borderRadius: '50%',
-                                                    border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white', fontSize: '10px'
-                                                }}>✓</div>
-                                            </div>
-                                            <span>You have answered the question, but marked it for review.</span>
-                                        </div>
                                     </div>
                                 </div>
-
-                                {/* Right Side: Buttons & Instructions */}
-                                <div>
-                                    <h4 style={{ margin: '0 0 16px 0', textDecoration: 'underline', fontSize: '1rem' }}>Navigation & Actions:</h4>
-                                    <div style={{ fontSize: '0.9rem', display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                            <div style={{
-                                                padding: '8px 20px', fontWeight: 'bold', fontSize: '13px', textTransform: 'uppercase', color: '#000',
-                                                background: '#fff', border: '1px solid #ccc', borderRadius: '0', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)'
-                                            }}>Mark for Review & Next</div>
-                                            <span style={{ fontSize: '0.85rem' }}>Mark current question for review and proceed.</span>
-                                        </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                            <div style={{
-                                                padding: '8px 20px', fontWeight: 'bold', fontSize: '13px', textTransform: 'uppercase', color: '#000',
-                                                background: '#fff', border: '1px solid #ccc', borderRadius: '0', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)'
-                                            }}>Clear Response</div>
-                                            <span style={{ fontSize: '0.85rem' }}>Clear your selected answer.</span>
-                                        </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                            <div style={{
-                                                padding: '8px 20px', fontWeight: 'bold', fontSize: '13px', textTransform: 'uppercase', color: 'white',
-                                                background: '#337ab7', border: '1px solid #2e6da4', borderRadius: '0', cursor: 'pointer'
-                                            }}>Save & Next</div>
-                                            <span style={{ fontSize: '0.85rem' }}>Save answer and proceed to next question.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <hr style={{ margin: '24px 0', border: 'none', borderTop: '1px solid #e2e8f0' }} />
-
-                            {/* General Instructions */}
-                            <div>
-                                <h4 style={{ margin: '0 0 12px 0', textDecoration: 'underline', fontSize: '1rem' }}>General Instructions:</h4>
-                                <ol style={{ margin: 0, paddingLeft: '24px', fontSize: '0.9rem', lineHeight: '1.6', color: '#334155' }}>
-                                    <li>Total of 60 Mins duration will be given to attempt all the questions.</li>
-                                    <li>The clock has been set at the server and the countdown timer at the top right corner of your screen will display the time remaining for you to complete the exam.</li>
-                                    <li>When the clock expires, the exam ends by default—you are not required to end or submit your exam.</li>
-                                    <li>The Question Palette displayed on the right side of screen will show the status of each question using one of the symbols shown in the legend above.</li>
-                                </ol>
                             </div>
 
                         </div>

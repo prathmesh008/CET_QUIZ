@@ -638,16 +638,112 @@ html {
     object-fit: contain;
 }
 
-.option-img {
-    max-width: 150px;
-    /* Smaller max width */
-    max-height: 100px;
-    /* Limit height to prevent overflow in grid */
-    height: auto;
-    width: auto;
-    vertical-align: middle;
-    margin-left: 10px;
-    padding: 2px;
-    background: #fff;
-    object-fit: contain;
+@media (max-width: 768px) {
+    .quiz-container {
+        flex-direction: column;
+        overflow-y: auto;
+        /* Allow body scroll */
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .left-section-container {
+        flex: none;
+        width: 100%;
+        height: auto;
+        min-height: 60vh;
+    }
+
+    .right-panel {
+        width: 100%;
+        /* Full width sidebar */
+        margin: 10px 0;
+        height: auto;
+        order: 2;
+        /* Move to bottom */
+    }
+
+    .sidebar-header {
+        padding: 5px 10px;
+        min-height: 50px;
+    }
+
+    .user-img-large {
+        width: 60px;
+        height: 60px;
+    }
+
+    .palette-grid {
+        grid-template-columns: repeat(8, 1fr);
+        /* More dense on mobile wide view */
+        padding: 5px;
+    }
+
+    /* Adjust question header */
+    .question-header-bar {
+        padding: 5px 10px;
+        font-size: 0.9em;
+    }
+
+    .q-label {
+        font-size: 16px;
+    }
+
+    .marks-label {
+        font-size: 14px;
+    }
+
+    /* Adjust Footer */
+    .left-footer {
+        flex-wrap: wrap;
+        /* Allow wrapping */
+        height: auto;
+        padding: 8px;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .footer-btn {
+        flex: 1 1 40%;
+        /* 2 per row approx */
+        margin-right: 0;
+        text-align: center;
+        padding: 10px 5px;
+        font-size: 12px;
+    }
+
+    /* Adjust options grid */
+    .options-list.grid-view {
+        grid-template-columns: 1fr;
+        /* Stack options on mobile */
+    }
+
+    .question-text {
+        font-size: 16px;
+    }
+
+    .option-text {
+        font-size: 15px;
+    }
+
+    /* Ensure palette fits */
+    .palette-container {
+        max-height: 300px;
+        /* Limit height when stacked */
+    }
+}
+
+@media (max-width: 480px) {
+    .palette-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .footer-btn {
+        flex: 1 1 100%;
+        /* Full width buttons */
+    }
+
+    .question-image-container {
+        max-height: 25vh;
+    }
 }

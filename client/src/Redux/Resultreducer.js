@@ -5,7 +5,9 @@ export const resultreducer = createSlice({
     initialState: {
         userid: null,
         rollNumber: null,
-        result: []
+        result: [],
+        activeExam: 'General',
+        enrolledExams: ['General']
     },
     reducers: {
         setuserid: (state, action) => {
@@ -13,6 +15,12 @@ export const resultreducer = createSlice({
         },
         setRollNumber: (state, action) => {
             state.rollNumber = action.payload;
+        },
+        setActiveExam: (state, action) => {
+            state.activeExam = action.payload;
+        },
+        setEnrolledExams: (state, action) => {
+            state.enrolledExams = action.payload;
         },
         pushresultaction: (state, action) => {
             state.result.push(action.payload);
@@ -25,7 +33,9 @@ export const resultreducer = createSlice({
             return {
                 userid: null,
                 rollNumber: null,
-                result: []
+                result: [],
+                activeExam: 'General',
+                enrolledExams: ['General']
             }
         },
         resetQuizData: (state) => {
@@ -33,5 +43,5 @@ export const resultreducer = createSlice({
         }
     }
 });
-export const { setuserid, setRollNumber, pushresultaction, resetresultaction, updateresultaction, resetQuizData } = resultreducer.actions;
+export const { setuserid, setRollNumber, setActiveExam, setEnrolledExams, pushresultaction, resetresultaction, updateresultaction, resetQuizData } = resultreducer.actions;
 export default resultreducer.reducer;

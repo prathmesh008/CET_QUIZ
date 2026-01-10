@@ -1,16 +1,27 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { setuserid, setRollNumber } from '../Redux/Resultreducer'
+import { setuserid, setRollNumber, setActiveExam } from '../Redux/Resultreducer'
+import { getServerData, postServerData } from "../Helper/Helper";
 import '../Styles/Main.css';
 
 function Main() {
     const nameRef = useRef(null);
     const rollRef = useRef(null);
+    const [exams, setExams] = useState([]);
+    const [selectedExam, setSelectedExam] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleLogin = () => {
+    useEffect(() => {
+        // Fetch Exams
+        getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/exams`, (data) => {
+            setExams(data || []);
+            if (data && data.length > 0) setSelectedExam(data[0].id);
+        });
+    }, []);
+
+    const handleLogin = async () => {
         const name = nameRef.current.value.trim();
         const roll = rollRef.current.value.trim();
 
@@ -19,10 +30,36 @@ function Main() {
             return;
         }
 
+        if (!selectedExam) {
+            alert("Please select an Exam Category.");
+            return;
+        }
+
+        // 1. Dispatch State Locally
         dispatch(setuserid(name));
         dispatch(setRollNumber(roll));
-        localStorage.setItem('quiz_auth_data', JSON.stringify({ userid: name, rollNumber: roll }));
-        navigate('/select-quiz');
+        dispatch(setActiveExam(selectedExam));
+
+        // 2. Persist to Local Storage (Client-side fail-safe)
+        localStorage.setItem('quiz_auth_data', JSON.stringify({
+            userid: name,
+            rollNumber: roll,
+            activeExam: selectedExam
+        }));
+
+        // 3. Persist to Server (Truth)
+        try {
+            await postServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/user/enroll`, {
+                rollNumber: roll,
+                activeExam: selectedExam
+            });
+            // Proceed only after server confirmation for robustness, 
+            // though we could do it optimistically. Waiting ensures "Lock" logic is respected.
+            navigate('/select-quiz');
+        } catch (error) {
+            console.error(error);
+            alert("Failed to set exam context on server. Please try again.");
+        }
     };
 
     return (
@@ -56,7 +93,7 @@ function Main() {
                     color: '#24292e',
                     lineHeight: '1.5'
                 }}>
-                    <strong>Note:</strong> Please verify your credentials before proceeding. Your assessment session will be recorded.
+                    <strong>Instructions:</strong> Please enter your details and select the exam category you wish to attempt.
                 </div>
 
                 {/* Input Fields */}
@@ -103,6 +140,31 @@ function Main() {
                             onFocus={(e) => e.target.style.borderColor = '#347ab7'}
                             onBlur={(e) => e.target.style.borderColor = '#d1d5da'}
                         />
+                    </div>
+
+                    <div style={{ marginBottom: '15px' }}>
+                        <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', color: '#24292e', marginBottom: '8px' }}>Select Exam Category</label>
+                        <select
+                            value={selectedExam}
+                            onChange={(e) => setSelectedExam(e.target.value)}
+                            style={{
+                                width: '100%',
+                                padding: '10px 12px',
+                                border: '1px solid #d1d5da',
+                                borderRadius: '4px',
+                                fontSize: '0.95rem',
+                                color: '#24292e',
+                                boxSizing: 'border-box',
+                                transition: 'border-color 0.2s',
+                                outline: 'none',
+                                background: 'white'
+                            }}
+                        >
+                            <option value="" disabled>-- Select Exam --</option>
+                            {exams.map(exam => (
+                                <option key={exam.id} value={exam.id}>{exam.label}</option>
+                            ))}
+                        </select>
                     </div>
                 </div>
 

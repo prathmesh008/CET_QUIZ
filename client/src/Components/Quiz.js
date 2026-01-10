@@ -18,16 +18,18 @@ export default function Quiz() {
     const [showSidebar, setShowSidebar] = useState(true);
 
     const { queue, trace, visited, marked, answers, quizId: reduxQuizId } = useSelector(state => state.questions);
-    const { result, userid, rollNumber } = useSelector(state => state.result);
+    const { result, userid, rollNumber, activeExam } = useSelector(state => state.result);
     const dispatch = useDispatch();
     const location = useLocation();
     const stateQuizId = location.state?.quizId;
+    const stateExamType = location.state?.examType;
+    const currentExamType = stateExamType || activeExam || 'General';
 
     // activeQuizId is the one we use for Logic (Submission check, Back button, etc.)
     const activeQuizId = stateQuizId || reduxQuizId;
 
     // Only pass stateQuizId to fetcher. If undefined, fetcher initiates new session.
-    const [{ isLoading, serverError }] = useFetchQuestions(stateQuizId, userid, rollNumber);
+    const [{ isLoading, serverError }] = useFetchQuestions(stateQuizId, userid, rollNumber, currentExamType);
 
     // ESC Key Listener for Modal
     useEffect(() => {
@@ -43,7 +45,7 @@ export default function Quiz() {
     // Access Control & Guard
     useEffect(() => {
         // 1. Check for Reload (Refreshed Page)
-        // This MUST be checked first to prevent starting a new session on reload
+        // This MUST be checked first to prevent startin a new session on reload
         const navEntries = performance.getEntriesByType("navigation");
         let isReload = false;
 
@@ -130,7 +132,8 @@ export default function Quiz() {
                 result,
                 attempts: attemptCount,
                 points: earnPoint,
-                acheived: flag ? "Passed" : "Failed"
+                acheived: flag ? "Passed" : "Failed",
+                examType: currentExamType
             };
 
             const blob = new Blob([JSON.stringify(submissionData)], { type: 'application/json' });
@@ -199,10 +202,6 @@ export default function Quiz() {
     }, [trace, queue, dispatch]);
 
     const onSaveAndNext = () => {
-        // Ensure result is updated/confirmed
-        if (queue && queue.length > 0) {
-            dispatch(updateresult({ trace, checked: answers[trace] }));
-        }
         // Unmark if previously marked
         if (marked && marked[trace]) {
             dispatch(unsetMarkedAction(trace));

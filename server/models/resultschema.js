@@ -10,6 +10,7 @@ const resultmodel = new Schema({
     attempts: { type: Number },
     points: { type: Number, default: 0 },
     acheived: { type: String, default: "failed" },
+    examType: { type: String, default: "General" }, // New Field
     createdAt: { type: Date, default: Date.now }
 })
 

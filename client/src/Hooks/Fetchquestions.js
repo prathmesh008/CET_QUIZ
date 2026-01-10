@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import * as Action from '../Redux/Questionreducer'
 import { getServerData } from "../Helper/Helper";
 
-export const useFetchQuestions = (quizId, userid, rollNumber) => {
+export const useFetchQuestions = (quizId, userid, rollNumber, examType) => {
     const dispatch = useDispatch();
     const [getData, setGetData] = useState({ isLoading: true, apiData: [], serverError: null });
 
@@ -17,7 +17,7 @@ export const useFetchQuestions = (quizId, userid, rollNumber) => {
                     url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions?id=${quizId}`;
                 } else if (userid && rollNumber) {
                     // Practice Mode: Automatic assignment
-                    url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/practice/start?username=${userid}&rollNumber=${rollNumber}`;
+                    url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/practice/start?username=${userid}&rollNumber=${rollNumber}&examType=${examType || 'General'}`;
                 } else {
                     // Fallback or Error
                     url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions`;
@@ -40,7 +40,7 @@ export const useFetchQuestions = (quizId, userid, rollNumber) => {
                 setGetData(prev => ({ ...prev, serverError: error }));
             }
         })();
-    }, [dispatch]);
+    }, [dispatch, quizId, userid, rollNumber, examType]);
 
     return [getData, setGetData];
 }

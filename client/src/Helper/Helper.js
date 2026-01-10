@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import axios from 'axios'
-import { setuserid, setRollNumber } from '../Redux/Resultreducer';
+import { setuserid, setRollNumber, setActiveExam } from '../Redux/Resultreducer';
 
 export function attempts(result) {
     return result.filter(r => r !== undefined).length;
@@ -51,10 +51,11 @@ export function CheckUserExist({ children }) {
             const savedData = localStorage.getItem('quiz_auth_data');
             if (savedData) {
                 try {
-                    const { userid, rollNumber } = JSON.parse(savedData);
+                    const { userid, rollNumber, activeExam } = JSON.parse(savedData);
                     if (userid) {
                         dispatch(setuserid(userid));
                         if (rollNumber) dispatch(setRollNumber(rollNumber));
+                        if (activeExam) dispatch(setActiveExam(activeExam));
                     }
                 } catch (err) {
                     console.error("Failed to restore auth", err);

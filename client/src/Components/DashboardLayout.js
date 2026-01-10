@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, FileText, BarChart2, History, LogOut } from 'lucide-react';
+import { LayoutDashboard, FileText, BarChart2, History, LogOut, Menu, X } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetresultaction } from '../Redux/Resultreducer';
 
@@ -9,6 +9,7 @@ export default function DashboardLayout({ children, activePage = 'dashboard', on
     const location = useLocation();
     const dispatch = useDispatch();
     const { userid } = useSelector(state => state.result);
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
 
     const handleLogout = () => {
         dispatch(resetresultaction());
@@ -17,21 +18,45 @@ export default function DashboardLayout({ children, activePage = 'dashboard', on
 
     const navItems = [
         { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/select-quiz' },
-        { id: 'results', label: 'Results', icon: FileText, path: '#' }, // Placeholder for now, active on Result page
+        { id: 'results', label: 'Results', icon: FileText, path: '#' },
         { id: 'performance', label: 'Performance', icon: BarChart2, path: '#' },
         { id: 'history', label: 'History', icon: History, path: '#' },
     ];
 
+    const handleNavClick = (item) => {
+        if (item.path !== '#') {
+            if (location.pathname === item.path && onTabChange) {
+                onTabChange(item.id);
+            } else {
+                navigate(item.path);
+            }
+        } else if (onTabChange) {
+            onTabChange(item.id);
+        }
+        setIsMobileOpen(false); // Close mobile menu on navigate
+    };
+
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif', background: '#f8fafc' }}>
+        <div className="dashboard-container-flex">
+            {/* Mobile Overlay */}
+            {isMobileOpen && (
+                <div
+                    style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 40 }}
+                    onClick={() => setIsMobileOpen(false)}
+                />
+            )}
+
             {/* Persistent Left Sidebar */}
-            <div style={{ width: '260px', background: '#ffffff', borderRight: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', position: 'fixed', left: 0, top: 0, bottom: 0, zIndex: 50 }}>
+            <div className={`dashboard-sidebar ${isMobileOpen ? 'open' : ''}`}>
                 {/* Logo Area */}
-                <div style={{ padding: '32px 24px', borderBottom: '1px solid #f1f5f9' }}>
+                <div style={{ padding: '32px 24px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h2 style={{ margin: 0, fontSize: '1.25rem', color: '#0f172a', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <div style={{ width: '32px', height: '32px', background: 'linear-gradient(135deg, #347ab7 0%, #1e40af 100%)', borderRadius: '8px' }}></div>
                         Assessment
                     </h2>
+                    <button className="mobile-menu-toggle" style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer' }} onClick={() => setIsMobileOpen(false)}>
+                        <X size={24} color="#64748b" />
+                    </button>
                 </div>
 
                 {/* Navigation Items */}
@@ -39,17 +64,7 @@ export default function DashboardLayout({ children, activePage = 'dashboard', on
                     {navItems.map(item => (
                         <div
                             key={item.id}
-                            onClick={() => {
-                                if (item.path !== '#') {
-                                    if (location.pathname === item.path && onTabChange) {
-                                        onTabChange(item.id);
-                                    } else {
-                                        navigate(item.path);
-                                    }
-                                } else if (onTabChange) {
-                                    onTabChange(item.id);
-                                }
-                            }}
+                            onClick={() => handleNavClick(item)}
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
@@ -123,13 +138,15 @@ export default function DashboardLayout({ children, activePage = 'dashboard', on
             </div>
 
             {/* Main Content Area */}
-            <div style={{ marginLeft: '260px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <div style={{ padding: '16px 40px', background: 'white', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                    {/* Optional Top Bar Content (e.g. User Profile placeholder if needed, though sidebar covers most) */}
-                    {/* For now, just spacing or breadcrumb could go here. Keeping it minimal. */}
+            <div className="dashboard-main">
+                <div style={{ padding: '16px 20px', background: 'white', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', minHeight: '64px' }}>
+                    <button className="mobile-menu-toggle" style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer' }} onClick={() => setIsMobileOpen(true)}>
+                        <Menu size={24} color="#0f172a" />
+                    </button>
+                    {/* Optional Top Bar Content */}
                 </div>
 
-                <div style={{ padding: '40px', maxWidth: '1400px', width: '100%', margin: '0 auto' }}>
+                <div className="dashboard-content-wrapper">
                     {children}
                 </div>
             </div>

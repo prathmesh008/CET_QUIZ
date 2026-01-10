@@ -1,1698 +1,2215 @@
-const q1 = [
+
+const questions = [
     {
-        id: 1,
-        topic: "Logical Reasoning",
-        question: "1). Which square was divided into two different figures?",
-        options: [
-            "Option A",
-            "Option B",
-            "Option C",
-            "Option D",
-            "Option E"
+        "id": 1,
+        "question": "A particle moves with velocity v = 3t^2 − 2t. Find the displacement in first 3 seconds.",
+        "options": [
+            "15 m",
+            "18 m",
+            "21 m",
+            "24 m"
         ],
-        explanation: "The yellow JS shield is the official JavaScript logo.",
-        questionImage: "",
-        optionImages: [
-            "/photos/q1/o1.png",
-            "/photos/q1/o2.png",
-            "/photos/q1/o3.png",
-            "/photos/q1/o4.png",
-            "/photos/q1/o5.png",
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
         ],
-        points: 3
+        "difficulty": "Medium"
     },
     {
-        id: 2,
-        topic: "Numerical Ability",
-        question: "2). Lizzy has 7 coins of a kind. She buys three fruits at the market. Each fruit has a different price. How much is the most expensive fruit?",
-        options: [
-            "(A) 2 coins",
-            "(B) 3 coins",
-            "(C) 4 coins",
-            "(D) 5 coins",
-            "(E) 6 coins"
+        "id": 2,
+        "question": "A body is thrown vertically upward with speed u. Time when its velocity becomes u/2 is:",
+        "options": [
+            "u/2g",
+            "u/4g",
+            "u/3g",
+            "u/g"
         ],
-        explanation: "The green hexagon logo represents Node.js.",
-        questionImage: "",
-        optionImages: [
-            "",     // Node.js logo (correct)
-            "",                    // HTML5 logo
-            ""                   // JS logo
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
         ],
-        points: 3
+        "difficulty": "Medium"
     },
     {
-        id: 3,
-        topic: "Numerical Ability",
-        question: "3). The rectangle on the right consists of 4 rows and 7 columns.In total, it consists of 28 white squares.Ira paints 2 rows and 1 column.How many squares remain white?",
-        options: [
-            '(A) 8',
-            '(B) 12',
-            '(C) 14',
-            '(D) 17',
-            '(E) 10'
+        "id": 3,
+        "question": "Distance covered by a freely falling body in the last second of motion from height h is:",
+        "options": [
+            "g/2",
+            "g",
+            "3g/2",
+            "2g"
         ],
-        explanation: "In JavaScript, typeof null returns 'object'. This is a known bug in JavaScript.",
-        questionImage: "/photos/q3/q3.png",
-        optionImages: [],
-        points: 3
-    },
-    {
-        id: 4,
-        topic: "Logical Reasoning",
-        question: "4). Firefighter Fred wants to put out the fire.What is the smallest number of ladders he has to climb in the picture on the right, to get to the fire without jumping?",
-        options: [
-            '(A) 4',
-            '(B) 5',
-            '(C) 6',
-            '(D) 7',
-            '(E) 8'
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
         ],
-        explanation: "The toString() method returns a string representing the object.",
-        questionImage: "/photos/q4/q4.png",
-        optionImages: [],
-        points: 3
+        "difficulty": "Medium"
     },
     {
-        id: 5,
-        topic: "Logical Reasoning",
-        question: "5). Ben has built a structure. A cat has thrown a cube off his structure:Which of these structures did Ben build?",
-        options: [
-            "Option A",
-            "Option B",
-            "Option C",
-            "Option D",
-            "Option E"
+        "id": 4,
+        "question": "The range of a projectile is maximum when angle of projection is:",
+        "options": [
+            "30°",
+            "45°",
+            "60°",
+            "90°"
         ],
-        explanation: "JSON.stringify() converts a JavaScript object or value to a JSON string.",
-        questionImage: "/photos/q5/q5.png",
-        optionImages: [
-            "/photos/q5/o1.png",
-            "/photos/q5/q5o2.png",
-            "/photos/q5/q5o3.png",
-            "/photos/q5/q5o4.png",
-            "/photos/q5/q5o5.png",
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
         ],
-        points: 3
+        "difficulty": "Medium"
     },
     {
-        id: 6,
-        topic: "Logical Reasoning",
-        question: "6). Alex hangs a poster on his kitchen wall.the kitchen wall has white and grey tiles of the same size seepicture.How many grey tiles are completely covered by the poster?",
-        options: [
-            "(A) 15",
-            "(B) 21",
-            "(C) 25",
-            "(D) 30",
-            "(E) 35"
+        "id": 5,
+        "question": "A car moves in a circular path of radius 50 m with speed 10 m/s. Centripetal acceleration is:",
+        "options": [
+            "1 m/s²",
+            "2 m/s²",
+            "4 m/s²",
+            "5 m/s²"
         ],
-        explanation: "The pop() method removes the last element from an array and returns that element.",
-        questionImage: "/photos/q6/q6.png",
-        optionImages: [],
-        points: 3
-    },
-    {
-        id: 7,
-        topic: "Logical Reasoning",
-        question: "7). Tim has black and white squares of paper. He glues the squares on the inside of awindow. This creates the pattern shown on the right.What pattern can you see from the outside?",
-        options: [
-            "Option A",
-            "Option B",
-            "Option C",
-            "Option D",
-            "Option E"
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
         ],
-        explanation: "// is used for single-line comments in JavaScript.",
-        questionImage: "/photos/q7/q7.png",
-        optionImages: [
-            "/photos/q7/q7o1.png",
-            "/photos/q7/q7o2.png",
-            "/photos/q7/q7o3.png",
-            "/photos/q7/q7o4.png",
-            "/photos/q7/q7o5.png"
+        "difficulty": "Medium"
+    },
+    {
+        "id": 6,
+        "question": "If kinetic energy of a particle is doubled, its momentum becomes:",
+        "options": [
+            "√2 times",
+            "2 times",
+            "4 times",
+            "unchanged"
         ],
-        points: 3
-    },
-    {
-        id: 8,
-        topic: "Numerical Ability",
-        question: "8). 213, 214 and 215 are three consecutive three-digit numbers.Mohammad writes three consecutive four-digit numbers in a row.His sister erases a few digits from each of the three numbers.",
-        options: [
-            "(A) 3 8 9, 3, 9 9",
-            "(B) 4 8 9, 3, 9 6",
-            "(C) 4 8 9, 4, 9 8",
-            "(D) 4 8 9, 4, 9 9",
-            "(E) 4 8 8, 4, 9 9"
+        "answer": 0,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
         ],
-        explanation: "NaN stands for 'Not-a-Number', but its type is actually 'number'.",
-        questionImage: "/photos/q8/q8.png",
-        optionImages: [],
-        points: 3
+        "difficulty": "Medium"
     },
     {
-        id: 9,
-        topic: "Logical Reasoning",
-        question: "9). Lisa writes the numbers 1, 2, 4, 5 and 6 in the circles of the pattern. She writeseach of the five numbers exactly once, and if she adds up the numbers alongone of the three straight lines, she gets 11 each time.Which number did she write in the circle with the question mark?",
-        options: [
-            "(A) 1",
-            "(B) 2",
-            "(C) 4",
-            "(D) 5",
-            "(E) 6"
+        "id": 7,
+        "question": "Work done by centripetal force in circular motion is:",
+        "options": [
+            "maximum",
+            "minimum",
+            "zero",
+            "infinite"
         ],
-        explanation: "setTimeout() executes a function after a specified number of milliseconds.",
-        questionImage: "/photos/q9/q9.png",
-        optionImages: [],
-        points: 4
-    },
-    {
-        id: 10,
-        topic: "Verbal Ability",
-        question: "10). These five fruits are in a basket: [apple] [grape] [cherry] [strawberry] [banana]. Ann likes [cherry]. Ben likes [apple] [grape] [cherry] [strawberry] [banana].",
-        inlineImages: {
-            apple: "/photos/q10/apple.png",
-            grape: "/photos/q10/grapes.png",
-            cherry: "/photos/q10/cherry.png",
-            strawberry: "/photos/q10/strawberry.png",
-            banana: "/photos/q10/banana.png"
-        },
-        options: [
-            "Option A",
-            "Option B",
-            "Option C",
-            "Option D",
-            "Option E"
+        "answer": 2,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
         ],
-        explanation: "JSON.stringify() is the standard method to convert a value to a JSON string.",
-        questionImage: "",
-        optionImages: [
-            "photos/q10/apple.png",
-            "photos/q10/grapes.png",
-            "photos/q10/cherry.png",
-            "photos/q10/strawberry.png",
-            "photos/q10/banana.png"
+        "difficulty": "Medium"
+    },
+    {
+        "id": 8,
+        "question": "Escape velocity from Earth depends on:",
+        "options": [
+            "mass of body",
+            "radius of Earth",
+            "both mass and radius",
+            "only mass of Earth"
         ],
-        points: 4
-    },
-    {
-        id: 11,
-        topic: "Logical Reasoning",
-        question: "11). The wizard Adam built the tower on the right out of 8 discs. He magically makes discs disappear one after the other: First the second disc from the bottom, then from the new tower the third disc from the bottom. Then he makes the fourth disc from bottom of the newly created tower disappear. At the end, he removes the fifth disc from the bottom of the now newly created tower. What tower does Adam get?",           // text with or without inline images
-        questionImage: "/photos/q11/q11.png",          // path to question image OR "" if none
-
-
-
-        options: [
-            "Option A",
-            "Option B",
-            "Option C",
-            "Option D",
-            "Option E"      // 5 options text
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
         ],
-
-        optionImages: [
-            "/photos/q11/q11o1.png", "/photos/q11/q11o2.png", "/photos/q11/q11o3.png", "/photos/q11/q11o4.png", "/photos/q11/q11o5.png"        // 5 image paths or "" for no image
+        "difficulty": "Medium"
+    },
+    {
+        "id": 9,
+        "question": "Two bodies of masses m and 2m have same momentum. Ratio of their kinetic energies is:",
+        "options": [
+            "1:2",
+            "2:1",
+            "1:4",
+            "4:1"
         ],
-
-
-
-        points: 4
-    },
-    {
-        id: 12,
-        topic: "Numerical Ability",
-        question: "12). Penguin Peter goes fishing every day and brings 9 fish for his two children. Every day he gives 5 fish to the first child he sees. The other child then gets 4 fish. In the last few days, a child has had a total of 26 fish. How many fish did the other child get?",           // text with or without inline images
-        questionImage: "",          // path to question image OR "" if none
-
-
-
-        options: [
-            "(A) 19", "(B) 22", "(C) 25", "(D) 28", "(E) 31"       // 5 options text
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
         ],
-
-        optionImages: [
-            // 5 image paths or "" for no image
+        "difficulty": "Medium"
+    },
+    {
+        "id": 10,
+        "question": "The dimensional formula of impulse is:",
+        "options": [
+            "MLT⁻¹",
+            "MLT⁻²",
+            "ML²T⁻¹",
+            "ML²T⁻²"
         ],
-
-
-
-        points: 4
-    },
-    {
-        id: 13,
-        topic: "Numerical Ability",
-        question: "13. 7 cards with the numbers from 1 to 7 are placed in these four overlapping rings: If you add up the numbers of all the cards in a ring, the result is always 10. What number is on the card with the question mark?",
-        questionImage: "/photos/q13/q13.png",
-
-
-
-        options: [
-            "(A) 1", "(B) 2", "(C) 4", "(D) 5", "(E) 7"
+        "answer": 0,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
         ],
-
-        optionImages: [
-            "",
-            "",
-            "",
-            "",
-            ""],
-
-
-        points: 4
+        "difficulty": "Medium"
     },
     {
-        id: 14,
-        topic: "Logical Reasoning",
-        question: "14). Lucas has these five pieces of a puzzle available: He wants to lay a caterpillar consisting of a head, a tail and 1, 2 or 3 parts in between. How many different caterpillars can Lucas build?",
-        questionImage: "/photos/q14/q14.png",
-
-
-
-        options: [
-            "(A) 3", "(B) 4", "(C) 5", "(D) 6", "(E) 7"],
-
-        optionImages: [
-            "",
-            "",
-            "",
-            "",
-            ""],
-
-
-        points: 4
-    },
-    {
-        id: 15,
-        topic: "Logical Reasoning",
-        question: "15. Kangaroo Joey hops through a maze.The arrows of a field indicate how far, and in which direction,Joey has to bounce. A field with three arrows means that Joey bounces in the direction of the arrows, skipping two spaces, and landing in the 3rd space. Through which exit will Joey leave the maze, if he starts in the bottom left field with the three arrows?",
-        questionImage: "/photos/q15/q15.png",
-
-
-
-        options: [
-            "(A) through A", "(B) through B", "(C) through C", "(D) through D", "(E) through none of the four exits"
+        "id": 11,
+        "question": "A wire of resistance R is stretched to double its length. New resistance becomes:",
+        "options": [
+            "R/2",
+            "R",
+            "2R",
+            "4R"
         ],
-
-        optionImages: [
-            "",
-            "",
-            "",
-            "",
-            ""],
-
-
-        points: 4
+        "answer": 3,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
     },
     {
-        id: 16,
-        topic: "Numerical Ability",
-        question: "16. Two types of tiles were used for a kitchen floor: rectangular [rectangle] and square [square]. This picture shows part of the installed kitchen floor: The rectangular tiles are 23 cm long and 11 cm wide. What is the length of a side of a small square tile?",
-        questionImage: "/photos/q16/q16.png",
-
-        inlineImages: {
-            square: "/photos/q16/square.png",
-            rectangle: "/photos/q16/rectangle.png"
-        },
-
-        options: [
-            "(A) 3 cm", "(B) 4 cm", "(C) 5 cm", "(D) 6 cm", "(E) 7 cm"],
-
-        optionImages: [
-            "",
-            "",
-            "",
-            "",
-            ""],
-
-
-        points: 4
+        "id": 12,
+        "question": "Electric field inside a conductor is:",
+        "options": [
+            "maximum",
+            "minimum",
+            "zero",
+            "infinite"
+        ],
+        "answer": 2,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
     },
     {
-        id: 17,
-        topic: "Numerical Ability",
-        question: "17). Mia has 3 cards with three-digit numbers on them. If she adds the three numbers together, she gets the number 782. Unfortunately, a worm has eaten one digit of each card. What number does she get when she adds up the three digits that the worm has eaten?",
-        questionImage: "/photos/q17/q17.png",
-
-
-
-        options: [
-            "(A) 8", "(B) 9", "(C) 10", "(D) 11", "(E) 12"],
-
-        optionImages: [
-            "",
-            "",
-            "",
-            "",
-            ""],
-
-
-        points: 5
+        "id": 13,
+        "question": "Capacitance depends on:",
+        "options": [
+            "charge",
+            "potential",
+            "geometry",
+            "current"
+        ],
+        "answer": 2,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
     },
     {
-        id: 18,
-        topic: "Numerical Ability",
-        question: "18. Lucy weighs building blocks and obtains the following values: How much do the three different building blocks weigh together?",
-        questionImage: "/photos/q18/q18.png",
-
-
-
-        options: [
-            "(A) 270 g", "(B) 280 g", "(C) 290 g", "(D) 300 g", "(E) 310 g"],
-
-        optionImages: [
-            "",
-            "",
-            "",
-            "",
-            ""],
-
-
-        points: 5
+        "id": 14,
+        "question": "Unit of electric flux is:",
+        "options": [
+            "N/C",
+            "Nm²/C",
+            "C/N",
+            "V/m"
+        ],
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
     },
     {
-        id: 19,
-        topic: "Logical Reasoning",
-        question: "19. 60 children stand in a row. Each child has a high-visibility vest and a backpack.The colours of their high-visibility vests always alternate: yellow, green, yellow, green, ...The colours of their backpacks make the following pattern: red, brown, purple, red, brown,purple, ... How many children have a yellow safety vest and a purple backpack?",
-        questionImage: "",
-
-
-
-        options: [
-            "(A) 3", "(B) 4", "(C) 6", "(D) 8", "(E) 10"],
-
-        optionImages: [
-            "",
-            "",
-            "",
-            "",
-            ""],
-
-
-        points: 5
+        "id": 15,
+        "question": "Drift velocity of electrons increases when:",
+        "options": [
+            "temperature increases",
+            "electric field increases",
+            "length increases",
+            "area increases"
+        ],
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
     },
     {
-        id: 20,
-        topic: "Logical Reasoning",
-        question: "20. Cards of the same shape hide the same digits. Cards with different shapes hide different digits. Kim lays out the cards in such a way that the calculations are correct.[exam] \n What number does Kim get for the calculation[ques]?",
-        questionImage: "",
-        inlineImages: {
-            exam: "/photos/q20/exam.png",
-            ques: "/photos/q20/ques.png"
-        },
-
-
-        options: [
-            "(A) 0", "(B) 15", "(C) 18", "(D) 28", "(E) 30"],
-
-        optionImages: [
-            "",
-            "",
-            "",
-            "",
-            ""],
-
-
-        points: 5
+        "id": 16,
+        "question": "Magnetic field at center of circular loop carrying current I is proportional to:",
+        "options": [
+            "I",
+            "1/I",
+            "I²",
+            "1/I²"
+        ],
+        "answer": 0,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
     },
     {
-        id: 21,
-        topic: "Logical Reasoning",
-        question: "21. There are exactly 2 frogs in each row and in each column – see picture. Two of the six frogs jump to one of their neighbouring fields at the same time when it is empty. After that, there are again two frogs in each row and in each column. How many possibilities are there for two frogs to jump like this?",
-        questionImage: "/photos/q21/q21.png",
-
-
-
-        options: [
-            "(A) 1", "(B) 2", "(C) 3", "(D) 4", "(E) 5"],
-
-        optionImages: [
-            "",
-            "",
-            "",
-            "",
-            ""],
-
-
-        points: 5
+        "id": 17,
+        "question": "Force on a charge moving perpendicular to magnetic field is:",
+        "options": [
+            "qvB",
+            "qv/B",
+            "qB/v",
+            "zero"
+        ],
+        "answer": 0,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
     },
     {
-        id: 22,
-        topic: "Numerical Ability",
-        question: "22. The picture on the right shows a honeycomb with 9 cells. There is honey in some cells. The numbers in the cells indicate how many neighbouring cells contain honey. How many cells are filled with honey?",
-        questionImage: "/photos/q22/q22.png",
-
-
-
-        options: [
-            "(A) 4", "(B) 5", "(C) 6", "(D) 7", "(E) 8"],
-
-        optionImages: [
-            "",
-            "",
-            "",
-            "",
-            ""],
-
-
-        points: 5
+        "id": 18,
+        "question": "SI unit of magnetic flux is:",
+        "options": [
+            "Weber",
+            "Tesla",
+            "Henry",
+            "Ampere"
+        ],
+        "answer": 0,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
     },
     {
-        id: 23,
-        topic: "Logical Reasoning",
-        question: "Kanga wants to build a figure out of these three parts: [pic] \n He can also rotate or flip the parts. Which of the five pieces can he NOT make?",
-        questionImage: "",
-        inlineImages: {
-            pic: "/photos/q23/pic.png"
-        },
-
-
-        options: [
-            "Option A",
-            "Option B",
-            "Option C",
-            "Option D",
-            "Option E"],
-
-        optionImages: [
-            "/photos/q23/q23o1.png",
-            "/photos/q23/q23o2.png",
-            "/photos/q23/q23o3.png",
-            "/photos/q23/q23o4.png",
-            "/photos/q23/q23o5.png"],
-
-
-        points: 5
+        "id": 19,
+        "question": "Self-inductance depends on:",
+        "options": [
+            "current",
+            "rate of change of current",
+            "geometry",
+            "resistance"
+        ],
+        "answer": 2,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
     },
     {
-        id: 24,
-        topic: "Logical Reasoning",
-        question: "This tray of biscuits lies in the kitchen. Three girls take biscuits from the tray in an unknown order: Tina takes all the heart-shaped cookies that are still on the tray. Emma takes all the white cookies that are still on the tray. Rosa takes all the large cookies that are still on the tray. One of the girls takes 3 biscuits, one takes 6 biscuits and one takes 7 biscuits. Which of the following cookies did one of the girls take?",
-        questionImage: "/photos/q24/q24.png",
-
-
-
-        options: [
-            "Option A",
-            "Option B",
-            "Option C",
-            "Option D",
-            "Option E"],
-
-        optionImages: [
-            "/photos/q24/q24o1.png",
-            "/photos/q24/q24o2.png",
-            "/photos/q24/q24o3.png",
-            "/photos/q24/q24o4.png",
-            "/photos/q24/q24o5.png"],
-
-
-        points: 5
+        "id": 20,
+        "question": "Energy stored in an inductor is:",
+        "options": [
+            "½LI²",
+            "LI²",
+            "I²/L",
+            "L/I²"
+        ],
+        "answer": 0,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
+    },
+    {
+        "id": 21,
+        "question": "In Young’s double slit experiment, fringe width depends on:",
+        "options": [
+            "distance between slits",
+            "wavelength",
+            "screen distance",
+            "all of these"
+        ],
+        "answer": 3,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
+    },
+    {
+        "id": 22,
+        "question": "Refractive index is maximum for:",
+        "options": [
+            "red",
+            "yellow",
+            "green",
+            "violet"
+        ],
+        "answer": 3,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
+    },
+    {
+        "id": 23,
+        "question": "Total internal reflection occurs when light travels from:",
+        "options": [
+            "rarer to denser",
+            "denser to rarer",
+            "vacuum to medium",
+            "air to glass"
+        ],
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
+    },
+    {
+        "id": 24,
+        "question": "Power of a convex lens is +5D. Its focal length is:",
+        "options": [
+            "0.2 m",
+            "5 m",
+            "0.5 m",
+            "2 m"
+        ],
+        "answer": 0,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
+    },
+    {
+        "id": 25,
+        "question": "Speed of light is maximum in:",
+        "options": [
+            "glass",
+            "water",
+            "vacuum",
+            "air"
+        ],
+        "answer": 2,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
+    },
+    {
+        "id": 26,
+        "question": "Photoelectric effect supports:",
+        "options": [
+            "wave theory",
+            "particle theory",
+            "both",
+            "none"
+        ],
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
+    },
+    {
+        "id": 27,
+        "question": "Threshold frequency depends on:",
+        "options": [
+            "intensity",
+            "material",
+            "distance",
+            "time"
+        ],
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
+    },
+    {
+        "id": 28,
+        "question": "de Broglie wavelength is inversely proportional to:",
+        "options": [
+            "energy",
+            "velocity",
+            "momentum",
+            "mass"
+        ],
+        "answer": 2,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
+    },
+    {
+        "id": 29,
+        "question": "Binding energy per nucleon is maximum for:",
+        "options": [
+            "hydrogen",
+            "iron",
+            "uranium",
+            "helium"
+        ],
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
+    },
+    {
+        "id": 30,
+        "question": "Radioactive decay follows:",
+        "options": [
+            "linear law",
+            "exponential law",
+            "logarithmic law",
+            "quadratic law"
+        ],
+        "answer": 1,
+        "topic": "Physics",
+        "subject": "Physics",
+        "examType": [
+            "IIT-JEE"
+        ],
+        "difficulty": "Medium"
+    },
+    {
+        "id": 31,
+        "question": "Powerhouse of the cell is:",
+        "options": [
+            "Nucleus",
+            "Mitochondria",
+            "Ribosome",
+            "Golgi body"
+        ],
+        "answer": 1,
+        "topic": "Cell Biology",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 32,
+        "question": "Functional unit of kidney is:",
+        "options": [
+            "Neuron",
+            "Nephron",
+            "Alveoli",
+            "Glomerulus"
+        ],
+        "answer": 1,
+        "topic": "Human Physiology",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 33,
+        "question": "Acceleration due to gravity on Earth is approximately:",
+        "options": [
+            "8.9 m/s²",
+            "9.8 m/s²",
+            "10.8 m/s²",
+            "11.8 m/s²"
+        ],
+        "answer": 1,
+        "topic": "Kinematics",
+        "subject": "Physics",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 34,
+        "question": "SI unit of electric current is:",
+        "options": [
+            "Volt",
+            "Ohm",
+            "Ampere",
+            "Coulomb"
+        ],
+        "answer": 2,
+        "topic": "Current Electricity",
+        "subject": "Physics",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 35,
+        "question": "Gas released during photosynthesis is:",
+        "options": [
+            "CO2",
+            "O2",
+            "N2",
+            "H2"
+        ],
+        "answer": 1,
+        "topic": "Photosynthesis",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 36,
+        "question": "pH of human blood is approximately:",
+        "options": [
+            "6.8",
+            "7.0",
+            "7.4",
+            "8.0"
+        ],
+        "answer": 2,
+        "topic": "Body Fluids",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 37,
+        "question": "Unit of frequency is:",
+        "options": [
+            "Newton",
+            "Joule",
+            "Hertz",
+            "Pascal"
+        ],
+        "answer": 2,
+        "topic": "Oscillations",
+        "subject": "Physics",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 38,
+        "question": "Vitamin C deficiency causes:",
+        "options": [
+            "Scurvy",
+            "Rickets",
+            "Beriberi",
+            "Night blindness"
+        ],
+        "answer": 0,
+        "topic": "Nutrition",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 39,
+        "question": "SI unit of force is:",
+        "options": [
+            "Dyne",
+            "Newton",
+            "Joule",
+            "Watt"
+        ],
+        "answer": 1,
+        "topic": "Laws of Motion",
+        "subject": "Physics",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 40,
+        "question": "Which hormone regulates blood sugar level?",
+        "options": [
+            "Insulin",
+            "Thyroxine",
+            "Adrenaline",
+            "Estrogen"
+        ],
+        "answer": 0,
+        "topic": "Endocrine System",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 41,
+        "question": "Boiling point of water at 1 atm is:",
+        "options": [
+            "90°C",
+            "95°C",
+            "100°C",
+            "110°C"
+        ],
+        "answer": 2,
+        "topic": "States of Matter",
+        "subject": "Chemistry",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 42,
+        "question": "Smallest bone in human body is:",
+        "options": [
+            "Stapes",
+            "Malleus",
+            "Incus",
+            "Femur"
+        ],
+        "answer": 0,
+        "topic": "Skeletal System",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 43,
+        "question": "Unit of electric charge is:",
+        "options": [
+            "Ampere",
+            "Volt",
+            "Coulomb",
+            "Ohm"
+        ],
+        "answer": 2,
+        "topic": "Electrostatics",
+        "subject": "Physics",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 44,
+        "question": "Element with atomic number 6 is:",
+        "options": [
+            "Oxygen",
+            "Carbon",
+            "Nitrogen",
+            "Helium"
+        ],
+        "answer": 1,
+        "topic": "Periodic Table",
+        "subject": "Chemistry",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 45,
+        "question": "Breathing takes place in:",
+        "options": [
+            "Heart",
+            "Liver",
+            "Lungs",
+            "Kidney"
+        ],
+        "answer": 2,
+        "topic": "Respiration",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 46,
+        "question": "Speed of light is maximum in:",
+        "options": [
+            "Glass",
+            "Water",
+            "Air",
+            "Vacuum"
+        ],
+        "answer": 3,
+        "topic": "Optics",
+        "subject": "Physics",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 47,
+        "question": "Which acid is present in gastric juice?",
+        "options": [
+            "Acetic",
+            "Hydrochloric",
+            "Sulphuric",
+            "Nitric"
+        ],
+        "answer": 1,
+        "topic": "Biomolecules",
+        "subject": "Chemistry",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 48,
+        "question": "Genetic material in most organisms is:",
+        "options": [
+            "RNA",
+            "DNA",
+            "Protein",
+            "Lipid"
+        ],
+        "answer": 1,
+        "topic": "Genetics",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 49,
+        "question": "SI unit of power is:",
+        "options": [
+            "Joule",
+            "Newton",
+            "Watt",
+            "Ampere"
+        ],
+        "answer": 2,
+        "topic": "Work Energy Power",
+        "subject": "Physics",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 50,
+        "question": "Which gas is essential for respiration?",
+        "options": [
+            "CO2",
+            "O2",
+            "N2",
+            "H2"
+        ],
+        "answer": 1,
+        "topic": "Respiration",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 51,
+        "question": "Ohm’s law relates:",
+        "options": [
+            "V I R",
+            "P V I",
+            "R Q I",
+            "V Q R"
+        ],
+        "answer": 0,
+        "topic": "Current Electricity",
+        "subject": "Physics",
+        "difficulty": "Medium",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 52,
+        "question": "Molecular formula of glucose is:",
+        "options": [
+            "C5H10O5",
+            "C6H12O6",
+            "C12H22O11",
+            "C6H6"
+        ],
+        "answer": 1,
+        "topic": "Biomolecules",
+        "subject": "Chemistry",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 53,
+        "question": "Transpiration occurs mainly through:",
+        "options": [
+            "Stem",
+            "Root",
+            "Lenticels",
+            "Stomata"
+        ],
+        "answer": 3,
+        "topic": "Plant Physiology",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 54,
+        "question": "Unit of magnetic flux is:",
+        "options": [
+            "Tesla",
+            "Weber",
+            "Henry",
+            "Ampere"
+        ],
+        "answer": 1,
+        "topic": "Magnetism",
+        "subject": "Physics",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 55,
+        "question": "Atomic number is equal to number of:",
+        "options": [
+            "Neutrons",
+            "Electrons",
+            "Protons",
+            "Nucleons"
+        ],
+        "answer": 2,
+        "topic": "Atomic Structure",
+        "subject": "Chemistry",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 56,
+        "question": "Which blood group is universal donor?",
+        "options": [
+            "A",
+            "B",
+            "AB",
+            "O"
+        ],
+        "answer": 3,
+        "topic": "Blood Groups",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 57,
+        "question": "Escape velocity depends on:",
+        "options": [
+            "Mass only",
+            "Radius only",
+            "Mass and radius",
+            "Velocity only"
+        ],
+        "answer": 2,
+        "topic": "Gravitation",
+        "subject": "Physics",
+        "difficulty": "Medium",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 58,
+        "question": "Strongest intermolecular force is:",
+        "options": [
+            "Dipole-dipole",
+            "Hydrogen bonding",
+            "Van der Waals",
+            "Ionic"
+        ],
+        "answer": 1,
+        "topic": "Chemical Bonding",
+        "subject": "Chemistry",
+        "difficulty": "Medium",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 59,
+        "question": "Which part of brain controls breathing?",
+        "options": [
+            "Cerebrum",
+            "Cerebellum",
+            "Medulla",
+            "Pons"
+        ],
+        "answer": 2,
+        "topic": "Neural Control",
+        "subject": "Biology",
+        "difficulty": "Medium",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 60,
+        "question": "Lens used to correct myopia is:",
+        "options": [
+            "Convex",
+            "Concave",
+            "Cylindrical",
+            "Bifocal"
+        ],
+        "answer": 1,
+        "topic": "Optics",
+        "subject": "Physics",
+        "difficulty": "Medium",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 61,
+        "question": "Avogadro number is:",
+        "options": [
+            "6.022×10^23",
+            "3.011×10^23",
+            "1.6×10^-19",
+            "9.8"
+        ],
+        "answer": 0,
+        "topic": "Mole Concept",
+        "subject": "Chemistry",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 62,
+        "question": "Photosynthesis occurs in:",
+        "options": [
+            "Mitochondria",
+            "Chloroplast",
+            "Ribosome",
+            "Nucleus"
+        ],
+        "answer": 1,
+        "topic": "Photosynthesis",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 63,
+        "question": "Momentum is product of:",
+        "options": [
+            "Mass × Velocity",
+            "Force × Time",
+            "Energy × Time",
+            "Force × Distance"
+        ],
+        "answer": 0,
+        "topic": "Momentum",
+        "subject": "Physics",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 64,
+        "question": "Which element is liquid at room temperature?",
+        "options": [
+            "Bromine",
+            "Mercury",
+            "Both",
+            "None"
+        ],
+        "answer": 2,
+        "topic": "Periodic Properties",
+        "subject": "Chemistry",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 65,
+        "question": "Human chromosome number is:",
+        "options": [
+            "44",
+            "46",
+            "48",
+            "23"
+        ],
+        "answer": 1,
+        "topic": "Cell Division",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 66,
+        "question": "Unit of pressure is:",
+        "options": [
+            "Pascal",
+            "Joule",
+            "Newton",
+            "Watt"
+        ],
+        "answer": 0,
+        "topic": "Properties of Matter",
+        "subject": "Physics",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 67,
+        "question": "Enzyme nature is:",
+        "options": [
+            "Carbohydrate",
+            "Lipid",
+            "Protein",
+            "Vitamin"
+        ],
+        "answer": 2,
+        "topic": "Biomolecules",
+        "subject": "Chemistry",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 68,
+        "question": "Xylem transports:",
+        "options": [
+            "Food",
+            "Water",
+            "Hormones",
+            "Oxygen"
+        ],
+        "answer": 1,
+        "topic": "Plant Transport",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 69,
+        "question": "Electric power is given by:",
+        "options": [
+            "VI",
+            "V/I",
+            "I/R",
+            "IR"
+        ],
+        "answer": 0,
+        "topic": "Current Electricity",
+        "subject": "Physics",
+        "difficulty": "Medium",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 70,
+        "question": "Which gas causes acid rain?",
+        "options": [
+            "SO2",
+            "O2",
+            "N2",
+            "H2"
+        ],
+        "answer": 0,
+        "topic": "Environmental Chemistry",
+        "subject": "Chemistry",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 71,
+        "question": "Heart is protected by:",
+        "options": [
+            "Skull",
+            "Ribs",
+            "Pelvis",
+            "Vertebrae"
+        ],
+        "answer": 1,
+        "topic": "Circulatory System",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 72,
+        "question": "Time period of simple pendulum depends on:",
+        "options": [
+            "Mass",
+            "Amplitude",
+            "Length",
+            "Material"
+        ],
+        "answer": 2,
+        "topic": "Oscillations",
+        "subject": "Physics",
+        "difficulty": "Medium",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 73,
+        "question": "pH less than 7 indicates:",
+        "options": [
+            "Neutral",
+            "Basic",
+            "Acidic",
+            "Salt"
+        ],
+        "answer": 2,
+        "topic": "Acids Bases",
+        "subject": "Chemistry",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 74,
+        "question": "RNA differs from DNA by having:",
+        "options": [
+            "Ribose",
+            "Deoxyribose",
+            "Thymine",
+            "Double helix"
+        ],
+        "answer": 0,
+        "topic": "Molecular Biology",
+        "subject": "Biology",
+        "difficulty": "Medium",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 75,
+        "question": "SI unit of capacitance is:",
+        "options": [
+            "Ohm",
+            "Farad",
+            "Henry",
+            "Tesla"
+        ],
+        "answer": 1,
+        "topic": "Capacitance",
+        "subject": "Physics",
+        "difficulty": "Medium",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 76,
+        "question": "Which metal is most reactive?",
+        "options": [
+            "Na",
+            "Mg",
+            "Fe",
+            "Cu"
+        ],
+        "answer": 0,
+        "topic": "Reactivity Series",
+        "subject": "Chemistry",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 77,
+        "question": "Main nitrogenous waste in humans is:",
+        "options": [
+            "Ammonia",
+            "Urea",
+            "Uric acid",
+            "Creatinine"
+        ],
+        "answer": 1,
+        "topic": "Excretion",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 78,
+        "question": "Work done in circular motion is:",
+        "options": [
+            "Maximum",
+            "Minimum",
+            "Zero",
+            "Infinite"
+        ],
+        "answer": 2,
+        "topic": "Work Energy",
+        "subject": "Physics",
+        "difficulty": "Medium",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 79,
+        "question": "Hybridization of carbon in methane is:",
+        "options": [
+            "sp",
+            "sp2",
+            "sp3",
+            "dsp2"
+        ],
+        "answer": 2,
+        "topic": "Organic Chemistry",
+        "subject": "Chemistry",
+        "difficulty": "Medium",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 80,
+        "question": "Which vitamin helps in blood clotting?",
+        "options": [
+            "A",
+            "B",
+            "C",
+            "K"
+        ],
+        "answer": 3,
+        "topic": "Nutrition",
+        "subject": "Biology",
+        "difficulty": "Easy",
+        "examType": [
+            "NEET"
+        ]
+    },
+    {
+        "id": 81,
+        "question": "Average of first 10 natural numbers is:",
+        "options": [
+            "5",
+            "5.5",
+            "6",
+            "4.5"
+        ],
+        "answer": 1,
+        "topic": "Averages",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 82,
+        "question": "15% of 200 is:",
+        "options": [
+            "20",
+            "25",
+            "30",
+            "35"
+        ],
+        "answer": 2,
+        "topic": "Percentage",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 83,
+        "question": "Simple interest on ₹1000 at 10% per annum for 2 years is:",
+        "options": [
+            "100",
+            "150",
+            "200",
+            "250"
+        ],
+        "answer": 2,
+        "topic": "Simple Interest",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 84,
+        "question": "If A > B and B > C, then A > C is:",
+        "options": [
+            "True",
+            "False",
+            "Cannot be determined",
+            "None"
+        ],
+        "answer": 0,
+        "topic": "Inequalities",
+        "subject": "Reasoning",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 85,
+        "question": "Synonym of 'Abundant' is:",
+        "options": [
+            "Scarce",
+            "Plenty",
+            "Rare",
+            "Limited"
+        ],
+        "answer": 1,
+        "topic": "Vocabulary",
+        "subject": "English",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 86,
+        "question": "Next number in series: 2, 6, 12, 20, ?",
+        "options": [
+            "24",
+            "28",
+            "30",
+            "32"
+        ],
+        "answer": 1,
+        "topic": "Number Series",
+        "subject": "Reasoning",
+        "difficulty": "Medium",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 87,
+        "question": "A train travels 60 km in 1.5 hours. Its speed is:",
+        "options": [
+            "30 km/h",
+            "40 km/h",
+            "45 km/h",
+            "50 km/h"
+        ],
+        "answer": 1,
+        "topic": "Speed Time Distance",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 88,
+        "question": "Antonym of 'Expand' is:",
+        "options": [
+            "Increase",
+            "Grow",
+            "Shrink",
+            "Rise"
+        ],
+        "answer": 2,
+        "topic": "Vocabulary",
+        "subject": "English",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 89,
+        "question": "Which bank is the largest public sector bank in India?",
+        "options": [
+            "PNB",
+            "SBI",
+            "BOB",
+            "Canara Bank"
+        ],
+        "answer": 1,
+        "topic": "Banking Awareness",
+        "subject": "General Awareness",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 90,
+        "question": "The plural of 'Crisis' is:",
+        "options": [
+            "Crisis",
+            "Crisises",
+            "Crises",
+            "Crisen"
+        ],
+        "answer": 2,
+        "topic": "Grammar",
+        "subject": "English",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 91,
+        "question": "If x + 5 = 12, find x.",
+        "options": [
+            "5",
+            "6",
+            "7",
+            "8"
+        ],
+        "answer": 2,
+        "topic": "Linear Equations",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 92,
+        "question": "Who is the regulator of banks in India?",
+        "options": [
+            "SEBI",
+            "RBI",
+            "IRDA",
+            "NABARD"
+        ],
+        "answer": 1,
+        "topic": "Banking Awareness",
+        "subject": "General Awareness",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 93,
+        "question": "Find the odd one out: Apple, Mango, Banana, Potato",
+        "options": [
+            "Apple",
+            "Mango",
+            "Banana",
+            "Potato"
+        ],
+        "answer": 3,
+        "topic": "Classification",
+        "subject": "Reasoning",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 94,
+        "question": "Choose the correctly spelled word:",
+        "options": [
+            "Enviroment",
+            "Environmant",
+            "Environment",
+            "Enviornment"
+        ],
+        "answer": 2,
+        "topic": "Spelling",
+        "subject": "English",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 95,
+        "question": "Profit = CP + 20%. Find SP if CP = ₹500.",
+        "options": [
+            "₹550",
+            "₹600",
+            "₹650",
+            "₹700"
+        ],
+        "answer": 1,
+        "topic": "Profit and Loss",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 96,
+        "question": "If 3x = 27, then x = ?",
+        "options": [
+            "6",
+            "7",
+            "8",
+            "9"
+        ],
+        "answer": 3,
+        "topic": "Algebra",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 97,
+        "question": "Statement: All cats are animals. Conclusion: All animals are cats.",
+        "options": [
+            "True",
+            "False",
+            "Both",
+            "None"
+        ],
+        "answer": 1,
+        "topic": "Syllogism",
+        "subject": "Reasoning",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 98,
+        "question": "One word for 'able to use both hands equally well':",
+        "options": [
+            "Ambidextrous",
+            "Bilingual",
+            "Omnivorous",
+            "Anonymous"
+        ],
+        "answer": 0,
+        "topic": "Vocabulary",
+        "subject": "English",
+        "difficulty": "Medium",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 99,
+        "question": "₹1200 invested at 10% p.a. for 1 year gives SI of:",
+        "options": [
+            "₹100",
+            "₹110",
+            "₹120",
+            "₹130"
+        ],
+        "answer": 2,
+        "topic": "Simple Interest",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 100,
+        "question": "Headquarters of RBI is in:",
+        "options": [
+            "Delhi",
+            "Mumbai",
+            "Chennai",
+            "Kolkata"
+        ],
+        "answer": 1,
+        "topic": "Banking Awareness",
+        "subject": "General Awareness",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 101,
+        "question": "Find the missing number: 3, 9, 27, ?",
+        "options": [
+            "54",
+            "72",
+            "81",
+            "90"
+        ],
+        "answer": 2,
+        "topic": "Number Series",
+        "subject": "Reasoning",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 102,
+        "question": "Choose the correct passive voice: He wrote a letter.",
+        "options": [
+            "A letter is written",
+            "A letter was written",
+            "A letter has written",
+            "A letter is being wrote"
+        ],
+        "answer": 1,
+        "topic": "Grammar",
+        "subject": "English",
+        "difficulty": "Medium",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 103,
+        "question": "If selling price is equal to cost price, profit is:",
+        "options": [
+            "Loss",
+            "Zero",
+            "Negative",
+            "Infinite"
+        ],
+        "answer": 1,
+        "topic": "Profit and Loss",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 104,
+        "question": "Which is a renewable source of energy?",
+        "options": [
+            "Coal",
+            "Petroleum",
+            "Solar",
+            "Gas"
+        ],
+        "answer": 2,
+        "topic": "General Awareness",
+        "subject": "General Awareness",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 105,
+        "question": "If A is brother of B and B is sister of C, then A is _____ of C.",
+        "options": [
+            "Brother",
+            "Sister",
+            "Father",
+            "Cannot be determined"
+        ],
+        "answer": 0,
+        "topic": "Blood Relations",
+        "subject": "Reasoning",
+        "difficulty": "Medium",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 106,
+        "question": "Compound interest on ₹1000 at 10% for 2 years is:",
+        "options": [
+            "₹200",
+            "₹210",
+            "₹220",
+            "₹230"
+        ],
+        "answer": 1,
+        "topic": "Compound Interest",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Medium",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 107,
+        "question": "Antonym of 'Permanent' is:",
+        "options": [
+            "Stable",
+            "Temporary",
+            "Fixed",
+            "Lasting"
+        ],
+        "answer": 1,
+        "topic": "Vocabulary",
+        "subject": "English",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 108,
+        "question": "Which number is not divisible by 3?",
+        "options": [
+            "111",
+            "114",
+            "117",
+            "119"
+        ],
+        "answer": 3,
+        "topic": "Divisibility",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 109,
+        "question": "Find the angle between hour and minute hand at 3:00.",
+        "options": [
+            "0°",
+            "90°",
+            "120°",
+            "180°"
+        ],
+        "answer": 1,
+        "topic": "Clock",
+        "subject": "Reasoning",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 110,
+        "question": "Full form of ATM is:",
+        "options": [
+            "Automatic Teller Machine",
+            "Any Time Money",
+            "Automated Transfer Mode",
+            "All Time Machine"
+        ],
+        "answer": 0,
+        "topic": "Banking Awareness",
+        "subject": "General Awareness",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 111,
+        "question": "Ratio of 2:3 is equivalent to:",
+        "options": [
+            "4:9",
+            "6:9",
+            "8:12",
+            "10:15"
+        ],
+        "answer": 1,
+        "topic": "Ratio and Proportion",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 112,
+        "question": "Which is a prime number?",
+        "options": [
+            "21",
+            "27",
+            "29",
+            "35"
+        ],
+        "answer": 2,
+        "topic": "Number System",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 113,
+        "question": "Choose the correct meaning of 'Ubiquitous':",
+        "options": [
+            "Rare",
+            "Everywhere",
+            "Dangerous",
+            "Temporary"
+        ],
+        "answer": 1,
+        "topic": "Vocabulary",
+        "subject": "English",
+        "difficulty": "Medium",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 114,
+        "question": "If today is Monday, what day will it be after 15 days?",
+        "options": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday"
+        ],
+        "answer": 2,
+        "topic": "Calendar",
+        "subject": "Reasoning",
+        "difficulty": "Medium",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 115,
+        "question": "Which organization regulates insurance in India?",
+        "options": [
+            "RBI",
+            "SEBI",
+            "IRDAI",
+            "NABARD"
+        ],
+        "answer": 2,
+        "topic": "Financial Awareness",
+        "subject": "General Awareness",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 116,
+        "question": "20% of a number is 40. Find the number.",
+        "options": [
+            "100",
+            "150",
+            "200",
+            "250"
+        ],
+        "answer": 0,
+        "topic": "Percentage",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 117,
+        "question": "Find the odd pair: Pen–Write, Knife–Cut, Spoon–Eat, Chair–Sit",
+        "options": [
+            "Pen–Write",
+            "Knife–Cut",
+            "Spoon–Eat",
+            "Chair–Sit"
+        ],
+        "answer": 2,
+        "topic": "Analogy",
+        "subject": "Reasoning",
+        "difficulty": "Medium",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 118,
+        "question": "Correct spelling:",
+        "options": [
+            "Accomodation",
+            "Acommodation",
+            "Accommodation",
+            "Acomodation"
+        ],
+        "answer": 2,
+        "topic": "Spelling",
+        "subject": "English",
+        "difficulty": "Medium",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 119,
+        "question": "What is the capital of Australia?",
+        "options": [
+            "Sydney",
+            "Melbourne",
+            "Canberra",
+            "Perth"
+        ],
+        "answer": 2,
+        "topic": "General Knowledge",
+        "subject": "General Awareness",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 120,
+        "question": "If perimeter of a square is 40 cm, its side is:",
+        "options": [
+            "5",
+            "8",
+            "10",
+            "12"
+        ],
+        "answer": 2,
+        "topic": "Mensuration",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 121,
+        "question": "Choose the correctly punctuated sentence:",
+        "options": [
+            "Its raining outside.",
+            "It's raining outside.",
+            "Its' raining outside.",
+            "Its raining outside!"
+        ],
+        "answer": 1,
+        "topic": "Grammar",
+        "subject": "English",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 122,
+        "question": "Find the missing term: A, C, F, J, ?",
+        "options": [
+            "M",
+            "N",
+            "O",
+            "P"
+        ],
+        "answer": 1,
+        "topic": "Alphabet Series",
+        "subject": "Reasoning",
+        "difficulty": "Medium",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 123,
+        "question": "Which metal is used in making coins?",
+        "options": [
+            "Gold",
+            "Silver",
+            "Copper",
+            "Platinum"
+        ],
+        "answer": 2,
+        "topic": "General Awareness",
+        "subject": "General Awareness",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 124,
+        "question": "A man buys for ₹500 and sells for ₹450. Find loss percentage.",
+        "options": [
+            "5%",
+            "8%",
+            "10%",
+            "12%"
+        ],
+        "answer": 2,
+        "topic": "Profit and Loss",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Medium",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 125,
+        "question": "Choose the correct one word: 'Study of earthquakes'",
+        "options": [
+            "Seismology",
+            "Geology",
+            "Ecology",
+            "Meteorology"
+        ],
+        "answer": 0,
+        "topic": "Vocabulary",
+        "subject": "English",
+        "difficulty": "Medium",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 126,
+        "question": "Time taken by a car to travel 120 km at 60 km/h is:",
+        "options": [
+            "1 hr",
+            "2 hr",
+            "3 hr",
+            "4 hr"
+        ],
+        "answer": 1,
+        "topic": "Speed Time Distance",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 127,
+        "question": "Who is the present Prime Minister of India?",
+        "options": [
+            "Narendra Modi",
+            "Rahul Gandhi",
+            "Amit Shah",
+            "Nitin Gadkari"
+        ],
+        "answer": 0,
+        "topic": "Current Affairs",
+        "subject": "General Awareness",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 128,
+        "question": "Find the odd one out: Circle, Triangle, Square, Cube",
+        "options": [
+            "Circle",
+            "Triangle",
+            "Square",
+            "Cube"
+        ],
+        "answer": 3,
+        "topic": "Classification",
+        "subject": "Reasoning",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 129,
+        "question": "Choose the correct indirect speech: He said, “I am tired.”",
+        "options": [
+            "He said that he is tired",
+            "He said that he was tired",
+            "He says that he was tired",
+            "He said he tired"
+        ],
+        "answer": 1,
+        "topic": "Grammar",
+        "subject": "English",
+        "difficulty": "Medium",
+        "examType": [
+            "Bank PO"
+        ]
+    },
+    {
+        "id": 130,
+        "question": "If cost price = selling price, then profit or loss is:",
+        "options": [
+            "Profit",
+            "Loss",
+            "Neither profit nor loss",
+            "Cannot say"
+        ],
+        "answer": 2,
+        "topic": "Profit and Loss",
+        "subject": "Quantitative Aptitude",
+        "difficulty": "Easy",
+        "examType": [
+            "Bank PO"
+        ]
     }
-
-]
-
-const a1 = [4, 2, 2, 2, 4, 1, 3, 3, 2, 0, 1, 3, 0, 1, 4, 3, 3, 0, 4, 3, 3, 2, 4, 4];
-
-const q2 = [
-    {
-        id: 1,
-        topic: "Numerical Ability",
-        question: "Which number is missing? 4, 8, 12, __, 20",
-        options: ["(A) 14", "(B) 15", "(C) 16", "(D) 18", "(E) 24"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 3
-    },
-    {
-        id: 2,
-        topic: "Numerical Ability",
-        question: "A square has a perimeter of 20 cm. What is the length of one side?",
-        options: ["(A) 3", "(B) 4", "(C) 5", "(D) 6", "(E) 10"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 3
-    },
-    {
-        id: 3,
-        topic: "Numerical Ability",
-        question: "How many corners does 3 triangles have together?",
-        options: ["(A) 6", "(B) 7", "(C) 8", "(D) 9", "(E) 12"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 3
-    },
-    {
-        id: 4,
-        topic: "Numerical Ability",
-        question: "Which number is the largest?",
-        options: ["(A) 403", "(B) 430", "(C) 340", "(D) 304", "(E) 450"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 3
-    },
-    {
-        id: 5,
-        topic: "Logical Reasoning",
-        question: "If today is Tuesday, what day will it be after 10 days?",
-        options: ["(A) Friday", "(B) Saturday", "(C) Sunday", "(D) Monday", "(E) Thursday"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 3
-    },
-    {
-        id: 6,
-        topic: "Numerical Ability",
-        question: "How many tens are there in 370?",
-        options: ["(A) 3", "(B) 7", "(C) 30", "(D) 37", "(E) 300"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 3
-    },
-    {
-        id: 7,
-        topic: "Logical Reasoning",
-        question: "Which shape has no corners?",
-        options: ["(A) Square", "(B) Triangle", "(C) Rectangle", "(D) Circle", "(E) Pentagon"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 3
-    },
-    {
-        id: 8,
-        topic: "Numerical Ability",
-        question: "9 + 9 ÷ 3 = ?",
-        options: ["(A) 6", "(B) 9", "(C) 12", "(D) 15", "(E) 18"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 3
-    },
-    {
-        id: 9,
-        topic: "Numerical Ability",
-        question: "A box has 4 red, 3 blue, and 5 green balls. How many balls are there in total?",
-        options: ["(A) 10", "(B) 11", "(C) 12", "(D) 13", "(E) 14"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 4
-    },
-    {
-        id: 10,
-        topic: "Numerical Ability",
-        question: "Which number makes the sum 50? 27 + __ = 50",
-        options: ["(A) 13", "(B) 21", "(C) 22", "(D) 23", "(E) 24"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 4
-    },
-    {
-        id: 11,
-        topic: "Numerical Ability",
-        question: "How many minutes are there in 2 hours and 15 minutes?",
-        options: ["(A) 120", "(B) 135", "(C) 140", "(D) 145", "(E) 150"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 4
-    },
-    {
-        id: 12,
-        topic: "Numerical Ability",
-        question: "A rectangle has length 8 cm and width 3 cm. What is its area?",
-        options: ["(A) 11", "(B) 16", "(C) 24", "(D) 32", "(E) 48"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 4
-    },
-    {
-        id: 13,
-        topic: "Numerical Ability",
-        question: "Which fraction is the biggest?",
-        options: ["(A) 1/2", "(B) 2/3", "(C) 3/4", "(D) 4/5", "(E) 1/3"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 4
-    },
-    {
-        id: 14,
-        topic: "Logical Reasoning",
-        question: "What comes next? 2, 6, 18, __",
-        options: ["(A) 24", "(B) 36", "(C) 48", "(D) 54", "(E) 56"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 4
-    },
-    {
-        id: 15,
-        topic: "Numerical Ability",
-        question: "How many faces does a cube have?",
-        options: ["(A) 4", "(B) 5", "(C) 6", "(D) 8", "(E) 12"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 4
-    },
-    {
-        id: 16,
-        topic: "Numerical Ability",
-        question: "If one pencil costs 7 coins, how many coins are needed for 5 pencils?",
-        options: ["(A) 30", "(B) 32", "(C) 34", "(D) 35", "(E) 40"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 4
-    },
-    {
-        id: 17,
-        topic: "Numerical Ability",
-        question: "Three numbers add up to 120. Two of them are 45 and 38. What is the third number?",
-        options: ["(A) 27", "(B) 35", "(C) 37", "(D) 45", "(E) 52"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 5
-    },
-    {
-        id: 18,
-        topic: "Numerical Ability",
-        question: "A clock shows 3:30. What angle is between the hour and minute hand?",
-        options: ["(A) 30°", "(B) 45°", "(C) 60°", "(D) 75°", "(E) 90°"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 5
-    },
-    {
-        id: 19,
-        topic: "Numerical Ability",
-        question: "How many even numbers are there between 10 and 40?",
-        options: ["(A) 14", "(B) 15", "(C) 16", "(D) 17", "(E) 18"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 5
-    },
-    {
-        id: 20,
-        topic: "Numerical Ability",
-        question: "A number becomes 5 times bigger when multiplied by 5. What is the number?",
-        options: ["(A) 1", "(B) 5", "(C) 10", "(D) 25", "(E) 50"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 5
-    },
-    {
-        id: 21,
-        topic: "Logical Reasoning",
-        question: "Which shape has the greatest number of sides?",
-        options: ["(A) Triangle", "(B) Square", "(C) Pentagon", "(D) Hexagon", "(E) Octagon"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 5
-    },
-    {
-        id: 22,
-        topic: "Numerical Ability",
-        question: "If 3 apples cost 18 coins, how many coins do 5 apples cost?",
-        options: ["(A) 25", "(B) 28", "(C) 30", "(D) 32", "(E) 35"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 5
-    },
-    {
-        id: 23,
-        topic: "Numerical Ability",
-        question: "How many different ways can you arrange the letters A, B, C?",
-        options: ["(A) 3", "(B) 4", "(C) 5", "(D) 6", "(E) 9"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 5
-    },
-    {
-        id: 24,
-        topic: "Numerical Ability",
-        question: "A number is divisible by both 2 and 5. Which number could it be?",
-        options: ["(A) 12", "(B) 15", "(C) 20", "(D) 22", "(E) 25"],
-        explanation: "",
-        questionImage: "",
-        optionImages: [],
-        points: 5
-    }
-];
-const a2 = [2, 2, 3, 4, 2, 3, 3, 3, 2, 3, 1, 2, 3, 3, 2, 3, 2, 2, 2, 0, 4, 2, 3, 2];
-
-const q3 = [
-    {
-        id: 1,
-        topic: "Circadian Rhythm",
-        question: "What controls the sleep–wake cycle in humans?",
-        options: [
-            "(A) Heart rhythm", "(B) Circadian rhythm", "(C) Digestive cycle", "(D) Blood pressure", "(E) Respiratory rhythm"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 2,
-        topic: "Circadian Rhythm",
-        question: "The circadian rhythm follows approximately how many hours?",
-        options: [
-            "(A) 12 hours", "(B) 18 hours", "(C) 24 hours", "(D) 36 hours", "(E) 48 hours"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 3,
-        topic: "Circadian Rhythm",
-        question: "Which hormone increases at night to induce sleep?",
-        options: [
-            "(A) Adrenaline", "(B) Insulin", "(C) Melatonin", "(D) Thyroxine", "(E) Cortisol"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 4,
-        topic: "Circadian Rhythm",
-        question: "Which factor most strongly affects circadian rhythm?",
-        options: [
-            "(A) Sound", "(B) Temperature", "(C) Light", "(D) Food", "(E) Exercise"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 5,
-        topic: "Circadian Rhythm",
-        question: "Exposure to bright light at night mainly affects which hormone?",
-        options: [
-            "(A) Insulin", "(B) Melatonin", "(C) Estrogen", "(D) Testosterone", "(E) Growth hormone"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 6,
-        topic: "Circadian Rhythm",
-        question: "Which organ controls the circadian rhythm?",
-        options: [
-            "(A) Heart", "(B) Liver", "(C) Brain", "(D) Kidney", "(E) Lungs"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 7,
-        topic: "Circadian Rhythm",
-        question: "Which part of the brain regulates circadian rhythm?",
-        options: [
-            "(A) Cerebellum", "(B) Hypothalamus", "(C) Medulla", "(D) Pons", "(E) Thalamus"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 8,
-        topic: "Circadian Rhythm",
-        question: "Irregular sleep timings mainly disturb which system?",
-        options: [
-            "(A) Digestive", "(B) Nervous", "(C) Circadian", "(D) Respiratory", "(E) Muscular"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 9,
-        topic: "Circadian Rhythm",
-        question: "Jet lag is caused due to disruption of?",
-        options: [
-            "(A) Heart rhythm", "(B) Respiratory rhythm", "(C) Circadian rhythm", "(D) Blood flow", "(E) Digestion"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 10,
-        topic: "Circadian Rhythm",
-        question: "Which light helps reset circadian rhythm naturally?",
-        options: [
-            "(A) Blue light", "(B) Red light", "(C) Morning sunlight", "(D) Tube light", "(E) Candle light"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 11,
-        topic: "Circadian Rhythm",
-        question: "Using mobile phones before sleep mainly affects?",
-        options: [
-            "(A) Vision", "(B) Hearing", "(C) Circadian rhythm", "(D) Memory", "(E) Digestion"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 12,
-        topic: "Circadian Rhythm",
-        question: "Melatonin is released by which gland?",
-        options: [
-            "(A) Pituitary", "(B) Thyroid", "(C) Pineal", "(D) Adrenal", "(E) Pancreas"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 13,
-        topic: "Circadian Rhythm",
-        question: "Which habit improves circadian rhythm?",
-        options: [
-            "(A) Late-night meals", "(B) Irregular sleep", "(C) Consistent sleep time", "(D) Night screen use", "(E) Caffeine at night"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 14,
-        topic: "Circadian Rhythm",
-        question: "Circadian rhythm disruption can cause?",
-        options: [
-            "(A) Better sleep", "(B) Insomnia", "(C) Improved focus", "(D) Faster digestion", "(E) Stronger immunity"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 15,
-        topic: "Circadian Rhythm",
-        question: "Which worker is most affected by circadian rhythm disturbance?",
-        options: [
-            "(A) Day-shift worker", "(B) Night-shift worker", "(C) Student", "(D) Athlete", "(E) Teacher"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 16,
-        topic: "Circadian Rhythm",
-        question: "Caffeine late at night affects sleep by blocking?",
-        options: [
-            "(A) Melatonin", "(B) Insulin", "(C) Serotonin", "(D) Adrenaline", "(E) Dopamine"
-        ],
-        correctIndex: 0,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 17,
-        topic: "Circadian Rhythm",
-        question: "The internal biological clock is also called?",
-        options: [
-            "(A) Pulse clock", "(B) Heart clock", "(C) Biological clock", "(D) Brain timer", "(E) Sleep counter"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 18,
-        topic: "Circadian Rhythm",
-        question: "Which age group commonly faces circadian rhythm delay?",
-        options: [
-            "(A) Infants", "(B) Children", "(C) Teenagers", "(D) Adults", "(E) Elderly"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 19,
-        topic: "Circadian Rhythm",
-        question: "Blue light mainly comes from?",
-        options: [
-            "(A) Sunset", "(B) Mobile screens", "(C) Moonlight", "(D) Candle", "(E) Bulb filament"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 20,
-        topic: "Circadian Rhythm",
-        question: "Best time to sleep for healthy circadian rhythm?",
-        options: [
-            "(A) After midnight", "(B) Early morning", "(C) Late night", "(D) Consistent night time", "(E) Any time"
-        ],
-        correctIndex: 3,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 21,
-        topic: "Circadian Rhythm",
-        question: "Circadian rhythm also affects?",
-        options: [
-            "(A) Sleep only", "(B) Digestion only", "(C) Hormones and sleep", "(D) Hearing", "(E) Vision"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 22,
-        topic: "Circadian Rhythm",
-        question: "Which activity should be avoided before sleep?",
-        options: [
-            "(A) Reading", "(B) Meditation", "(C) Heavy screen use", "(D) Light stretching", "(E) Dim lights"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 23,
-        topic: "Circadian Rhythm",
-        question: "Waking up at the same time daily helps?",
-        options: [
-            "(A) Digestion", "(B) Heart rate", "(C) Circadian rhythm", "(D) Blood sugar", "(E) Muscle growth"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 24,
-        topic: "Circadian Rhythm",
-        question: "Which hormone increases in early morning?",
-        options: [
-            "(A) Melatonin", "(B) Cortisol", "(C) Insulin", "(D) Estrogen", "(E) Progesterone"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 25,
-        topic: "Circadian Rhythm",
-        question: "Which lifestyle factor worsens circadian rhythm?",
-        options: [
-            "(A) Morning walk", "(B) Sunlight exposure", "(C) Late-night scrolling", "(D) Fixed sleep time", "(E) Exercise"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 26,
-        topic: "Circadian Rhythm",
-        question: "Circadian rhythm disruption may lead to?",
-        options: [
-            "(A) Obesity", "(B) Diabetes", "(C) Mood issues", "(D) All of these", "(E) None"
-        ],
-        correctIndex: 3,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 27,
-        topic: "Circadian Rhythm",
-        question: "Which sense detects light to regulate circadian rhythm?",
-        options: [
-            "(A) Ear", "(B) Skin", "(C) Eyes", "(D) Nose", "(E) Tongue"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 28,
-        topic: "Circadian Rhythm",
-        question: "Sleeping during the day and staying awake at night causes?",
-        options: [
-            "(A) Balanced rhythm", "(B) Circadian misalignment", "(C) Better focus", "(D) Faster recovery", "(E) No effect"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 29,
-        topic: "Circadian Rhythm",
-        question: "Which vitamin is linked with sunlight exposure?",
-        options: [
-            "(A) Vitamin A", "(B) Vitamin B", "(C) Vitamin C", "(D) Vitamin D", "(E) Vitamin K"
-        ],
-        correctIndex: 3,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 30,
-        topic: "Circadian Rhythm",
-        question: "Natural circadian rhythm is aligned with?",
-        options: [
-            "(A) Clock time", "(B) Sun cycle", "(C) Food time", "(D) Work time", "(E) Screen time"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 31,
-        topic: "Circadian Rhythm",
-        question: "Which habit helps reset circadian rhythm fastest?",
-        options: [
-            "(A) Night workouts", "(B) Morning sunlight", "(C) Late dinners", "(D) Midnight snacks", "(E) Blue light"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 32,
-        topic: "Circadian Rhythm",
-        question: "Circadian rhythm is an example of?",
-        options: [
-            "(A) Reflex action", "(B) Biological rhythm", "(C) Voluntary action", "(D) Hormonal disorder", "(E) Nerve impulse"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 33,
-        topic: "Circadian Rhythm",
-        question: "Which system mainly coordinates circadian rhythm?",
-        options: [
-            "(A) Digestive", "(B) Respiratory", "(C) Nervous", "(D) Excretory", "(E) Skeletal"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 34,
-        topic: "Circadian Rhythm",
-        question: "Poor circadian rhythm can affect mental health?",
-        options: [
-            "(A) Yes", "(B) No", "(C) Only children", "(D) Only elderly", "(E) Only athletes"
-        ],
-        correctIndex: 0,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 35,
-        topic: "Circadian Rhythm",
-        question: "Which is NOT controlled by circadian rhythm?",
-        options: [
-            "(A) Sleep", "(B) Hormones", "(C) Body temperature", "(D) Heartbeat", "(E) Alertness"
-        ],
-        correctIndex: 3,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 36,
-        topic: "Circadian Rhythm",
-        question: "Late-night eating affects circadian rhythm by?",
-        options: [
-            "(A) Improving sleep", "(B) Delaying internal clock", "(C) Increasing melatonin", "(D) Reducing stress", "(E) No effect"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 37,
-        topic: "Circadian Rhythm",
-        question: "Which is a sign of circadian rhythm disorder?",
-        options: [
-            "(A) Deep sleep", "(B) Early sleepiness", "(C) Difficulty sleeping at night", "(D) High energy", "(E) Good focus"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 38,
-        topic: "Circadian Rhythm",
-        question: "Which device emits maximum blue light?",
-        options: [
-            "(A) TV", "(B) Laptop", "(C) Mobile phone", "(D) Bulb", "(E) Candle"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 39,
-        topic: "Circadian Rhythm",
-        question: "Which sleep habit is healthiest?",
-        options: [
-            "(A) Random sleep time", "(B) Fixed sleep-wake time", "(C) Late sleep", "(D) Day sleep", "(E) Split sleep"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 40,
-        topic: "Circadian Rhythm",
-        question: "Circadian rhythm disruption increases risk of?",
-        options: [
-            "(A) Better memory", "(B) Chronic diseases", "(C) Faster growth", "(D) Stronger immunity", "(E) None"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 41,
-        topic: "Circadian Rhythm",
-        question: "Which hormone decreases in daylight?",
-        options: [
-            "(A) Cortisol", "(B) Insulin", "(C) Melatonin", "(D) Adrenaline", "(E) Growth hormone"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 42,
-        topic: "Circadian Rhythm",
-        question: "The body clock responds directly to?",
-        options: [
-            "(A) Sound waves", "(B) Light signals", "(C) Smell", "(D) Taste", "(E) Touch"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 43,
-        topic: "Circadian Rhythm",
-        question: "Best way to improve sleep naturally?",
-        options: [
-            "(A) Sleeping pills", "(B) Consistent routine", "(C) Late workouts", "(D) Heavy meals", "(E) Screen time"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 44,
-        topic: "Circadian Rhythm",
-        question: "Which job often disrupts circadian rhythm?",
-        options: [
-            "(A) Teacher", "(B) Farmer", "(C) Night guard", "(D) Doctor (day)", "(E) Shopkeeper"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 45,
-        topic: "Circadian Rhythm",
-        question: "Circadian rhythm is synchronized mainly by?",
-        options: [
-            "(A) Food", "(B) Exercise", "(C) Light", "(D) Water", "(E) Sound"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 46,
-        topic: "Circadian Rhythm",
-        question: "Which activity delays melatonin release?",
-        options: [
-            "(A) Reading", "(B) Meditation", "(C) Screen exposure", "(D) Warm bath", "(E) Dark room"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 47,
-        topic: "Circadian Rhythm",
-        question: "Sleep disorders due to circadian issues are called?",
-        options: [
-            "(A) Insomnia", "(B) Parasomnia", "(C) Circadian rhythm disorders", "(D) Narcolepsy", "(E) Apnea"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 48,
-        topic: "Circadian Rhythm",
-        question: "Which age group needs most sleep?",
-        options: [
-            "(A) Adults", "(B) Teenagers", "(C) Elderly", "(D) Children", "(E) Middle-aged"
-        ],
-        correctIndex: 3,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 49,
-        topic: "Circadian Rhythm",
-        question: "Which factor does NOT reset circadian rhythm?",
-        options: [
-            "(A) Sunlight", "(B) Sleep time", "(C) Meals", "(D) Mobile games", "(E) Routine"
-        ],
-        correctIndex: 3,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 50,
-        topic: "Circadian Rhythm",
-        question: "Best sleep environment includes?",
-        options: [
-            "(A) Bright lights", "(B) Noisy room", "(C) Dark and quiet room", "(D) Warm screens", "(E) Late meals"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 51,
-        topic: "Circadian Rhythm",
-        question: "Circadian rhythm also affects body temperature?",
-        options: [
-            "(A) Yes", "(B) No", "(C) Only in winter", "(D) Only in summer", "(E) Only children"
-        ],
-        correctIndex: 0,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 52,
-        topic: "Circadian Rhythm",
-        question: "Which hormone peaks at night?",
-        options: [
-            "(A) Cortisol", "(B) Insulin", "(C) Melatonin", "(D) Adrenaline", "(E) Glucagon"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 53,
-        topic: "Circadian Rhythm",
-        question: "Which habit helps deep sleep?",
-        options: [
-            "(A) Late caffeine", "(B) Regular routine", "(C) Mobile use", "(D) Heavy dinner", "(E) Late exercise"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 54,
-        topic: "Circadian Rhythm",
-        question: "Circadian rhythm mismatch causes daytime?",
-        options: [
-            "(A) Alertness", "(B) Sleepiness", "(C) Energy", "(D) Focus", "(E) Motivation"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 55,
-        topic: "Circadian Rhythm",
-        question: "Which hormone prepares body for waking up?",
-        options: [
-            "(A) Melatonin", "(B) Cortisol", "(C) Estrogen", "(D) Progesterone", "(E) Oxytocin"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 56,
-        topic: "Circadian Rhythm",
-        question: "Which sense organ sends light info to brain?",
-        options: [
-            "(A) Ear", "(B) Eye", "(C) Skin", "(D) Tongue", "(E) Nose"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 57,
-        topic: "Circadian Rhythm",
-        question: "Circadian rhythm disturbance is common in?",
-        options: [
-            "(A) Athletes", "(B) Night-shift workers", "(C) Children", "(D) Farmers", "(E) Teachers"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 58,
-        topic: "Circadian Rhythm",
-        question: "Which is a natural circadian cue?",
-        options: [
-            "(A) Alarm clock", "(B) Sunrise", "(C) Mobile notification", "(D) TV", "(E) Music"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 59,
-        topic: "Circadian Rhythm",
-        question: "Which improves circadian alignment?",
-        options: [
-            "(A) Sleeping late", "(B) Skipping meals", "(C) Morning routine", "(D) Night gaming", "(E) Late workouts"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 60,
-        topic: "Circadian Rhythm",
-        question: "Circadian rhythm helps maintain?",
-        options: [
-            "(A) Biological balance", "(B) Only sleep", "(C) Only digestion", "(D) Only hormones", "(E) Only heart rate"
-        ],
-        correctIndex: 0,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 61,
-        topic: "Circadian Rhythm",
-        question: "Which hormone reduces stress in morning?",
-        options: [
-            "(A) Melatonin", "(B) Cortisol", "(C) Insulin", "(D) Adrenaline", "(E) Serotonin"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 62,
-        topic: "Circadian Rhythm",
-        question: "Circadian rhythm is innate or learned?",
-        options: [
-            "(A) Learned", "(B) Trained", "(C) Innate", "(D) Artificial", "(E) Random"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 63,
-        topic: "Circadian Rhythm",
-        question: "Which habit damages circadian rhythm the most?",
-        options: [
-            "(A) Late-night screens", "(B) Morning walk", "(C) Fixed routine", "(D) Sunlight", "(E) Meditation"
-        ],
-        correctIndex: 0,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 64,
-        topic: "Circadian Rhythm",
-        question: "Which chemical signals sleep onset?",
-        options: [
-            "(A) Dopamine", "(B) Melatonin", "(C) Cortisol", "(D) Insulin", "(E) Adrenaline"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 65,
-        topic: "Circadian Rhythm",
-        question: "Which improves sleep quality?",
-        options: [
-            "(A) Dark room", "(B) Bright room", "(C) Noise", "(D) Screens", "(E) Late food"
-        ],
-        correctIndex: 0,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 66,
-        topic: "Circadian Rhythm",
-        question: "Circadian rhythm is best described as?",
-        options: [
-            "(A) Random cycle", "(B) 24-hour biological cycle", "(C) Weekly cycle", "(D) Monthly cycle", "(E) Yearly cycle"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 67,
-        topic: "Circadian Rhythm",
-        question: "Which hormone keeps you awake during day?",
-        options: [
-            "(A) Melatonin", "(B) Cortisol", "(C) Progesterone", "(D) Oxytocin", "(E) Estrogen"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 68,
-        topic: "Circadian Rhythm",
-        question: "Which behavior aligns circadian rhythm?",
-        options: [
-            "(A) Sleeping late daily", "(B) Random schedule", "(C) Consistent routine", "(D) Night screens", "(E) Late caffeine"
-        ],
-        correctIndex: 2,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 69,
-        topic: "Circadian Rhythm",
-        question: "Circadian rhythm disruption can affect productivity?",
-        options: [
-            "(A) Yes", "(B) No", "(C) Only students", "(D) Only workers", "(E) Only elderly"
-        ],
-        correctIndex: 0,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
-    {
-        id: 70,
-        topic: "Circadian Rhythm",
-        question: "Best natural way to reset circadian rhythm?",
-        options: [
-            "(A) Sleeping pills", "(B) Morning sunlight", "(C) Late workouts", "(D) Night screens", "(E) Heavy meals"
-        ],
-        correctIndex: 1,
-        points: 4,
-        explanation: "",
-        questionImage: "",
-        optionImages: []
-    },
 ];
 
-// Combine and flatten questions with their answers
-const q1WithAnswers = q1.map((q, i) => ({ ...q, answer: a1[i] }));
-const q2WithAnswers = q2.map((q, i) => ({ ...q, answer: a2[i] }));
-const q3WithAnswers = q3.map((q, i) => ({ ...q, answer: q.correctIndex !== undefined ? q.correctIndex : a3[i] }));
-
-// ======================================================
-// ADD NEW QUESTIONS HERE
-// ======================================================
-const newQuestions = [
-    // Example Format:
-    /*
-    {
-        question: "What is 2 + 2?",
-        options: ["(A) 3", "(B) 4", "(C) 5", "(D) 6"],
-        answer: 1, // Index of correct option (0 = A, 1 = B, etc.)
-        points: 4
-    },
-    */
-];
-
-export default [
-    ...q1WithAnswers,
-    ...q2WithAnswers,
-    ...q3WithAnswers,
-    ...newQuestions
-];
+export default questions;

@@ -27,6 +27,18 @@ const router = createBrowserRouter([
     path: "/result-details",
     element: <CheckUserExist><ResultDetails /></CheckUserExist>
   },
+  {
+    path: "/results",
+    element: <CheckUserExist><QuizSelection initialView="results" /></CheckUserExist>
+  },
+  {
+    path: "/analytics",
+    element: <CheckUserExist><QuizSelection initialView="performance" /></CheckUserExist>
+  },
+  {
+    path: "/mock-tests",
+    element: <CheckUserExist><QuizSelection initialView="mock-tests" /></CheckUserExist>
+  },
 ])
 function App() {
   return (

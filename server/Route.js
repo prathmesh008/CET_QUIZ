@@ -21,5 +21,10 @@ router.get('/user/history', Controller.getUserHistory);
 router.get('/exams', Controller.getExams);
 router.post('/user/enroll', Controller.updateExamEnrollment);
 
+router.get('/mock-tests', Controller.getMockTests);
+router.post('/mock-tests/create', Controller.createMockTest);
+router.post('/mock-tests/add-questions', Controller.addQuestionsToMockTest);
+router.post('/mock-tests/enroll', Controller.enrollMockTest);
+
 export default router;
 

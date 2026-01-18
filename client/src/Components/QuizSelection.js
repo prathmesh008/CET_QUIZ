@@ -21,7 +21,9 @@ import {
     AlertCircle,
     X,
     LogOut,
-    ChevronDown
+    ChevronDown,
+    Calendar,
+    Bell
 } from 'lucide-react';
 import '../Styles/Dashboard.css';
 import DashboardLayout from './DashboardLayout';
@@ -55,36 +57,44 @@ const ActionCardModule = ({ title, description, icon: Icon, onClick, locked }) =
     </div>
 );
 
-export default function QuizSelection() {
+export default function QuizSelection({ initialView }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { userid, rollNumber, activeExam } = useSelector(state => state.result);
 
-    
+
     useEffect(() => {
         if (rollNumber) {
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
+
+
+
+
         }
     }, [rollNumber]);
     const [showModal, setShowModal] = useState(false);
     const [history, setHistory] = useState([]);
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [currentView, setCurrentView] = useState('dashboard'); 
+    const [currentView, setCurrentView] = useState(initialView || 'dashboard');
     const [selectedQuizId, setSelectedQuizId] = useState(null);
     const [availableExams, setAvailableExams] = useState([]);
+    const [mockTests, setMockTests] = useState([]);
+    const [notificationCount, setNotificationCount] = useState(0);
 
     useEffect(() => {
-        
+        if (initialView) {
+            setCurrentView(initialView);
+        }
+    }, [initialView]);
+
+    useEffect(() => {
+
         getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/exams`, (data) => {
             setAvailableExams(data || []);
         });
@@ -98,12 +108,43 @@ export default function QuizSelection() {
                 setHistory(data || []);
                 setLoading(false);
             });
-            
+
             getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions`, (data) => {
                 setQuestions(data || []);
             });
+
+            getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/mock-tests?examType=${activeExam || 'General'}`, (data) => {
+                setMockTests(data || []);
+
+                // Calculate notifications
+                if (data && rollNumber) {
+                    const enrolledUpcoming = data.filter(test => {
+                        const isEnrolled = test.enrolledUsers.includes(String(rollNumber));
+                        const testDate = new Date(test.scheduledDate);
+                        const now = new Date();
+                        // Notify if enrolled and test is in future or currently live
+                        return isEnrolled && now < new Date(testDate.getTime() + test.duration * 60000);
+                    });
+                    setNotificationCount(enrolledUpcoming.length);
+                }
+            });
         }
     }, [rollNumber, activeExam]);
+
+    const handleEnroll = async (testId) => {
+        try {
+            await postServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/mock-tests/enroll`, {
+                testId,
+                rollNumber
+            });
+            const data = await getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/mock-tests?examType=${activeExam || 'General'}`);
+            setMockTests(data || []);
+            alert("Enrolled Successfully!");
+        } catch (error) {
+            console.error(error);
+            alert("Enrollment Failed");
+        }
+    };
 
     const startQuiz = () => {
         localStorage.removeItem('quizTimer');
@@ -123,7 +164,7 @@ export default function QuizSelection() {
         setShowModal(true);
     };
 
-    
+
     const stats = useMemo(() => {
         if (!history.length) return null;
         const total = history.length;
@@ -135,7 +176,7 @@ export default function QuizSelection() {
 
     }, [history]);
 
-    
+
     const focusAreas = useMemo(() => {
         if (!history.length || !questions.length) return [];
 
@@ -168,7 +209,7 @@ export default function QuizSelection() {
         }).sort((a, b) => a.accuracy - b.accuracy);
     }, [history, questions]);
 
-    
+
     const chartData = useMemo(() => {
         return [...history].reverse().map((h, i) => ({
             attempt: `Test ${i + 1}`,
@@ -180,14 +221,14 @@ export default function QuizSelection() {
         })).slice(-10);
     }, [history]);
 
-    
+
 
     return (
         <DashboardLayout activePage={currentView} onTabChange={setCurrentView}>
 
             <div style={{}}>
 
-                {}
+                { }
                 {currentView === 'dashboard' && (
                     <>
                         <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -198,8 +239,35 @@ export default function QuizSelection() {
                                 </p>
                             </div>
 
-                            {}
                             <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                {/* Notification Bell */}
+                                <div
+                                    style={{ position: 'relative', marginRight: '16px', cursor: 'pointer' }}
+                                    title={notificationCount > 0 ? `${notificationCount} upcoming enrolled tests` : 'No upcoming tests'}
+                                    onClick={() => setCurrentView('mock-tests')}
+                                >
+                                    <Bell size={24} color="#64748b" />
+                                    {notificationCount > 0 && (
+                                        <div style={{
+                                            position: 'absolute',
+                                            top: '-5px',
+                                            right: '-5px',
+                                            background: '#ef4444',
+                                            color: 'white',
+                                            borderRadius: '50%',
+                                            width: '18px',
+                                            height: '18px',
+                                            fontSize: '0.7rem',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            fontWeight: 'bold'
+                                        }}>
+                                            {notificationCount}
+                                        </div>
+                                    )}
+                                </div>
+
                                 <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600' }}>Exam Category:</span>
                                 <div style={{
                                     padding: '8px 16px',
@@ -255,7 +323,7 @@ export default function QuizSelection() {
                                             {stats?.avgScore > 70 ? 'Excellent' : stats?.avgScore > 40 ? 'Needs Improvement' : 'Critical'}
                                         </div>
                                         <button
-                                            onClick={() => setCurrentView('results')}
+                                            onClick={() => setCurrentView('performance')}
                                             style={{
                                                 background: 'none',
                                                 border: '1px solid #e2e8f0',
@@ -294,9 +362,9 @@ export default function QuizSelection() {
 
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                             <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#0f172a', margin: 0 }}>Recent Activity</h3>
-                            <button onClick={() => setCurrentView('history')} style={{ background: 'none', border: 'none', color: '#347ab7', fontWeight: '600', cursor: 'pointer' }}>View All History →</button>
+                            <button onClick={() => setCurrentView('results')} style={{ background: 'none', border: 'none', color: '#347ab7', fontWeight: '600', cursor: 'pointer' }}>View All History →</button>
                         </div>
-                        {}
+                        { }
                         <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
                             {history.length > 0 ? (
                                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
@@ -326,69 +394,124 @@ export default function QuizSelection() {
                     </>
                 )}
 
-                {}
-                {(currentView === 'performance' || currentView === 'results') && (
+                { }
+                {/* PERFORMANCE (ANALYTICS) VIEW */}
+                {currentView === 'performance' && (
                     <>
                         <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                             <div>
                                 <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: '#0f172a', margin: '0 0 8px 0' }}>Performance Analytics</h1>
-                                <p style={{ fontSize: '1.05rem', color: '#64748b', margin: 0 }}>Detailed breakdown for <strong>{activeExam || 'all exams'}</strong></p>
+                                <p style={{ fontSize: '1.05rem', color: '#64748b', margin: 0 }}>Skill & Progress Analysis for <strong>{activeExam || 'all exams'}</strong></p>
                             </div>
-                            <button onClick={() => setCurrentView('history')} style={{ background: 'none', border: 'none', color: '#347ab7', fontWeight: '600', cursor: 'pointer', paddingBottom: '4px' }}>View All History →</button>
                         </div>
 
-                        <div className="dashboard-analytics-grid">
-                            {}
-                            <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '24px', minHeight: '350px' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                                    <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: '600', color: '#0f172a' }}>Lifetime Score Trend</h4>
-                                </div>
-                                {stats?.total > 1 ? (
-                                    <ResponsiveContainer width="100%" height={280}>
-                                        <LineChart data={chartData}>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                                            <XAxis dataKey="attempt" tick={{ fontSize: 11, fill: '#94a3b8' }} axisLine={false} tickLine={false} dy={10} />
-                                            <YAxis tick={{ fontSize: 11, fill: '#94a3b8' }} axisLine={false} tickLine={false} domain={[0, 100]} />
-                                            <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }} />
-                                            <Line type="monotone" dataKey="score" stroke="#347ab7" strokeWidth={3} dot={{ r: 4, fill: '#347ab7', strokeWidth: 2, stroke: '#fff' }} activeDot={{ r: 6 }} />
-                                        </LineChart>
-                                    </ResponsiveContainer>
-                                ) : (
-                                    <div style={{ height: '280px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8' }}>Not enough data for trend analysis.</div>
-                                )}
+                        {history.length === 0 ? (
+                            <div style={{ padding: '64px', textAlign: 'center', background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', color: '#64748b' }}>
+                                <div style={{ marginBottom: '16px', fontSize: '1.1rem', fontWeight: '600' }}>No Data Available</div>
+                                Attempt more tests to unlock insights and performance trends.
                             </div>
-
-                            {}
-                            <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '24px' }}>
-                                <h4 style={{ margin: '0 0 20px 0', fontSize: '1rem', fontWeight: '600', color: '#0f172a' }}>Topic Strength</h4>
-                                {focusAreas.length > 0 ? (
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                                        {focusAreas.map((area, idx) => (
-                                            <div key={idx} style={{ padding: '12px', borderRadius: '8px', background: area.accuracy < 50 ? '#fff1f2' : '#f0fdf4', border: `1px solid ${area.accuracy < 50 ? '#ffe4e6' : '#dcfce7'}` }}>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                                                    <div style={{ fontWeight: '600', color: area.accuracy < 50 ? '#9f1239' : '#166534', fontSize: '0.9rem' }}>{area.topic}</div>
-                                                    <div style={{ fontWeight: '700', color: area.accuracy < 50 ? '#9f1239' : '#166534' }}>{area.accuracy}%</div>
-                                                </div>
-                                                <div style={{ height: '6px', background: 'rgba(0,0,0,0.05)', borderRadius: '3px', overflow: 'hidden' }}>
-                                                    <div style={{ width: `${area.accuracy}%`, background: area.accuracy < 50 ? '#f43f5e' : '#22c55e', height: '100%' }}></div>
-                                                </div>
-                                            </div>
-                                        ))}
+                        ) : (
+                            <div className="dashboard-analytics-grid">
+                                {/* Chart */}
+                                <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '24px', minHeight: '350px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+                                        <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: '600', color: '#0f172a' }}>Lifetime Score Trend</h4>
                                     </div>
-                                ) : (
-                                    <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontSize: '0.9rem' }}>No topic analysis available.</div>
-                                )}
+                                    {stats?.total > 1 ? (
+                                        <ResponsiveContainer width="100%" height={280}>
+                                            <LineChart data={chartData}>
+                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                                                <XAxis dataKey="attempt" tick={{ fontSize: 11, fill: '#94a3b8' }} axisLine={false} tickLine={false} dy={10} />
+                                                <YAxis tick={{ fontSize: 11, fill: '#94a3b8' }} axisLine={false} tickLine={false} domain={[0, 100]} />
+                                                <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }} />
+                                                <Line type="monotone" dataKey="score" stroke="#347ab7" strokeWidth={3} dot={{ r: 4, fill: '#347ab7', strokeWidth: 2, stroke: '#fff' }} activeDot={{ r: 6 }} />
+                                            </LineChart>
+                                        </ResponsiveContainer>
+                                    ) : (
+                                        <div style={{ height: '280px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8' }}>Not enough data for trend analysis.</div>
+                                    )}
+                                </div>
+
+                                {/* Topic Analysis */}
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                                    <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '24px' }}>
+                                        <h4 style={{ margin: '0 0 20px 0', fontSize: '1rem', fontWeight: '600', color: '#166534', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            <div style={{ width: '8px', height: '8px', background: '#166534', borderRadius: '50%' }}></div> Strong Areas
+                                        </h4>
+                                        {focusAreas.filter(a => a.accuracy >= 70).length > 0 ? (
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                                {focusAreas.filter(a => a.accuracy >= 70).map((area, idx) => (
+                                                    <div key={idx} style={{ padding: '12px', borderRadius: '8px', background: '#f0fdf4', border: '1px solid #dcfce7' }}>
+                                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                                                            <div style={{ fontWeight: '600', color: '#166534', fontSize: '0.9rem' }}>{area.topic}</div>
+                                                            <div style={{ fontWeight: '700', color: '#166534' }}>{area.accuracy}%</div>
+                                                        </div>
+                                                        <div style={{ height: '6px', background: 'rgba(0,0,0,0.05)', borderRadius: '3px', overflow: 'hidden' }}>
+                                                            <div style={{ width: `${area.accuracy}%`, background: '#22c55e', height: '100%' }}></div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div style={{ textAlign: 'center', color: '#94a3b8', fontSize: '0.9rem', padding: '20px' }}>Keep practicing to build strong areas!</div>
+                                        )}
+                                    </div>
+
+                                    <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '24px' }}>
+                                        <h4 style={{ margin: '0 0 20px 0', fontSize: '1rem', fontWeight: '600', color: '#9f1239', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            <div style={{ width: '8px', height: '8px', background: '#9f1239', borderRadius: '50%' }}></div> Areas for Improvement
+                                        </h4>
+                                        {focusAreas.filter(a => a.accuracy < 70).length > 0 ? (
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                                {focusAreas.filter(a => a.accuracy < 70).map((area, idx) => (
+                                                    <div key={idx} style={{ padding: '12px', borderRadius: '8px', background: '#fff1f2', border: '1px solid #ffe4e6' }}>
+                                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', alignItems: 'center' }}>
+                                                            <div>
+                                                                <div style={{ fontWeight: '600', color: '#9f1239', fontSize: '0.9rem' }}>{area.topic}</div>
+                                                                <div style={{ fontWeight: '700', color: '#9f1239' }}>{area.accuracy}%</div>
+                                                            </div>
+                                                            <button
+                                                                onClick={() => {
+                                                                    dispatch(resetallaction());
+                                                                    dispatch(resetQuizData());
+                                                                    navigate('/quiz', { state: { examType: activeExam, topic: area.topic } });
+                                                                }}
+                                                                style={{
+                                                                    padding: '6px 12px',
+                                                                    background: '#fff',
+                                                                    border: '1px solid #fda4af',
+                                                                    color: '#e11d48',
+                                                                    borderRadius: '6px',
+                                                                    fontSize: '0.8rem',
+                                                                    fontWeight: '600',
+                                                                    cursor: 'pointer'
+                                                                }}
+                                                            >
+                                                                Practice
+                                                            </button>
+                                                        </div>
+                                                        <div style={{ height: '6px', background: 'rgba(0,0,0,0.05)', borderRadius: '3px', overflow: 'hidden' }}>
+                                                            <div style={{ width: `${area.accuracy}%`, background: '#f43f5e', height: '100%' }}></div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div style={{ textAlign: 'center', color: '#94a3b8', fontSize: '0.9rem', padding: '20px' }}>Great job! You are performing well in all topics.</div>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </>
                 )}
 
-                {}
-                {currentView === 'history' && (
+                {/* RESULTS (HISTORY) VIEW */}
+                {currentView === 'results' && (
                     <>
                         <div style={{ marginBottom: '32px' }}>
-                            <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: '#0f172a', margin: '0 0 8px 0' }}>Assessment History</h1>
-                            <p style={{ fontSize: '1.05rem', color: '#64748b', margin: 0 }}>Log of attempts for <strong>{activeExam}</strong></p>
+                            <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: '#0f172a', margin: '0 0 8px 0' }}>Assessment Results</h1>
+                            <p style={{ fontSize: '1.05rem', color: '#64748b', margin: 0 }}>Detailed log of attempts for <strong>{activeExam}</strong></p>
                         </div>
 
                         <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
@@ -426,151 +549,230 @@ export default function QuizSelection() {
                                     </tbody>
                                 </table>
                             ) : (
-                                <div style={{ padding: '48px', textAlign: 'center', color: '#94a3b8' }}>No logs found for {activeExam}.</div>
+                                <div style={{ padding: '48px', textAlign: 'center', color: '#94a3b8' }}>
+                                    <div style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '8px' }}>No tests attempted yet</div>
+                                    Attempts will appear here once you complete an assessment.
+                                </div>
                             )}
                         </div>
                     </>
                 )}
 
-            </div>
-            {showModal && (
-                <div className="modal-overlay" style={{ background: 'rgba(15, 23, 42, 0.7)', backdropFilter: 'blur(4px)', position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100 }}>
-                    <div style={{ background: 'white', width: '95%', maxWidth: '1000px', height: '90vh', borderRadius: '8px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', display: 'flex', flexDirection: 'column', overflow: 'hidden', fontFamily: 'Arial, sans-serif' }}>
 
-                        {}
-                        <div style={{ padding: '16px 24px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', background: '#f8fafc' }}>
-                            <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '700', color: '#0f172a', textAlign: 'center' }}>Please read the following instructions carefully</h3>
-                            <button onClick={() => setShowModal(false)} style={{ position: 'absolute', right: '16px', top: '16px', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}><X size={24} /></button>
+                {/* MOCK TESTS VIEW */}
+                {currentView === 'mock-tests' && (
+                    <>
+                        <div style={{ marginBottom: '32px' }}>
+                            <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: '#0f172a', margin: '0 0 8px 0' }}>Scheduled Mock Tests</h1>
+                            <p style={{ fontSize: '1.05rem', color: '#64748b', margin: 0 }}>Upcoming live assessments for <strong>{activeExam || 'all exams'}</strong></p>
                         </div>
 
-                        {}
-                        <div style={{ flex: 1, padding: '32px', overflowY: 'auto' }}>
+                        {mockTests.length > 0 ? (
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+                                {mockTests.map(test => {
+                                    const isEnrolled = test.enrolledUsers.includes(String(rollNumber));
+                                    const testDate = new Date(test.scheduledDate);
+                                    const now = new Date();
+                                    const isLive = now >= testDate && now <= new Date(testDate.getTime() + test.duration * 60000);
+                                    const isPast = now > new Date(testDate.getTime() + test.duration * 60000);
 
-                            <div style={{ marginBottom: '20px', fontWeight: '600', fontSize: '1rem', color: '#334155' }}>
-                                <div>Total Number of Questions: 24</div>
-                                <div>Total Time Available: 60 Mins</div>
+                                    return (
+                                        <div key={test._id} style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                                            <div style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
+                                                <span>{test.examType}</span>
+                                                <span>{test.duration} Minutes</span>
+                                            </div>
+                                            <h4 style={{ margin: '0 0 12px 0', fontSize: '1.1rem', fontWeight: '700', color: '#1e293b' }}>{test.title}</h4>
+                                            <div style={{ fontSize: '0.9rem', color: '#475569', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                                <div><strong>Date:</strong> {testDate.toLocaleDateString()}</div>
+                                                <div><strong>Time:</strong> {testDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                            </div>
+
+                                            {isEnrolled ? (
+                                                isLive ? (
+                                                    <button
+                                                        onClick={() => {
+                                                            localStorage.removeItem('quizTimer');
+                                                            dispatch(resetallaction());
+                                                            dispatch(resetQuizData());
+                                                            navigate('/quiz', { state: { examType: test.examType } });
+                                                        }}
+                                                        style={{ width: '100%', padding: '10px', background: '#22c55e', color: 'white', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}
+                                                    >
+                                                        Start Mock Test
+                                                    </button>
+                                                ) : isPast ? (
+                                                    <button disabled style={{ width: '100%', padding: '10px', background: '#f1f5f9', color: '#94a3b8', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'not-allowed' }}>
+                                                        Test Ended
+                                                    </button>
+                                                ) : (
+                                                    <button disabled style={{ width: '100%', padding: '10px', background: '#fff7ed', color: '#c2410c', border: '1px solid #ffedd5', borderRadius: '6px', fontWeight: '600', cursor: 'wait' }}>
+                                                        Enrolled (Starts Soon)
+                                                    </button>
+                                                )
+                                            ) : (
+                                                <button
+                                                    onClick={() => handleEnroll(test._id)}
+                                                    style={{ width: '100%', padding: '10px', background: '#347ab7', color: 'white', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}
+                                                >
+                                                    Enroll Now
+                                                </button>
+                                            )}
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        ) : (
+                            <div style={{ padding: '64px', textAlign: 'center', background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', color: '#64748b' }}>
+                                <div style={{ marginBottom: '16px', fontSize: '1.1rem', fontWeight: '600' }}>No Scheduled Tests</div>
+                                Check back later for upcoming mock assessments.
+                            </div>
+                        )}
+                    </>
+                )}
+
+            </div>
+            {
+                showModal && (
+                    <div className="modal-overlay" style={{ background: 'rgba(15, 23, 42, 0.7)', backdropFilter: 'blur(4px)', position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100 }}>
+                        <div style={{ background: 'white', width: '95%', maxWidth: '1000px', height: '90vh', borderRadius: '8px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', display: 'flex', flexDirection: 'column', overflow: 'hidden', fontFamily: 'Arial, sans-serif' }}>
+
+                            { }
+                            <div style={{ padding: '16px 24px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', background: '#f8fafc' }}>
+                                <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '700', color: '#0f172a', textAlign: 'center' }}>Please read the following instructions carefully</h3>
+                                <button onClick={() => setShowModal(false)} style={{ position: 'absolute', right: '16px', top: '16px', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}><X size={24} /></button>
                             </div>
 
-                            {}
-                            <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '32px', fontSize: '0.9rem', border: '1px solid #cbd5e1' }}>
-                                <thead>
-                                    <tr style={{ background: '#f1f5f9', textAlign: 'center' }}>
-                                        <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Section #</th>
-                                        <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Exam Category</th>
-                                        <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>No. of Questions</th>
-                                        <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Max Score</th>
-                                        <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Marks per Question</th>
-                                        <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Negative Marking</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr style={{ textAlign: 'center' }}>
-                                        <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>1</td>
-                                        <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>{activeExam}</td>
-                                        <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>24</td>
-                                        <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>96</td>
-                                        <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>4</td>
-                                        <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>0</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            { }
+                            <div style={{ flex: 1, padding: '32px', overflowY: 'auto' }}>
 
-                            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '32px', marginBottom: '24px' }}>
-                                {}
-                                <div>
-                                    <h4 style={{ margin: '0 0 16px 0', textDecoration: 'underline', fontSize: '1rem' }}>Legend:</h4>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', fontSize: '0.9rem' }}>
-                                        {}
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                            <div style={{
-                                                width: '40px', height: '35px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px',
-                                                background: 'linear-gradient(to bottom, #f9f9f9, #e0e0e0)', color: '#000', border: '1px solid #aaa', borderRadius: '6px',
-                                                boxShadow: '0 1px 1px rgba(0, 0, 0, 0.1)'
-                                            }}>1</div>
-                                            <span>You have not visited the question yet.</span>
-                                        </div>
-                                        {}
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                            <div style={{
-                                                width: '40px', height: '35px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px', color: 'white',
-                                                background: 'linear-gradient(135deg, #FF7043, #D84315)',
-                                                clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 75% 100%, 25% 100%, 0% 70%)',
-                                                filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))',
-                                                border: '1px solid #791f1f'
-                                            }}>3</div>
-                                            <span>You have not answered the question.</span>
-                                        </div>
-                                        {}
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                            <div style={{
-                                                width: '40px', height: '35px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px', color: 'white',
-                                                background: 'linear-gradient(135deg, #66BB6A, #2E7D32)',
-                                                clipPath: 'polygon(0% 30%, 25% 0%, 75% 0%, 100% 30%, 100% 100%, 0% 100%)',
-                                                filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))'
-                                            }}>5</div>
-                                            <span>You have answered the question.</span>
-                                        </div>
-                                        {}
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                            <div style={{
-                                                width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px', color: 'white',
-                                                background: 'linear-gradient(135deg, #AB47BC, #6A1B9A)', borderRadius: '50%',
-                                                boxShadow: 'inset 0 2px 5px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)'
-                                            }}>7</div>
-                                            <span>You have NOT answered the question, but have marked the question for review.</span>
+                                <div style={{ marginBottom: '20px', fontWeight: '600', fontSize: '1rem', color: '#334155' }}>
+                                    <div>Total Number of Questions: 24</div>
+                                    <div>Total Time Available: 60 Mins</div>
+                                </div>
+
+                                { }
+                                <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '32px', fontSize: '0.9rem', border: '1px solid #cbd5e1' }}>
+                                    <thead>
+                                        <tr style={{ background: '#f1f5f9', textAlign: 'center' }}>
+                                            <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Section #</th>
+                                            <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Exam Category</th>
+                                            <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>No. of Questions</th>
+                                            <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Max Score</th>
+                                            <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Marks per Question</th>
+                                            <th style={{ border: '1px solid #cbd5e1', padding: '10px' }}>Negative Marking</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style={{ textAlign: 'center' }}>
+                                            <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>1</td>
+                                            <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>{activeExam}</td>
+                                            <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>24</td>
+                                            <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>96</td>
+                                            <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>4</td>
+                                            <td style={{ border: '1px solid #cbd5e1', padding: '8px' }}>0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '32px', marginBottom: '24px' }}>
+                                    { }
+                                    <div>
+                                        <h4 style={{ margin: '0 0 16px 0', textDecoration: 'underline', fontSize: '1rem' }}>Legend:</h4>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', fontSize: '0.9rem' }}>
+                                            { }
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                <div style={{
+                                                    width: '40px', height: '35px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px',
+                                                    background: 'linear-gradient(to bottom, #f9f9f9, #e0e0e0)', color: '#000', border: '1px solid #aaa', borderRadius: '6px',
+                                                    boxShadow: '0 1px 1px rgba(0, 0, 0, 0.1)'
+                                                }}>1</div>
+                                                <span>You have not visited the question yet.</span>
+                                            </div>
+                                            { }
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                <div style={{
+                                                    width: '40px', height: '35px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px', color: 'white',
+                                                    background: 'linear-gradient(135deg, #FF7043, #D84315)',
+                                                    clipPath: 'polygon(0% 0%, 100% 0%, 100% 70%, 75% 100%, 25% 100%, 0% 70%)',
+                                                    filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))',
+                                                    border: '1px solid #791f1f'
+                                                }}>3</div>
+                                                <span>You have not answered the question.</span>
+                                            </div>
+                                            { }
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                <div style={{
+                                                    width: '40px', height: '35px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px', color: 'white',
+                                                    background: 'linear-gradient(135deg, #66BB6A, #2E7D32)',
+                                                    clipPath: 'polygon(0% 30%, 25% 0%, 75% 0%, 100% 30%, 100% 100%, 0% 100%)',
+                                                    filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))'
+                                                }}>5</div>
+                                                <span>You have answered the question.</span>
+                                            </div>
+                                            { }
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                <div style={{
+                                                    width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px', color: 'white',
+                                                    background: 'linear-gradient(135deg, #AB47BC, #6A1B9A)', borderRadius: '50%',
+                                                    boxShadow: 'inset 0 2px 5px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)'
+                                                }}>7</div>
+                                                <span>You have NOT answered the question, but have marked the question for review.</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
 
-                        </div>
+                            { }
+                            <div style={{ padding: '16px 24px', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                    <span style={{ fontSize: '0.9rem', fontWeight: '600' }}>Choose Language:</span>
+                                    <select style={{ padding: '6px 12px', borderRadius: '4px', border: '1px solid #cbd5e1' }}>
+                                        <option>English</option>
+                                    </select>
+                                </div>
 
-                        {}
-                        <div style={{ padding: '16px 24px', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <span style={{ fontSize: '0.9rem', fontWeight: '600' }}>Choose Language:</span>
-                                <select style={{ padding: '6px 12px', borderRadius: '4px', border: '1px solid #cbd5e1' }}>
-                                    <option>English</option>
-                                </select>
-                            </div>
-
-                            <div style={{ display: 'flex', gap: '12px' }}>
-                                <button
-                                    onClick={() => setShowModal(false)}
-                                    style={{
-                                        background: 'white',
-                                        border: '1px solid #cbd5e1',
-                                        color: '#475569',
-                                        padding: '10px 24px',
-                                        borderRadius: '4px',
-                                        cursor: 'pointer',
-                                        fontSize: '0.95rem',
-                                        fontWeight: '600'
-                                    }}
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={startQuiz}
-                                    style={{
-                                        background: '#347ab7',
-                                        color: 'white',
-                                        border: '1px solid #2563eb',
-                                        padding: '10px 32px',
-                                        fontWeight: '600',
-                                        cursor: 'pointer',
-                                        borderRadius: '4px',
-                                        fontSize: '0.95rem',
-                                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-                                    }}
-                                >
-                                    Start Assessment
-                                </button>
+                                <div style={{ display: 'flex', gap: '12px' }}>
+                                    <button
+                                        onClick={() => setShowModal(false)}
+                                        style={{
+                                            background: 'white',
+                                            border: '1px solid #cbd5e1',
+                                            color: '#475569',
+                                            padding: '10px 24px',
+                                            borderRadius: '4px',
+                                            cursor: 'pointer',
+                                            fontSize: '0.95rem',
+                                            fontWeight: '600'
+                                        }}
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={startQuiz}
+                                        style={{
+                                            background: '#347ab7',
+                                            color: 'white',
+                                            border: '1px solid #2563eb',
+                                            padding: '10px 32px',
+                                            fontWeight: '600',
+                                            cursor: 'pointer',
+                                            borderRadius: '4px',
+                                            fontSize: '0.95rem',
+                                            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                                        }}
+                                    >
+                                        Start Assessment
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </DashboardLayout>
+                )
+            }
+
+        </DashboardLayout >
     );
 }

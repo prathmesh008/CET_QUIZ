@@ -1,6 +1,7 @@
 import Questions from "../models/Questionsschema.js";
 import results from "../models/resultschema.js";
 import User from "../models/userSchema.js";
+import MockTest from "../models/MockTestSchema.js";
 import quizzes from '../Database/data.js'
 
 
@@ -207,14 +208,13 @@ export async function dropResult(req, res) {
 
 export async function startPractice(req, res) {
     try {
-        const { username, rollNumber, examType } = req.query;
+        const { username, rollNumber, examType, topic, mockTestId } = req.query;
         if (!username || !rollNumber) throw new Error("Username and Roll Number are required");
 
         let user = await User.findOne({ rollNumber });
         if (!user) {
             user = await User.create({ username, rollNumber, currentExam: examType || 'General', enrolledExams: [examType || 'General'] });
         } else if (examType && user.currentExam !== examType) {
-            // Update context if explicit examType provided
             user.currentExam = examType;
             if (!user.enrolledExams.includes(examType)) {
                 user.enrolledExams.push(examType);
@@ -222,18 +222,36 @@ export async function startPractice(req, res) {
             await user.save();
         }
 
-        const targetExam = user.currentExam || 'General';
+        let questionPool = [];
+        let title = "Practice Quiz";
 
+        if (mockTestId) {
+            // --- MOCK TEST LOGIC ---
+            const mockTest = await MockTest.findById(mockTestId).populate('questions');
+            if (!mockTest) throw new Error("Mock Test not found");
 
+            questionPool = mockTest.questions;
+            title = mockTest.title;
+        } else {
+            // --- PRACTICE / TOPIC LOGIC ---
+            const targetExam = user.currentExam || 'General';
+            title = `${targetExam} Practice`;
 
-        let questionPool = await Questions.find({
-            _id: { $nin: user.attemptedQuestions || [] },
-            examType: { $in: [targetExam] }
-        }).limit(24);
+            const query = {
+                _id: { $nin: user.attemptedQuestions || [] },
+                examType: { $in: [targetExam] }
+            };
+
+            if (topic) {
+                query.topic = topic;
+                title = `${topic} Practice`;
+            }
+
+            questionPool = await Questions.find(query).limit(24);
+        }
 
         if (questionPool.length === 0) {
-
-            return res.status(404).json({ error: `No more questions available for ${targetExam}.` });
+            return res.status(404).json({ error: `No questions available.` });
         }
 
         const responseQuestions = questionPool.map(q => ({
@@ -252,17 +270,17 @@ export async function startPractice(req, res) {
 
         const responseAnswers = questionPool.map(q => q.answer);
 
-
+        // Store session questions for result calculation
         user.currentSessionQuestions = questionPool.map(q => q._id);
         await user.save();
 
-        const quizId = `practice-${Date.now()}`;
+        const quizId = mockTestId || `practice-${Date.now()}`;
 
         res.json([{
             questions: responseQuestions,
             answers: responseAnswers,
             quizId: quizId,
-            title: `${targetExam} Practice`
+            title: title
         }]);
 
     } catch (error) {
@@ -324,5 +342,61 @@ export async function getUserHistory(req, res) {
         res.json(history);
     } catch (error) {
         res.status(500).json({ error: error.message });
+    }
+}
+
+export async function getMockTests(req, res) {
+    try {
+        const { examType } = req.query;
+        const tests = await MockTest.find({ examType: examType || 'General' }).sort({ scheduledDate: 1 });
+        res.json(tests);
+    } catch (error) {
+        res.json({ error });
+    }
+}
+
+export async function createMockTest(req, res) {
+    try {
+        const { title, scheduledDate, duration, examType, questions } = req.body;
+        if (!title || !scheduledDate) throw new Error("Title and Date required");
+
+        await MockTest.create({ title, scheduledDate, duration, examType, questions: questions || [] });
+        res.json({ msg: "Mock Test scheduled successfully" });
+    } catch (error) {
+        res.json({ error: error.message });
+    }
+}
+
+export async function addQuestionsToMockTest(req, res) {
+    try {
+        const { testId, questionIds } = req.body;
+        if (!testId || !questionIds) throw new Error("Data missing");
+
+        const test = await MockTest.findById(testId);
+        if (!test) throw new Error("Test not found");
+
+        test.questions.push(...questionIds);
+        await test.save();
+        res.json({ msg: "Questions added" });
+    } catch (error) {
+        res.json({ error: error.message });
+    }
+}
+
+export async function enrollMockTest(req, res) {
+    try {
+        const { testId, rollNumber } = req.body;
+        if (!testId || !rollNumber) throw new Error("Valid Data Required");
+
+        const test = await MockTest.findById(testId);
+        if (!test) throw new Error("Test not found");
+
+        if (!test.enrolledUsers.includes(rollNumber)) {
+            test.enrolledUsers.push(rollNumber);
+            await test.save();
+        }
+        res.json({ msg: "Enrolled successfully" });
+    } catch (error) {
+        res.json({ error: error.message });
     }
 }

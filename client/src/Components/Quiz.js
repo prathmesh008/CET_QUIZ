@@ -171,7 +171,7 @@ export default function Quiz() {
             window.removeEventListener('unload', handleUnload);
             window.removeEventListener('popstate', handlePopState);
         };
-    }, [queue, result, answers, userid, rollNumber, activeQuizId, finish]);
+    }, [queue, result, answers, userid, rollNumber, activeQuizId, finish, currentExamType]);
 
 
     const activeSectionName = trace < 8 ? "3 point" : (trace < 16 ? "4 point" : "5 point");

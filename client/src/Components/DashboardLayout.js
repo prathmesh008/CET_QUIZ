@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, FileText, BarChart2, History, LogOut, Menu, X, Calendar } from 'lucide-react';
+import { LayoutDashboard, FileText, BarChart2, LogOut, Menu, X, Calendar } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetresultaction } from '../Redux/Resultreducer';
 

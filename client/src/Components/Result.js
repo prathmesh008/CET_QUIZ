@@ -4,18 +4,16 @@ import DashboardLayout from './DashboardLayout';
 
 import { attempts, earnpoints, flagresult } from '../Helper/Helper.js';
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
-import { resetallaction } from '../Redux/Questionreducer.js';
-import { resetresultaction } from '../Redux/Resultreducer.js';
+import { useSelector } from 'react-redux';
 import { usepublishresult } from '../Hooks/setresult.js';
 function Result() {
     const location = useLocation();
-    
-    const dispatch = useDispatch();
+
+    // const dispatch = useDispatch();
     const { questions: { queue, answers, quizId: reduxQuizId }, result: { result, userid, rollNumber } } = useSelector(state => state);
     const quizId = location.state?.quizId || reduxQuizId || 'quiz1';
 
-    
+
     const totalpoints = queue.reduce((prev, curr) => prev + (curr.points || 1), 0);
     const attempt = attempts(result);
     const earnpoint = earnpoints(result, answers, queue)
@@ -25,12 +23,13 @@ function Result() {
         usepublishresult({
             result,
             username: userid,
-            rollNumber, 
+            rollNumber,
             attempts: attempt,
             points: earnpoint,
             acheived: flag ? "Passed" : "Failed",
             quizId
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const navigate = useNavigate();
 
@@ -38,17 +37,16 @@ function Result() {
         navigate('/select-quiz');
     }
 
-    
+
     const accuracy = queue.length > 0 ? Math.round((earnpoint / totalpoints) * 100) : 0;
 
-    
-    
-    const timeTaken = location.state?.timeTaken || "--";
+
+    // const timeTaken = location.state?.timeTaken || "--";
 
     return (
         <DashboardLayout activePage="results">
             <div style={{ maxWidth: '800px', margin: '0 auto', fontFamily: '"Inter", "Segoe UI", sans-serif' }}>
-                {}
+                { }
                 <div style={{ marginBottom: '32px' }}>
                     <h1 style={{ fontSize: '1.875rem', fontWeight: '800', color: '#0f172a', margin: '0 0 8px 0' }}>Assessment Result</h1>
                     <p style={{ fontSize: '1.05rem', color: '#64748b', margin: 0 }}>Summary of your submitted attempt</p>
@@ -62,7 +60,7 @@ function Result() {
                     overflow: 'hidden',
                     border: '1px solid #e2e8f0'
                 }}>
-                    {}
+                    { }
                     <div style={{ padding: '40px' }}>
                         <div style={{
                             display: 'grid',
@@ -103,7 +101,7 @@ function Result() {
                             </span>
                         </div>
 
-                        {}
+                        { }
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '400px', margin: '0 auto' }}>
                             <Link
                                 to={'/result-details'}

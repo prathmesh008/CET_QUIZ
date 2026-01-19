@@ -18,14 +18,14 @@ export const updateresult = (index) => async (dispatch) => {
 }
 
 export const usepublishresult = (resultdata) => {
-    const { result, username } = resultdata;
+    const { username } = resultdata;
 
     (async () => {
         try {
-            
-            const resultEmpty = !result || result.length === 0;
 
-            
+            // const resultEmpty = !result || result.length === 0;
+
+
             if (!username) {
                 throw new Error("no username");
             }

@@ -52,7 +52,7 @@ export const useFetchQuestions = (quizId, userid, rollNumber, examType, topic, m
                 setGetData(prev => ({ ...prev, serverError: error }));
             }
         })();
-    }, [dispatch, quizId, userid, rollNumber, examType, topic]);
+    }, [dispatch, quizId, userid, rollNumber, examType, topic, mockTestId]);
 
     return [getData, setGetData];
 }

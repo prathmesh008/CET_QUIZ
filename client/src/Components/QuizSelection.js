@@ -2,27 +2,16 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetallaction } from '../Redux/Questionreducer';
-import { resetQuizData, resetresultaction, setActiveExam } from '../Redux/Resultreducer';
+import { resetQuizData } from '../Redux/Resultreducer';
 
 import { getServerData, postServerData } from '../Helper/Helper';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import {
-    LayoutDashboard,
-    User,
-    Plus,
-    FileText,
     Trophy,
     Target,
-    Zap,
     ChevronRight,
-    Clock,
-    RotateCcw,
     CheckCircle,
-    AlertCircle,
     X,
-    LogOut,
-    ChevronDown,
-    Calendar,
     Bell
 } from 'lucide-react';
 import '../Styles/Dashboard.css';
@@ -30,32 +19,7 @@ import DashboardLayout from './DashboardLayout';
 
 
 
-const StatCard = ({ label, value, icon: Icon, colorClass }) => (
-    <div className="card metric-card">
-        <div>
-            <div className="metric-label">{label}</div>
-            <div className="metric-value">{value}</div>
-        </div>
-        <div className={`metric-icon-wrapper`} style={colorClass ? { color: colorClass, background: `${colorClass}20` } : {}}>
-            <Icon size={24} strokeWidth={1.5} />
-        </div>
-    </div>
-);
 
-const ActionCardModule = ({ title, description, icon: Icon, onClick, locked }) => (
-    <div className="card action-card" onClick={onClick}>
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <div style={{ padding: '0.75rem', background: '#f1f5f9', borderRadius: '0.5rem', color: '#475569' }}>
-                <Icon size={24} />
-            </div>
-            <div>
-                <div style={{ fontWeight: 600, color: '#1e293b' }}>{title}</div>
-                <div style={{ fontSize: '0.875rem', color: '#64748b' }}>{description}</div>
-            </div>
-        </div>
-        {locked ? <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#94a3b8' }}>LOCKED</div> : <ChevronRight size={20} className="text-slate-400" />}
-    </div>
-);
 
 export default function QuizSelection({ initialView }) {
     const navigate = useNavigate();
@@ -80,10 +44,9 @@ export default function QuizSelection({ initialView }) {
     const [showModal, setShowModal] = useState(false);
     const [history, setHistory] = useState([]);
     const [questions, setQuestions] = useState([]);
-    const [loading, setLoading] = useState(true);
+
     const [currentView, setCurrentView] = useState(initialView || 'dashboard');
     const [selectedQuizId, setSelectedQuizId] = useState(null);
-    const [availableExams, setAvailableExams] = useState([]);
     const [mockTests, setMockTests] = useState([]);
     const [notificationCount, setNotificationCount] = useState(0);
 
@@ -93,20 +56,15 @@ export default function QuizSelection({ initialView }) {
         }
     }, [initialView]);
 
-    useEffect(() => {
 
-        getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/exams`, (data) => {
-            setAvailableExams(data || []);
-        });
-    }, []);
 
     useEffect(() => {
         if (rollNumber) {
-            setLoading(true);
+
             const url = `${process.env.REACT_APP_SERVER_HOSTNAME}/api/user/history?rollNumber=${rollNumber}&examType=${activeExam || 'General'}`;
             getServerData(url, (data) => {
                 setHistory(data || []);
-                setLoading(false);
+
             });
 
             getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/questions`, (data) => {

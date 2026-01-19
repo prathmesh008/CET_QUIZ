@@ -19,6 +19,10 @@ mongoose.connect(ATLAS_URI)
     .then(async () => {
         console.log("Connected to MongoDB for seeding...");
 
+        await MockTest.deleteMany({});
+        await Questions.deleteMany({});
+        console.log("Cleared existing MockTests and Questions.");
+
         // Function to insert questions and return their ObjectIds
         const insertQuestions = async (questionsData) => {
             const inserted = await Questions.insertMany(questionsData);

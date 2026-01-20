@@ -4,9 +4,11 @@ import MockTest from '../models/MockTestSchema.js';
 
 // Configure Nodemailer
 const transporter = nodemailer.createTransport({
-    service: 'gmail', // You can Use other services or SMTP
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // use SSL
     auth: {
-        user: process.env.EMAIL_USER, // Add these to your .env
+        user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     }
 });

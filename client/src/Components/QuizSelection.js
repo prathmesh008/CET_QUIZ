@@ -56,6 +56,7 @@ export default function QuizSelection({ initialView }) {
     const [enrollModal, setEnrollModal] = useState({ show: false, testId: null });
     const [enrollEmail, setEnrollEmail] = useState('');
     const [enrollStatus, setEnrollStatus] = useState({ show: false, message: '', type: '' }); // type: 'success' | 'error'
+    const [isEnrolling, setIsEnrolling] = useState(false);
 
     useEffect(() => {
         if (initialView) {
@@ -111,6 +112,8 @@ export default function QuizSelection({ initialView }) {
             return;
         }
 
+        setIsEnrolling(true);
+
         try {
             await postServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/mock-tests/enroll`, {
                 testId: enrollModal.testId,
@@ -130,6 +133,8 @@ export default function QuizSelection({ initialView }) {
         } catch (error) {
             console.error(error);
             setEnrollStatus({ show: true, message: 'Enrollment Failed. Please try again.', type: 'error' });
+        } finally {
+            setIsEnrolling(false);
         }
     };
 
@@ -622,6 +627,10 @@ export default function QuizSelection({ initialView }) {
                                                         Enrolled (Starts Soon)
                                                     </button>
                                                 )
+                                            ) : isPast ? (
+                                                <button disabled style={{ width: '100%', padding: '10px', background: '#f1f5f9', color: '#94a3b8', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'not-allowed' }}>
+                                                    Test Ended
+                                                </button>
                                             ) : (
                                                 <button
                                                     onClick={() => handleOpenEnrollModal(test._id)}
@@ -826,9 +835,16 @@ export default function QuizSelection({ initialView }) {
                                 </button>
                                 <button
                                     onClick={submitEnrollment}
-                                    style={{ padding: '10px 20px', borderRadius: '8px', background: '#347ab7', border: 'none', color: 'white', fontWeight: '600', cursor: 'pointer' }}
+                                    disabled={isEnrolling}
+                                    style={{
+                                        padding: '10px 20px', borderRadius: '8px',
+                                        background: isEnrolling ? '#94a3b8' : '#347ab7',
+                                        border: 'none', color: 'white', fontWeight: '600',
+                                        cursor: isEnrolling ? 'wait' : 'pointer',
+                                        transition: 'background 0.2s'
+                                    }}
                                 >
-                                    Confirm Enrollment
+                                    {isEnrolling ? 'Enrolling...' : 'Confirm Enrollment'}
                                 </button>
                             </div>
                         </div>

@@ -24,6 +24,8 @@ router.post('/user/enroll', Controller.updateExamEnrollment);
 router.route('/mock-tests')
     .get(Controller.getMockTests)
     .delete(Controller.dropMockTests);
+
+router.delete('/mock-tests/:id', Controller.deleteMockTestById);
 router.post('/mock-tests/create', Controller.createMockTest);
 router.post('/mock-tests/add-questions', Controller.addQuestionsToMockTest);
 router.post('/mock-tests/enroll', Controller.enrollMockTest);

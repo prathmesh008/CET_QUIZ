@@ -393,6 +393,11 @@ export async function enrollMockTest(req, res) {
         const test = await MockTest.findById(testId);
         if (!test) throw new Error("Test not found");
 
+        const testEndTime = new Date(test.scheduledDate.getTime() + (test.duration * 60000));
+        if (new Date() > testEndTime) {
+            throw new Error("Test has already ended. Enrollment is closed.");
+        }
+
         if (!test.enrolledUsers.includes(rollNumber)) {
             test.enrolledUsers.push(rollNumber);
             test.enrollmentDetails.push({ rollNumber, email });
@@ -400,7 +405,7 @@ export async function enrollMockTest(req, res) {
         }
         res.json({ msg: "Enrolled successfully" });
     } catch (error) {
-        res.json({ error: error.message });
+        res.status(400).json({ error: error.message });
     }
 }
 
@@ -459,6 +464,18 @@ export async function dropMockTests(req, res) {
     try {
         await MockTest.deleteMany();
         res.json({ msg: "All Mock Tests deleted" });
+    } catch (error) {
+        res.json({ error: error.message });
+    }
+}
+
+export async function deleteMockTestById(req, res) {
+    try {
+        const { id } = req.params;
+        if (!id) throw new Error("Test ID Required");
+
+        await MockTest.findByIdAndDelete(id);
+        res.json({ msg: "Mock Test deleted successfully" });
     } catch (error) {
         res.json({ error: error.message });
     }

@@ -20,7 +20,7 @@ const sendReminderEmail = async (email, testTitle, startTime) => {
                 .test-title { font-size: 20px; font-weight: 600; color: #2d3748; display: block; margin-bottom: 10px; }
                 .time { font-size: 18px; color: #764ba2; font-weight: 600; }
                 .footer { background-color: #f8f9fa; padding: 20px; text-align: center; color: #718096; font-size: 14px; border-top: 1px solid #e2e8f0; }
-                .cta-button { display: inline-block; background-color: #764ba2; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; margin-top: 20px; }
+                .cta-button { display: inline-block; background-color: #764ba2; color: #ffffff !important; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; margin-top: 20px; }
             </style>
         </head>
         <body>
@@ -40,7 +40,7 @@ const sendReminderEmail = async (email, testTitle, startTime) => {
                     <p>Please ensure you are ready and logged in at least <strong>5 minutes</strong> before the scheduled start time to avoid any last-minute issues.</p>
 
                     <div style="text-align: center;">
-                        <a href="http://localhost:3000" class="cta-button">Go to Dashboard</a>
+                        <a href="${process.env.CLIENT_URL || 'http://localhost:3000'}" class="cta-button">Go to Dashboard</a>
                     </div>
                 </div>
                 <div class="footer">

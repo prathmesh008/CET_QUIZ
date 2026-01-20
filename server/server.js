@@ -5,36 +5,38 @@ import { config } from 'dotenv';
 config();
 import router from './Route.js';
 import connect from './Database/Conn.js';
+import initReminderService from './services/reminderService.js';
 
 
 
 
-const app=express();
+const app = express();
 
 app.use(morgan('tiny'));
 app.use(cors());
 app.use(express.json());
 
-const port=process.env.PORT||8080;
+const port = process.env.PORT || 8080;
 
 
 
-app.use('/api',router)
+app.use('/api', router)
 
 
 
 
 app.get('/', (req, res) => {
-    try {
-        res.json({ message: "Server is running" });
-    } catch (error) {
-        res.json({ message: "Error in server" });
-    }
-}); 
+  try {
+    res.json({ message: "Server is running" });
+  } catch (error) {
+    res.json({ message: "Error in server" });
+  }
+});
 connect()
   .then(() => {
     app.listen(port, () => {
       console.log(`server connected on http://localhost:${port}`);
+      initReminderService();
     });
   })
   .catch((error) => {

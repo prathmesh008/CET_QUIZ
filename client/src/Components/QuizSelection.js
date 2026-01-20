@@ -50,6 +50,11 @@ export default function QuizSelection({ initialView }) {
     const [mockTests, setMockTests] = useState([]);
     const [notificationCount, setNotificationCount] = useState(0);
 
+    // Enroll Modal State
+    const [enrollModal, setEnrollModal] = useState({ show: false, testId: null });
+    const [enrollEmail, setEnrollEmail] = useState('');
+    const [enrollStatus, setEnrollStatus] = useState({ show: false, message: '', type: '' }); // type: 'success' | 'error'
+
     useEffect(() => {
         if (initialView) {
             setCurrentView(initialView);
@@ -89,18 +94,36 @@ export default function QuizSelection({ initialView }) {
         }
     }, [rollNumber, activeExam]);
 
-    const handleEnroll = async (testId) => {
+    const handleOpenEnrollModal = (testId) => {
+        setEnrollModal({ show: true, testId });
+        setEnrollEmail(''); // Reset email
+    };
+
+    const submitEnrollment = async () => {
+        if (!enrollEmail) {
+            setEnrollStatus({ show: true, message: 'Email is required!', type: 'error' });
+            return;
+        }
+
         try {
             await postServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/mock-tests/enroll`, {
-                testId,
-                rollNumber
+                testId: enrollModal.testId,
+                rollNumber,
+                email: enrollEmail
             });
+
             const data = await getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/mock-tests?examType=${activeExam || 'General'}`);
             setMockTests(data || []);
-            alert("Enrolled Successfully!");
+
+            setEnrollModal({ show: false, testId: null }); // Close input modal
+            setEnrollStatus({
+                show: true,
+                message: 'Enrolled Successfully! You will receive a reminder email 30 minutes before the test.',
+                type: 'success'
+            });
         } catch (error) {
             console.error(error);
-            alert("Enrollment Failed");
+            setEnrollStatus({ show: true, message: 'Enrollment Failed. Please try again.', type: 'error' });
         }
     };
 
@@ -570,7 +593,7 @@ export default function QuizSelection({ initialView }) {
                                                 )
                                             ) : (
                                                 <button
-                                                    onClick={() => handleEnroll(test._id)}
+                                                    onClick={() => handleOpenEnrollModal(test._id)}
                                                     style={{ width: '100%', padding: '10px', background: '#347ab7', color: 'white', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}
                                                 >
                                                     Enroll Now
@@ -731,6 +754,99 @@ export default function QuizSelection({ initialView }) {
                 )
             }
 
-        </DashboardLayout >
+            {/* ENROLLMENT INPUT MODAL */}
+            {
+                enrollModal.show && (
+                    <div style={{
+                        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                        background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(4px)',
+                        display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 200
+                    }}>
+                        <div style={{
+                            background: 'white', width: '90%', maxWidth: '400px', borderRadius: '12px',
+                            padding: '24px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                            border: '1px solid #e2e8f0'
+                        }}>
+                            <h3 style={{ margin: '0 0 16px 0', fontSize: '1.25rem', color: '#0f172a' }}>Enroll in Mock Test</h3>
+                            <p style={{ margin: '0 0 20px 0', color: '#64748b', fontSize: '0.95rem' }}>
+                                Please enter your email to receive a reminder 30 minutes before the test starts.
+                            </p>
+
+                            <div style={{ marginBottom: '24px' }}>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', fontSize: '0.9rem', color: '#334155' }}>Email Address</label>
+                                <input
+                                    type="email"
+                                    value={enrollEmail}
+                                    onChange={(e) => setEnrollEmail(e.target.value)}
+                                    placeholder="name@example.com"
+                                    style={{
+                                        width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1',
+                                        fontSize: '1rem', outline: 'none', transition: 'border-color 0.2s'
+                                    }}
+                                />
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                                <button
+                                    onClick={() => setEnrollModal({ show: false, testId: null })}
+                                    style={{ padding: '10px 16px', borderRadius: '8px', background: 'white', border: '1px solid #cbd5e1', color: '#475569', fontWeight: '600', cursor: 'pointer' }}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={submitEnrollment}
+                                    style={{ padding: '10px 20px', borderRadius: '8px', background: '#347ab7', border: 'none', color: 'white', fontWeight: '600', cursor: 'pointer' }}
+                                >
+                                    Confirm Enrollment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+
+            {/* ENROLLMENT STATUS POPUP (Success/Error) */}
+            {
+                enrollStatus.show && (
+                    <div style={{
+                        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                        background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(4px)',
+                        display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 201
+                    }}>
+                        <div style={{
+                            background: 'white', width: '90%', maxWidth: '350px', borderRadius: '12px',
+                            padding: '32px 24px', textAlign: 'center', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+                        }}>
+                            <div style={{
+                                width: '48px', height: '48px', borderRadius: '50%', margin: '0 auto 16px auto',
+                                background: enrollStatus.type === 'success' ? '#dcfce7' : '#fee2e2',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                color: enrollStatus.type === 'success' ? '#166534' : '#991b1b'
+                            }}>
+                                {enrollStatus.type === 'success' ? <CheckCircle size={28} /> : <X size={28} />}
+                            </div>
+
+                            <h3 style={{ margin: '0 0 8px 0', fontSize: '1.25rem', color: '#0f172a' }}>
+                                {enrollStatus.type === 'success' ? 'Success!' : 'Oops!'}
+                            </h3>
+                            <p style={{ margin: '0 0 24px 0', color: '#64748b', fontSize: '0.95rem' }}>
+                                {enrollStatus.message}
+                            </p>
+
+                            <button
+                                onClick={() => setEnrollStatus({ ...enrollStatus, show: false })}
+                                style={{
+                                    width: '100%', padding: '10px', borderRadius: '8px',
+                                    background: enrollStatus.type === 'success' ? '#22c55e' : '#ef4444',
+                                    border: 'none', color: 'white', fontWeight: '600', cursor: 'pointer'
+                                }}
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                )
+            }
+        </DashboardLayout>
     );
 }

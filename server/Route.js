@@ -21,10 +21,13 @@ router.get('/user/history', Controller.getUserHistory);
 router.get('/exams', Controller.getExams);
 router.post('/user/enroll', Controller.updateExamEnrollment);
 
-router.get('/mock-tests', Controller.getMockTests);
+router.route('/mock-tests')
+    .get(Controller.getMockTests)
+    .delete(Controller.dropMockTests);
 router.post('/mock-tests/create', Controller.createMockTest);
 router.post('/mock-tests/add-questions', Controller.addQuestionsToMockTest);
 router.post('/mock-tests/enroll', Controller.enrollMockTest);
+router.post('/seed-mock-tests', Controller.seedMockTests);
 
 export default router;
 

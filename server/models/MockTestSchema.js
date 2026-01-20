@@ -7,6 +7,11 @@ const mockTestModel = new Schema({
     duration: { type: Number, default: 60 }, // minutes
     examType: { type: String, default: 'General' },
     enrolledUsers: { type: [String], default: [] }, // Stores rollNumbers
+    enrollmentDetails: [{
+        rollNumber: String,
+        email: String,
+        emailSent: { type: Boolean, default: false }
+    }],
     questions: [{ type: Schema.Types.ObjectId, ref: 'Question' }],
     createdAt: { type: Date, default: Date.now }
 });

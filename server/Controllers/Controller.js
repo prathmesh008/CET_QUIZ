@@ -3,6 +3,8 @@ import results from "../models/resultschema.js";
 import User from "../models/userSchema.js";
 import MockTest from "../models/MockTestSchema.js";
 import quizzes from '../Database/data.js'
+import { mock1_questions } from '../Database/MockData/mock1_data.js';
+import { mock2_questions } from '../Database/MockData/mock2_data.js';
 
 
 const AVAILABLE_EXAMS = [
@@ -385,17 +387,78 @@ export async function addQuestionsToMockTest(req, res) {
 
 export async function enrollMockTest(req, res) {
     try {
-        const { testId, rollNumber } = req.body;
-        if (!testId || !rollNumber) throw new Error("Valid Data Required");
+        const { testId, rollNumber, email } = req.body;
+        if (!testId || !rollNumber || !email) throw new Error("Valid Data Required (Test ID, Roll Number, Email)");
 
         const test = await MockTest.findById(testId);
         if (!test) throw new Error("Test not found");
 
         if (!test.enrolledUsers.includes(rollNumber)) {
             test.enrolledUsers.push(rollNumber);
+            test.enrollmentDetails.push({ rollNumber, email });
             await test.save();
         }
         res.json({ msg: "Enrolled successfully" });
+    } catch (error) {
+        res.json({ error: error.message });
+    }
+}
+
+export async function seedMockTests(req, res) {
+    try {
+        // Check if we should clear existing data
+        if (req.query.reset === 'true') {
+            await MockTest.deleteMany({});
+            await Questions.deleteMany({});
+            console.log("Database cleared.");
+        }
+
+        // Helper to insert questions
+        const insertQuestions = async (questionsData) => {
+            const inserted = await Questions.insertMany(questionsData);
+            return inserted.map(q => q._id);
+        };
+
+        const now = new Date();
+        const tenMinutesFromNow = new Date(now.getTime() + 35 * 60000);
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        // Seed Questions
+        const mock1Ids = await insertQuestions(mock1_questions);
+        const mock2Ids = await insertQuestions(mock2_questions);
+
+        const mockTests = [
+            {
+                title: "IIT-JEE Special Mock (Data File 1)",
+                scheduledDate: tenMinutesFromNow,
+                duration: 60,
+                examType: "IIT-JEE",
+                questions: mock1Ids,
+                enrolledUsers: []
+            },
+            {
+                title: "NEET Biology Blast (Data File 2)",
+                scheduledDate: tomorrow,
+                duration: 45,
+                examType: "NEET",
+                questions: mock2Ids,
+                enrolledUsers: []
+            }
+        ];
+
+        await MockTest.insertMany(mockTests);
+
+        res.json({ msg: "Mock Tests and Questions seeded successfully!" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export async function dropMockTests(req, res) {
+    try {
+        await MockTest.deleteMany();
+        res.json({ msg: "All Mock Tests deleted" });
     } catch (error) {
         res.json({ error: error.message });
     }

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import '../Styles/Dashboard.css';
 import DashboardLayout from './DashboardLayout';
+import CountdownTimer from './CountdownTimer';
 
 
 
@@ -48,6 +49,7 @@ export default function QuizSelection({ initialView }) {
     const [currentView, setCurrentView] = useState(initialView || 'dashboard');
     const [selectedQuizId, setSelectedQuizId] = useState(null);
     const [mockTests, setMockTests] = useState([]);
+    const [upcomingEnrolledTests, setUpcomingEnrolledTests] = useState([]);
     const [notificationCount, setNotificationCount] = useState(0);
 
     // Enroll Modal State
@@ -90,6 +92,10 @@ export default function QuizSelection({ initialView }) {
                     });
                     setNotificationCount(enrolledUpcoming.length);
                 }
+            });
+
+            getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/user/upcoming-mock-tests?rollNumber=${rollNumber}`, (data) => {
+                setUpcomingEnrolledTests(data || []);
             });
         }
     }, [rollNumber, activeExam]);
@@ -220,7 +226,27 @@ export default function QuizSelection({ initialView }) {
                                 </p>
                             </div>
 
-                            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                                {/* Upcoming Test Badge */}
+                                {upcomingEnrolledTests.length > 0 && (
+                                    <div style={{
+                                        display: 'flex', alignItems: 'center', gap: '12px',
+                                        background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
+                                        padding: '6px 16px', borderRadius: '50px',
+                                        border: '1px solid #bfdbfe', boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+                                    }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <span style={{ fontSize: '0.75rem', fontWeight: '700', color: '#1e40af', lineHeight: '1' }}>UPCOMING:</span>
+                                            <span style={{ fontSize: '0.85rem', fontWeight: '600', color: '#1e3a8a', maxWidth: '150px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                {upcomingEnrolledTests[0].title}
+                                            </span>
+                                        </div>
+                                        <div style={{ background: 'white', padding: '4px 10px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', color: '#2563eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+                                            <CountdownTimer targetDate={upcomingEnrolledTests[0].scheduledDate} />
+                                        </div>
+                                    </div>
+                                )}
+
                                 {/* Notification Bell */}
                                 <div
                                     style={{ position: 'relative', marginRight: '16px', cursor: 'pointer' }}
@@ -263,6 +289,10 @@ export default function QuizSelection({ initialView }) {
                                 </div>
                             </div>
                         </div>
+
+
+
+
 
                         <div className="dashboard-hero-grid">
                             <div style={{
@@ -848,6 +878,6 @@ export default function QuizSelection({ initialView }) {
                     </div>
                 )
             }
-        </DashboardLayout>
+        </DashboardLayout >
     );
 }

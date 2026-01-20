@@ -28,6 +28,7 @@ router.post('/mock-tests/create', Controller.createMockTest);
 router.post('/mock-tests/add-questions', Controller.addQuestionsToMockTest);
 router.post('/mock-tests/enroll', Controller.enrollMockTest);
 router.post('/seed-mock-tests', Controller.seedMockTests);
+router.get('/user/upcoming-mock-tests', Controller.getUpcomingEnrolledTests);
 
 export default router;
 

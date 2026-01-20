@@ -1,9 +1,9 @@
 import cron from 'node-cron';
-import { Resend } from 'resend';
+import sgMail from '@sendgrid/mail';
 import MockTest from '../models/MockTestSchema.js';
 
-// Configure Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Configure SendGrid
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendReminderEmail = async (email, testTitle, startTime) => {
     const htmlContent = `
@@ -51,23 +51,22 @@ const sendReminderEmail = async (email, testTitle, startTime) => {
         </html>
     `;
 
+    const msg = {
+        to: email,
+        from: process.env.EMAIL_FROM, // Use the verified sender email here
+        subject: `Reminder: ${testTitle} Starts in 30 Minutes!`,
+        html: htmlContent,
+    };
+
     try {
-        const { data, error } = await resend.emails.send({
-            from: process.env.EMAIL_FROM || 'Quiz App <onboarding@resend.dev>',
-            to: [email],
-            subject: `Reminder: ${testTitle} Starts in 30 Minutes!`,
-            html: htmlContent
-        });
-
-        if (error) {
-            console.error(`Failed to send email to ${email}:`, error);
-            return false;
-        }
-
-        console.log(`Reminder email sent to ${email}`, data);
+        await sgMail.send(msg);
+        console.log(`Reminder email sent to ${email}`);
         return true;
     } catch (error) {
-        console.error(`Failed to send email to ${email}:`, error);
+        console.error(`Failed to send email to ${email}:`);
+        if (error.response) {
+            console.error(error.response.body);
+        }
         return false;
     }
 };

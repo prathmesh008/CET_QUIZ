@@ -463,3 +463,20 @@ export async function dropMockTests(req, res) {
         res.json({ error: error.message });
     }
 }
+
+export async function getUpcomingEnrolledTests(req, res) {
+    try {
+        const { rollNumber } = req.query;
+        if (!rollNumber) throw new Error("Roll Number Required");
+
+        const now = new Date();
+        const tests = await MockTest.find({
+            enrolledUsers: rollNumber,
+            scheduledDate: { $gt: now }
+        }).sort({ scheduledDate: 1 });
+
+        res.json(tests);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}

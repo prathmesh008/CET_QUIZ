@@ -1,25 +1,12 @@
 import cron from 'node-cron';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import MockTest from '../models/MockTestSchema.js';
 
-// Configure Nodemailer
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // use SSL
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
+// Configure Resend
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendReminderEmail = async (email, testTitle, startTime) => {
-    const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: `Reminder: ${testTitle} Starts in 30 Minutes!`,
-        text: `Hello,\n\nThis is a reminder that your mock test "${testTitle}" is scheduled to start at ${new Date(startTime).toLocaleString()}.\n\nPlease be ready 5 minutes before the start time.\n\nGood Luck!\nQuiz App Team`,
-        html: `
+    const htmlContent = `
         <!DOCTYPE html>
         <html>
         <head>
@@ -62,12 +49,22 @@ const sendReminderEmail = async (email, testTitle, startTime) => {
             </div>
         </body>
         </html>
-        `
-    };
+    `;
 
     try {
-        await transporter.sendMail(mailOptions);
-        console.log(`Reminder email sent to ${email}`);
+        const { data, error } = await resend.emails.send({
+            from: process.env.EMAIL_FROM || 'Quiz App <onboarding@resend.dev>',
+            to: [email],
+            subject: `Reminder: ${testTitle} Starts in 30 Minutes!`,
+            html: htmlContent
+        });
+
+        if (error) {
+            console.error(`Failed to send email to ${email}:`, error);
+            return false;
+        }
+
+        console.log(`Reminder email sent to ${email}`, data);
         return true;
     } catch (error) {
         console.error(`Failed to send email to ${email}:`, error);

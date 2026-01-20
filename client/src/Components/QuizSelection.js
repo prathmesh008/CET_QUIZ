@@ -576,7 +576,8 @@ export default function QuizSelection({ initialView }) {
                                                             localStorage.removeItem('quizTimer');
                                                             dispatch(resetallaction());
                                                             dispatch(resetQuizData());
-                                                            navigate('/quiz', { state: { examType: test.examType } });
+                                                            // Pass duration (in seconds) to the quiz component
+                                                            navigate('/quiz', { state: { examType: test.examType, duration: test.duration * 60 } });
                                                         }}
                                                         style={{ width: '100%', padding: '10px', background: '#22c55e', color: 'white', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}
                                                     >

@@ -73,59 +73,72 @@ const sendReminderEmail = async (email, testTitle, startTime) => {
     }
 };
 
-const initReminderService = () => {
-    // Run every minute
-    cron.schedule('* * * * *', async () => {
-        try {
-            const now = new Date();
-            const thirtyMinutesLater = new Date(now.getTime() + 30 * 60000);
-            const thirtyFiveMinutesLater = new Date(now.getTime() + 35 * 60000); // 5 min buffer
+const checkReminders = async () => {
+    console.log('⏰ Reminder Service executing at:', new Date().toLocaleTimeString());
+    try {
+        const now = new Date();
 
-            // Find tests starting between 30 and 35 minutes from now
-            // We use a range to avoid missing tests if the cron skips a beat or execution takes time
-            // But simpler logic: Find tests starting *soon* and check if we already sent the email.
+        // Limit query to tests starting in the next hour
+        const upcomingTests = await MockTest.find({
+            scheduledDate: {
+                $gt: now,
+                $lt: new Date(now.getTime() + 60 * 60000)
+            }
+        });
 
-            // Actually, better logic: Find ALL tests starting in the future (within next 35 mins)
-            // Iterate through their enrolled users.
-            // If (TestStart - Now <= 30 mins) AND (!emailSent) -> Send Email.
+        if (upcomingTests.length > 0) {
+            console.log(`🔎 Found ${upcomingTests.length} upcoming tests.`);
+        }
 
-            // Limit query to tests starting in the next hour to be efficient
-            const upcomingTests = await MockTest.find({
-                scheduledDate: {
-                    $gt: now,
-                    $lt: new Date(now.getTime() + 60 * 60000)
-                }
-            });
+        for (const test of upcomingTests) {
+            const timeDiff = test.scheduledDate - now;
+            const minutesLeft = timeDiff / 60000;
 
-            for (const test of upcomingTests) {
-                const timeDiff = test.scheduledDate - now;
-                const minutesLeft = timeDiff / 60000;
+            console.log(`   - "${test.title}" starts in ${minutesLeft.toFixed(1)} mins`);
 
-                if (minutesLeft <= 30 && minutesLeft > 0) {
-                    // Check enrolled users
-                    let updated = false;
-                    for (const enrollment of test.enrollmentDetails) {
-                        if (enrollment.email && !enrollment.emailSent) {
-                            const sent = await sendReminderEmail(enrollment.email, test.title, test.scheduledDate);
-                            if (sent) {
-                                enrollment.emailSent = true;
-                                updated = true;
-                            }
+            // Logic: Send email if test is starting in <= 35 minutes (and we haven't sent it yet)
+            if (minutesLeft <= 35 && minutesLeft > 0) {
+                // Check enrolled users
+                let updated = false;
+                for (const enrollment of test.enrollmentDetails) {
+                    if (enrollment.email && !enrollment.emailSent) {
+                        console.log(`     📤 Sending email to ${enrollment.email}...`);
+                        const sent = await sendReminderEmail(enrollment.email, test.title, test.scheduledDate);
+                        if (sent) {
+                            enrollment.emailSent = true;
+                            updated = true;
+                            console.log(`     ✅ Email sent!`);
+                        } else {
+                            console.log(`     ❌ Failed to send.`);
                         }
+                    } else if (enrollment.email && enrollment.emailSent) {
+                        console.log(`     ℹ️ Email already sent to ${enrollment.email}`);
                     }
+                }
 
-                    if (updated) {
-                        await test.save();
-                    }
+                if (updated) {
+                    await test.save();
+                    console.log('     💾 Test record updated.');
                 }
             }
-
-        } catch (error) {
-            console.error("Error in reminder service:", error);
         }
+    } catch (error) {
+        console.error("Error in reminder service:", error);
+    }
+};
+
+const initReminderService = () => {
+    console.log("Initializing Reminder Service...");
+
+    // Run immediately on start
+    checkReminders();
+
+    // Run every minute
+    cron.schedule('* * * * *', () => {
+        checkReminders();
     });
 
-    console.log("Reminder service started...");
+    console.log("Reminder service started and scheduled.");
 };
 
 export default initReminderService;

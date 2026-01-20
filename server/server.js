@@ -1,8 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import { config } from 'dotenv';
-config();
+import 'dotenv/config';
 import router from './Route.js';
 import connect from './Database/Conn.js';
 import initReminderService from './services/reminderService.js';

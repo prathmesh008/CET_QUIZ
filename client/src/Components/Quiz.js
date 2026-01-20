@@ -311,7 +311,7 @@ export default function Quiz() {
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center' }}>
                                 <div style={{ fontWeight: 'bold', fontSize: '24px', marginBottom: '5px' }}>Time Left:</div>
                                 <div className="timer-pill">
-                                    <Timer duration={1800} onTimeUp={() => {
+                                    <Timer duration={location.state?.duration || 1800} onTimeUp={() => {
                                         localStorage.removeItem('quizTimer');
                                         localStorage.setItem(`quiz_submitted_${activeQuizId}`, 'true');
                                         setFinish(true);

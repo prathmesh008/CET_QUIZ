@@ -420,7 +420,7 @@ export async function seedMockTests(req, res) {
         };
 
         const now = new Date();
-        const tenMinutesFromNow = new Date(now.getTime() + 35 * 60000);
+        const tenMinutesFromNow = new Date(now.getTime() + 31 * 60000);
         const tomorrow = new Date(now);
         tomorrow.setDate(tomorrow.getDate() + 1);
 

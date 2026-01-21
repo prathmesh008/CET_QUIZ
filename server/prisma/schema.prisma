@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                      String     @id @default(uuid())
+  username                String
+  rollNumber              String     @unique
+  enrolledExams           String[]   @default(["General"])
+  currentExam             String     @default("General")
+  createdAt               DateTime   @default(now())
+  
+  // Relations
+  attemptedQuestions      Question[] @relation("UserAttemptedQuestions")
+  currentSessionQuestions Question[] @relation("UserSessionQuestions")
+  
+  // We track this manually in controller updates sometimes, but relating via SQL is better
+  // However, existing logic uses logic update.
+}
+
+model Question {
+  id            String   @id @default(uuid())
+  question      String   @default("")
+  options       String[]
+  answer        Int
+  
+  // Mapped from 'id' in Mongoose schema if it was used as custom ID
+  numericId     Int?     
+  
+  questionImage String   @default("")
+  optionImages  String[]
+  inlineImages  Json?    
+  
+  topic         String   @default("General")
+  subject       String   @default("General")
+  difficulty    String   @default("Medium")
+  examType      String[]
+  
+  createdAt     DateTime @default(now())
+
+  // Relations
+  attemptedByUsers       User[]     @relation("UserAttemptedQuestions")
+  inUserSessions         User[]     @relation("UserSessionQuestions")
+  mockTests              MockTest[]
+}
+
+model Result {
+  id          String   @id @default(uuid())
+  username    String
+  rollNumber  String?
+  quizId      String   @default("quiz1")
+  result      Int[]
+  questionIds String[] 
+  attempts    Int?
+  points      Int      @default(0)
+  acheived    String   @default("failed")
+  examType    String   @default("General")
+  createdAt   DateTime @default(now())
+}
+
+model MockTest {
+  id                String       @id @default(uuid())
+  title             String
+  scheduledDate     DateTime
+  duration          Int          @default(60)
+  examType          String       @default("General")
+  enrolledUsers     String[]
+  
+  enrollmentDetails Enrollment[]
+  questions         Question[]
+  
+  createdAt         DateTime     @default(now())
+}
+
+model Enrollment {
+  id          String    @id @default(uuid())
+  rollNumber  String
+  email       String
+  emailSent   Boolean   @default(false)
+  
+  mockTestId  String
+  mockTest    MockTest  @relation(fields: [mockTestId], references: [id], onDelete: Cascade)
+}

@@ -1,7 +1,4 @@
-import Questions from "../models/Questionsschema.js";
-import results from "../models/resultschema.js";
-import User from "../models/userSchema.js";
-import MockTest from "../models/MockTestSchema.js";
+import prisma from '../Database/prisma.js';
 import quizzes from '../Database/data.js'
 import { mock1_questions } from '../Database/MockData/mock1_data.js';
 import { mock2_questions } from '../Database/MockData/mock2_data.js';
@@ -16,7 +13,6 @@ const AVAILABLE_EXAMS = [
 ];
 
 const determineExamType = (topic) => {
-
     const t = topic?.toLowerCase() || "";
     if (t.includes('logic') || t.includes('numerical') || t.includes('reasoning')) return ['Bank PO', 'SSC'];
     if (t.includes('circadian') || t.includes('biology')) return ['NEET'];
@@ -25,10 +21,6 @@ const determineExamType = (topic) => {
     if (t.includes('math')) return ['IIT-JEE', 'SSC'];
     return ['General'];
 };
-
-
-
-
 
 export async function getExams(req, res) {
     try {
@@ -43,17 +35,22 @@ export async function updateExamEnrollment(req, res) {
         const { rollNumber, activeExam } = req.body;
         if (!rollNumber) throw new Error("Roll Number Required");
 
-        let user = await User.findOne({ rollNumber });
+        let user = await prisma.user.findUnique({ where: { rollNumber } });
         if (!user) throw new Error("User not found (Must start via Login)");
 
-
         if (activeExam) {
-            user.currentExam = activeExam;
-            if (!user.enrolledExams.includes(activeExam)) {
-                user.enrolledExams.push(activeExam);
-            }
+            const updatedEnrolled = user.enrolledExams.includes(activeExam)
+                ? user.enrolledExams
+                : [...user.enrolledExams, activeExam];
+
+            user = await prisma.user.update({
+                where: { rollNumber },
+                data: {
+                    currentExam: activeExam,
+                    enrolledExams: updatedEnrolled
+                }
+            });
         }
-        await user.save();
 
         res.json({ msg: "Exam Context Updated", currentExam: user.currentExam });
     } catch (error) {
@@ -66,49 +63,53 @@ export async function getQuestions(req, res) {
         const { id, ids, examType } = req.query;
         let q = [];
 
-
         if (id && id.startsWith('practice-')) {
-            const resultRecord = await results.findOne({ quizId: id });
-            if (resultRecord && resultRecord.questionIds && resultRecord.questionIds.length > 0) {
-                const fetchedQuestions = await Questions.find({ _id: { $in: resultRecord.questionIds } });
-                const qMap = new Map(fetchedQuestions.map(item => [item._id.toString(), item]));
-                q = resultRecord.questionIds.map(qid => qMap.get(qid.toString())).filter(Boolean);
+            const resultRecord = await prisma.result.findMany({
+                where: { quizId: id },
+                take: 1
+            });
+
+            if (resultRecord[0] && resultRecord[0].questionIds && resultRecord[0].questionIds.length > 0) {
+                const fetchedQuestions = await prisma.question.findMany({
+                    where: { id: { in: resultRecord[0].questionIds } }
+                });
+
+                const qMap = new Map(fetchedQuestions.map(item => [item.id, item]));
+                q = resultRecord[0].questionIds.map(qid => qMap.get(qid)).filter(Boolean);
             }
         }
-
 
         if (q.length === 0) {
             if (ids) {
                 const idList = ids.split(',');
-                q = await Questions.find({ _id: { $in: idList } });
+                q = await prisma.question.findMany({
+                    where: { id: { in: idList } }
+                });
             } else if (id) {
-                q = await Questions.find({ quizId: id });
+                const numeric = parseInt(id);
+                if (!isNaN(numeric)) {
+                    q = await prisma.question.findMany({ where: { numericId: numeric } });
+                } else {
+                    q = await prisma.question.findMany({ where: { id: id } });
+                }
             } else {
-
                 const query = {};
                 if (examType && examType !== 'All') {
-                    query.examType = { $in: [examType] };
+                    query.examType = { has: examType };
                 }
-                q = await Questions.find(query);
+                q = await prisma.question.findMany({ where: query });
             }
         }
 
+        const transformQuestion = (quest) => ({
+            ...quest,
+            _id: quest.id,
+            id: quest.numericId || quest.id
+        });
 
         if (id || ids) {
             if (q.length > 0) {
-                const responseQuestions = q.map(quest => ({
-                    _id: quest._id,
-                    id: quest.id,
-                    question: quest.question,
-                    options: quest.options,
-                    explanation: quest.explanation,
-                    questionImage: quest.questionImage,
-                    optionImages: quest.optionImages,
-                    inlineImages: quest.inlineImages,
-                    topic: quest.topic,
-                    points: quest.points,
-                    examType: quest.examType
-                }));
+                const responseQuestions = q.map(transformQuestion);
                 const responseAnswers = q.map(quest => quest.answer);
 
                 res.json([{
@@ -121,7 +122,7 @@ export async function getQuestions(req, res) {
                 res.json([{ questions: [], answers: [], quizId: id }]);
             }
         } else {
-            res.json(q);
+            res.json(q.map(transformQuestion));
         }
 
     } catch (error) {
@@ -131,27 +132,33 @@ export async function getQuestions(req, res) {
 
 export async function insertquestions(req, res) {
     try {
-        const questionsToInsert = [];
-
+        let count = 0;
         for (const q of quizzes) {
-            const exists = await Questions.findOne({ question: q.question });
+            const exists = await prisma.question.findFirst({ where: { question: q.question } });
             if (!exists) {
-
                 const derivedExamType = q.examType || determineExamType(q.topic);
-                const derivedSubject = q.subject || q.topic;
 
-                questionsToInsert.push({
-                    ...q,
-                    examType: derivedExamType,
-                    subject: derivedSubject,
-                    difficulty: q.difficulty || 'Medium'
+                await prisma.question.create({
+                    data: {
+                        question: q.question,
+                        options: q.options || [],
+                        answer: q.answer,
+                        numericId: q.id,
+                        questionImage: q.questionImage || "",
+                        optionImages: q.optionImages || [],
+                        inlineImages: q.inlineImages || {},
+                        topic: q.topic || "General",
+                        subject: q.subject || q.topic || "General",
+                        difficulty: q.difficulty || 'Medium',
+                        examType: derivedExamType
+                    }
                 });
+                count++;
             }
         }
 
-        if (questionsToInsert.length > 0) {
-            const data = await Questions.insertMany(questionsToInsert);
-            res.json({ msg: "New questions added successfully", count: data.length });
+        if (count > 0) {
+            res.json({ msg: "New questions added successfully", count });
         } else {
             res.json({ msg: "No new questions to add. Database is up to date." });
         }
@@ -162,19 +169,19 @@ export async function insertquestions(req, res) {
 
 export async function dropquestion(req, res) {
     try {
-        await Questions.deleteMany()
-        res.json({ msg: "Questions deleted" })
+        await prisma.question.deleteMany();
+        res.json({ msg: "Questions deleted" });
     } catch (error) {
-        res.json({ error })
+        res.json({ error: error.message });
     }
 }
 
 export async function getResult(req, res) {
     try {
-        const r = await results.find()
-        res.json(r)
+        const r = await prisma.result.findMany();
+        res.json(r.map(item => ({ ...item, _id: item.id })));
     } catch (error) {
-        res.json({ error })
+        res.json({ error: error.message });
     }
 }
 
@@ -183,28 +190,31 @@ export async function insertResult(req, res) {
         const { username, quizId, result, attempts, points, acheived, examType, rollNumber } = req.body;
         if (!username && !result) throw new Error("nodata");
 
-        const data = await results.create({
-            username,
-            rollNumber,
-            quizId,
-            result,
-            attempts,
-            points,
-            acheived,
-            examType: examType || "General"
+        const data = await prisma.result.create({
+            data: {
+                username,
+                rollNumber,
+                quizId: quizId || 'quiz1',
+                result: result || [],
+                attempts,
+                points: points || 0,
+                acheived: acheived || "failed",
+                examType: examType || "General",
+            }
         });
-        res.json({ msg: "result saved", data });
+
+        res.json({ msg: "result saved", data: { ...data, _id: data.id } });
     } catch (error) {
-        res.json({ error });
+        res.json({ error: error.message });
     }
 }
 
 export async function dropResult(req, res) {
     try {
-        await results.deleteMany();
-        res.json({ msg: "result deleted" })
+        await prisma.result.deleteMany();
+        res.json({ msg: "result deleted" });
     } catch (error) {
-        res.json({ error })
+        res.json({ error: error.message });
     }
 }
 
@@ -213,43 +223,69 @@ export async function startPractice(req, res) {
         const { username, rollNumber, examType, topic, mockTestId } = req.query;
         if (!username || !rollNumber) throw new Error("Username and Roll Number are required");
 
-        let user = await User.findOne({ rollNumber });
+        let user = await prisma.user.findUnique({ where: { rollNumber } });
+
         if (!user) {
-            user = await User.create({ username, rollNumber, currentExam: examType || 'General', enrolledExams: [examType || 'General'] });
+            user = await prisma.user.create({
+                data: {
+                    username,
+                    rollNumber,
+                    currentExam: examType || 'General',
+                    enrolledExams: [examType || 'General']
+                }
+            });
         } else if (examType && user.currentExam !== examType) {
-            user.currentExam = examType;
-            if (!user.enrolledExams.includes(examType)) {
-                user.enrolledExams.push(examType);
-            }
-            await user.save();
+            const updatedEnrolled = user.enrolledExams.includes(examType)
+                ? user.enrolledExams
+                : [...user.enrolledExams, examType];
+
+            user = await prisma.user.update({
+                where: { rollNumber },
+                data: {
+                    currentExam: examType,
+                    enrolledExams: updatedEnrolled
+                }
+            });
         }
 
         let questionPool = [];
         let title = "Practice Quiz";
+        let quizId = mockTestId || `practice-${Date.now()}`;
 
         if (mockTestId) {
-            // --- MOCK TEST LOGIC ---
-            const mockTest = await MockTest.findById(mockTestId).populate('questions');
+            const mockTest = await prisma.mockTest.findUnique({
+                where: { id: mockTestId },
+                include: { questions: true }
+            });
             if (!mockTest) throw new Error("Mock Test not found");
 
             questionPool = mockTest.questions;
             title = mockTest.title;
         } else {
-            // --- PRACTICE / TOPIC LOGIC ---
             const targetExam = user.currentExam || 'General';
             title = `${targetExam} Practice`;
 
-            const query = {
-                _id: { $nin: user.attemptedQuestions || [] },
-                examType: { $in: [targetExam] }
+            const userWithAttempts = await prisma.user.findUnique({
+                where: { rollNumber },
+                include: { attemptedQuestions: { select: { id: true } } }
+            });
+
+            const attemptedIds = userWithAttempts?.attemptedQuestions.map(q => q.id) || [];
+
+            const whereClause = {
+                id: { notIn: attemptedIds },
+                examType: { has: targetExam }
             };
 
             if (topic) {
-                query.topic = topic;
+                whereClause.topic = topic;
                 title = `${topic} Practice`;
             }
 
-            questionPool = await Questions.find(query).limit(24);
+            questionPool = await prisma.question.findMany({
+                where: whereClause,
+                take: 24
+            });
         }
 
         if (questionPool.length === 0) {
@@ -257,8 +293,8 @@ export async function startPractice(req, res) {
         }
 
         const responseQuestions = questionPool.map(q => ({
-            _id: q._id,
-            id: q.id,
+            _id: q.id,
+            id: q.numericId || q.id,
             question: q.question,
             options: q.options,
             explanation: q.explanation,
@@ -272,11 +308,14 @@ export async function startPractice(req, res) {
 
         const responseAnswers = questionPool.map(q => q.answer);
 
-        // Store session questions for result calculation
-        user.currentSessionQuestions = questionPool.map(q => q._id);
-        await user.save();
-
-        const quizId = mockTestId || `practice-${Date.now()}`;
+        await prisma.user.update({
+            where: { rollNumber },
+            data: {
+                currentSessionQuestions: {
+                    set: questionPool.map(q => ({ id: q.id }))
+                }
+            }
+        });
 
         res.json([{
             questions: responseQuestions,
@@ -295,33 +334,42 @@ export async function submitPractice(req, res) {
         const { username, rollNumber, quizId, result, attempts, points, acheived } = req.body;
         if (!username && !result) throw new Error("nodata");
 
-        const user = await User.findOne({ rollNumber });
-        const questionIds = user ? user.currentSessionQuestions : [];
-        const examType = user ? user.currentExam : "General";
-
-        const data = await results.create({
-            username,
-            rollNumber,
-            quizId,
-            result,
-            attempts,
-            points,
-            acheived,
-            questionIds,
-            examType: examType
+        const user = await prisma.user.findUnique({
+            where: { rollNumber },
+            include: { currentSessionQuestions: true }
         });
 
-        if (user) {
-            await User.updateOne(
-                { rollNumber },
-                {
-                    $addToSet: { attemptedQuestions: { $each: user.currentSessionQuestions || [] } },
-                    $set: { currentSessionQuestions: [] }
+        const sessionQuestions = user ? user.currentSessionQuestions : [];
+        const questionIds = sessionQuestions.map(q => q.id);
+        const examType = user ? user.currentExam : "General";
+
+        const data = await prisma.result.create({
+            data: {
+                username,
+                rollNumber,
+                quizId,
+                result,
+                attempts,
+                points,
+                acheived,
+                questionIds,
+                examType
+            }
+        });
+
+        if (user && questionIds.length > 0) {
+            await prisma.user.update({
+                where: { rollNumber },
+                data: {
+                    attemptedQuestions: {
+                        connect: questionIds.map(id => ({ id }))
+                    },
+                    currentSessionQuestions: { set: [] }
                 }
-            );
+            });
         }
 
-        res.json({ msg: "Result saved and progress updated", data });
+        res.json({ msg: "Result saved and progress updated", data: { ...data, _id: data.id } });
     } catch (error) {
         res.json({ error: error.message });
     }
@@ -332,16 +380,20 @@ export async function getUserHistory(req, res) {
         const { rollNumber } = req.query;
         if (!rollNumber) throw new Error("Roll Number Required");
 
-        const user = await User.findOne({ rollNumber });
+        const user = await prisma.user.findUnique({ where: { rollNumber } });
         const examType = user ? user.currentExam : null;
 
-        const query = { rollNumber };
+        const whereClause = { rollNumber };
         if (examType) {
-            query.examType = examType;
+            whereClause.examType = examType;
         }
 
-        const history = await results.find(query).sort({ createdAt: -1 });
-        res.json(history);
+        const history = await prisma.result.findMany({
+            where: whereClause,
+            orderBy: { createdAt: 'desc' }
+        });
+
+        res.json(history.map(h => ({ ...h, _id: h.id })));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -350,10 +402,13 @@ export async function getUserHistory(req, res) {
 export async function getMockTests(req, res) {
     try {
         const { examType } = req.query;
-        const tests = await MockTest.find({ examType: examType || 'General' }).sort({ scheduledDate: 1 });
-        res.json(tests);
+        const tests = await prisma.mockTest.findMany({
+            where: { examType: examType || 'General' },
+            orderBy: { scheduledDate: 'asc' }
+        });
+        res.json(tests.map(t => ({ ...t, _id: t.id })));
     } catch (error) {
-        res.json({ error });
+        res.json({ error: error.message });
     }
 }
 
@@ -362,7 +417,17 @@ export async function createMockTest(req, res) {
         const { title, scheduledDate, duration, examType, questions } = req.body;
         if (!title || !scheduledDate) throw new Error("Title and Date required");
 
-        await MockTest.create({ title, scheduledDate, duration, examType, questions: questions || [] });
+        const connectQuestions = (questions || []).map(id => ({ id }));
+
+        await prisma.mockTest.create({
+            data: {
+                title,
+                scheduledDate: new Date(scheduledDate),
+                duration: duration || 60,
+                examType,
+                questions: { connect: connectQuestions }
+            }
+        });
         res.json({ msg: "Mock Test scheduled successfully" });
     } catch (error) {
         res.json({ error: error.message });
@@ -374,11 +439,14 @@ export async function addQuestionsToMockTest(req, res) {
         const { testId, questionIds } = req.body;
         if (!testId || !questionIds) throw new Error("Data missing");
 
-        const test = await MockTest.findById(testId);
-        if (!test) throw new Error("Test not found");
-
-        test.questions.push(...questionIds);
-        await test.save();
+        await prisma.mockTest.update({
+            where: { id: testId },
+            data: {
+                questions: {
+                    connect: questionIds.map(id => ({ id }))
+                }
+            }
+        });
         res.json({ msg: "Questions added" });
     } catch (error) {
         res.json({ error: error.message });
@@ -390,7 +458,7 @@ export async function enrollMockTest(req, res) {
         const { testId, rollNumber, email } = req.body;
         if (!testId || !rollNumber || !email) throw new Error("Valid Data Required (Test ID, Roll Number, Email)");
 
-        const test = await MockTest.findById(testId);
+        const test = await prisma.mockTest.findUnique({ where: { id: testId } });
         if (!test) throw new Error("Test not found");
 
         const testEndTime = new Date(test.scheduledDate.getTime() + (test.duration * 60000));
@@ -399,9 +467,21 @@ export async function enrollMockTest(req, res) {
         }
 
         if (!test.enrolledUsers.includes(rollNumber)) {
-            test.enrolledUsers.push(rollNumber);
-            test.enrollmentDetails.push({ rollNumber, email });
-            await test.save();
+            await prisma.$transaction([
+                prisma.mockTest.update({
+                    where: { id: testId },
+                    data: {
+                        enrolledUsers: { push: rollNumber }
+                    }
+                }),
+                prisma.enrollment.create({
+                    data: {
+                        rollNumber,
+                        email,
+                        mockTestId: testId
+                    }
+                })
+            ]);
         }
         res.json({ msg: "Enrolled successfully" });
     } catch (error) {
@@ -411,68 +491,63 @@ export async function enrollMockTest(req, res) {
 
 export async function seedMockTests(req, res) {
     try {
-        // Check if we should clear existing data
         if (req.query.reset === 'true') {
-            await MockTest.deleteMany({});
-            await Questions.deleteMany({});
+            await prisma.enrollment.deleteMany();
+            await prisma.mockTest.deleteMany();
+            await prisma.question.deleteMany();
             console.log("Database cleared.");
         }
 
-        // Helper to insert questions
-        const insertQuestions = async (questionsData) => {
-            const inserted = await Questions.insertMany(questionsData);
-            return inserted.map(q => q._id);
-        };
-
         const now = new Date();
         const tenMinutesFromNow = new Date(now.getTime() + 31 * 60000);
-        const tomorrow = new Date(now);
-        const dayaftertomorrow = new Date(now);
-        const dayafterdayaftertomorrow = new Date(now);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        dayaftertomorrow.setDate(dayaftertomorrow.getDate() + 2);
-        dayafterdayaftertomorrow.setDate(dayafterdayaftertomorrow.getDate() + 3);
+        const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        const day2 = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000);
+        const day3 = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
 
-        // Seed Questions
+        const insertQuestions = async (questionsData) => {
+            const ids = [];
+            for (const q of questionsData) {
+                const created = await prisma.question.create({
+                    data: {
+                        question: q.question,
+                        options: q.options || [],
+                        answer: q.answer,
+                        numericId: q.id,
+                        questionImage: q.questionImage,
+                        optionImages: q.optionImages,
+                        topic: q.topic,
+                        subject: q.subject,
+                        difficulty: q.difficulty,
+                        examType: q.examType || (q.topic ? determineExamType(q.topic) : ['General'])
+                    }
+                });
+                ids.push(created.id);
+            }
+            return ids;
+        };
+
         const mock1Ids = await insertQuestions(mock1_questions);
         const mock2Ids = await insertQuestions(mock2_questions);
 
-        const mockTests = [
-            {
-                title: "IIT-JEE Special Mock",
-                scheduledDate: tenMinutesFromNow,
-                duration: 60,
-                examType: "IIT-JEE",
-                questions: mock1Ids,
-                enrolledUsers: []
-            },
-            {
-                title: "mock 1 - Physics",
-                scheduledDate: tomorrow,
-                duration: 45,
-                examType: "IIT-JEE",
-                questions: mock2Ids,
-                enrolledUsers: []
-            },
-            {
-                title: "mock 1 - Chemistry",
-                scheduledDate: dayaftertomorrow,
-                duration: 45,
-                examType: "IIT-JEE",
-                questions: mock2Ids,
-                enrolledUsers: []
-            },
-            {
-                title: "mock 1 - Biology",
-                scheduledDate: dayafterdayaftertomorrow,
-                duration: 45,
-                examType: "IIT-JEE",
-                questions: mock2Ids,
-                enrolledUsers: []
-            }
-        ];
+        const createTest = async (title, date, duration, type, qIds) => {
+            await prisma.mockTest.create({
+                data: {
+                    title,
+                    scheduledDate: date,
+                    duration,
+                    examType: type,
+                    enrolledUsers: [],
+                    questions: {
+                        connect: qIds.map(id => ({ id }))
+                    }
+                }
+            });
+        }
 
-        await MockTest.insertMany(mockTests);
+        await createTest("IIT-JEE Special Mock", tenMinutesFromNow, 60, "IIT-JEE", mock1Ids);
+        await createTest("mock 1 - Physics", tomorrow, 45, "IIT-JEE", mock2Ids);
+        await createTest("mock 1 - Chemistry", day2, 45, "IIT-JEE", mock2Ids);
+        await createTest("mock 1 - Biology", day3, 45, "IIT-JEE", mock2Ids);
 
         res.json({ msg: "Mock Tests and Questions seeded successfully!" });
     } catch (error) {
@@ -482,8 +557,20 @@ export async function seedMockTests(req, res) {
 
 export async function dropMockTests(req, res) {
     try {
-        await MockTest.deleteMany();
+        await prisma.mockTest.deleteMany();
         res.json({ msg: "All Mock Tests deleted" });
+    } catch (error) {
+        res.json({ error: error.message });
+    }
+}
+
+export async function deleteMockTestById(req, res) {
+    try {
+        const { id } = req.params;
+        if (!id) throw new Error("Test ID Required");
+
+        await prisma.mockTest.delete({ where: { id } });
+        res.json({ msg: "Mock Test deleted successfully" });
     } catch (error) {
         res.json({ error: error.message });
     }
@@ -495,12 +582,15 @@ export async function getUpcomingEnrolledTests(req, res) {
         if (!rollNumber) throw new Error("Roll Number Required");
 
         const now = new Date();
-        const tests = await MockTest.find({
-            enrolledUsers: rollNumber,
-            scheduledDate: { $gt: now }
-        }).sort({ scheduledDate: 1 });
+        const tests = await prisma.mockTest.findMany({
+            where: {
+                enrolledUsers: { has: rollNumber },
+                scheduledDate: { gt: now }
+            },
+            orderBy: { scheduledDate: 'asc' }
+        });
 
-        res.json(tests);
+        res.json(tests.map(t => ({ ...t, _id: t.id })));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

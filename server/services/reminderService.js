@@ -1,6 +1,6 @@
 import cron from 'node-cron';
 import sgMail from '@sendgrid/mail';
-import MockTest from '../models/MockTestSchema.js';
+import prisma from '../Database/prisma.js';
 
 // Configure SendGrid
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -77,10 +77,15 @@ const checkReminders = async () => {
         const now = new Date();
 
         // Limit query to tests starting in the next hour
-        const upcomingTests = await MockTest.find({
-            scheduledDate: {
-                $gt: now,
-                $lt: new Date(now.getTime() + 60 * 60000)
+        const upcomingTests = await prisma.mockTest.findMany({
+            where: {
+                scheduledDate: {
+                    gt: now,
+                    lt: new Date(now.getTime() + 60 * 60000)
+                }
+            },
+            include: {    // Include the relation for Enrollment details
+                enrollmentDetails: true
             }
         });
 
@@ -89,7 +94,7 @@ const checkReminders = async () => {
         }
 
         for (const test of upcomingTests) {
-            const timeDiff = test.scheduledDate - now;
+            const timeDiff = new Date(test.scheduledDate) - now;
             const minutesLeft = timeDiff / 60000;
 
             console.log(`   - "${test.title}" starts in ${minutesLeft.toFixed(1)} mins`);
@@ -97,14 +102,16 @@ const checkReminders = async () => {
             // Logic: Send email if test is starting in <= 35 minutes (and we haven't sent it yet)
             if (minutesLeft <= 35 && minutesLeft > 0) {
                 // Check enrolled users
-                let updated = false;
                 for (const enrollment of test.enrollmentDetails) {
                     if (enrollment.email && !enrollment.emailSent) {
                         console.log(`     📤 Sending email to ${enrollment.email}...`);
                         const sent = await sendReminderEmail(enrollment.email, test.title, test.scheduledDate);
                         if (sent) {
-                            enrollment.emailSent = true;
-                            updated = true;
+                            // Update the specific Enrollment record
+                            await prisma.enrollment.update({
+                                where: { id: enrollment.id },
+                                data: { emailSent: true }
+                            });
                             console.log(`     ✅ Email sent!`);
                         } else {
                             console.log(`     ❌ Failed to send.`);
@@ -113,11 +120,7 @@ const checkReminders = async () => {
                         console.log(`     ℹ️ Email already sent to ${enrollment.email}`);
                     }
                 }
-
-                if (updated) {
-                    await test.save();
-                    console.log('     💾 Test record updated.');
-                }
+                // No need to "save" test manually in Prisma
             }
         }
     } catch (error) {

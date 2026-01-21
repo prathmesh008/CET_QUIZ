@@ -427,7 +427,11 @@ export async function seedMockTests(req, res) {
         const now = new Date();
         const tenMinutesFromNow = new Date(now.getTime() + 31 * 60000);
         const tomorrow = new Date(now);
+        const dayaftertomorrow = new Date(now);
+        const dayafterdayaftertomorrow = new Date(now);
         tomorrow.setDate(tomorrow.getDate() + 1);
+        dayaftertomorrow.setDate(dayaftertomorrow.getDate() + 2);
+        dayafterdayaftertomorrow.setDate(dayafterdayaftertomorrow.getDate() + 3);
 
         // Seed Questions
         const mock1Ids = await insertQuestions(mock1_questions);
@@ -435,7 +439,7 @@ export async function seedMockTests(req, res) {
 
         const mockTests = [
             {
-                title: "IIT-JEE Special Mock (Data File 1)",
+                title: "IIT-JEE Special Mock",
                 scheduledDate: tenMinutesFromNow,
                 duration: 60,
                 examType: "IIT-JEE",
@@ -443,10 +447,26 @@ export async function seedMockTests(req, res) {
                 enrolledUsers: []
             },
             {
-                title: "NEET Biology Blast (Data File 2)",
+                title: "mock 1 - Physics",
                 scheduledDate: tomorrow,
                 duration: 45,
-                examType: "NEET",
+                examType: "IIT-JEE",
+                questions: mock2Ids,
+                enrolledUsers: []
+            },
+            {
+                title: "mock 1 - Chemistry",
+                scheduledDate: dayaftertomorrow,
+                duration: 45,
+                examType: "IIT-JEE",
+                questions: mock2Ids,
+                enrolledUsers: []
+            },
+            {
+                title: "mock 1 - Biology",
+                scheduledDate: dayafterdayaftertomorrow,
+                duration: 45,
+                examType: "IIT-JEE",
                 questions: mock2Ids,
                 enrolledUsers: []
             }
@@ -464,18 +484,6 @@ export async function dropMockTests(req, res) {
     try {
         await MockTest.deleteMany();
         res.json({ msg: "All Mock Tests deleted" });
-    } catch (error) {
-        res.json({ error: error.message });
-    }
-}
-
-export async function deleteMockTestById(req, res) {
-    try {
-        const { id } = req.params;
-        if (!id) throw new Error("Test ID Required");
-
-        await MockTest.findByIdAndDelete(id);
-        res.json({ msg: "Mock Test deleted successfully" });
     } catch (error) {
         res.json({ error: error.message });
     }

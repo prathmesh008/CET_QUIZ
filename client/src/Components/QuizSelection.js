@@ -59,9 +59,7 @@ export default function QuizSelection({ initialView }) {
     const [isEnrolling, setIsEnrolling] = useState(false);
 
     useEffect(() => {
-        if (initialView) {
-            setCurrentView(initialView);
-        }
+        setCurrentView(initialView || 'dashboard');
     }, [initialView]);
 
 
@@ -123,6 +121,10 @@ export default function QuizSelection({ initialView }) {
 
             const data = await getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/mock-tests?examType=${activeExam || 'General'}`);
             setMockTests(data || []);
+
+            // Also update upcoming tests to show the timer immediately
+            const upcomingData = await getServerData(`${process.env.REACT_APP_SERVER_HOSTNAME}/api/user/upcoming-mock-tests?rollNumber=${rollNumber}`);
+            setUpcomingEnrolledTests(upcomingData || []);
 
             setEnrollModal({ show: false, testId: null }); // Close input modal
             setEnrollStatus({

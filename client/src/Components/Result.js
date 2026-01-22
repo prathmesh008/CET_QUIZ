@@ -20,6 +20,7 @@ function Result() {
     const flag = flagresult(totalpoints, earnpoint);
 
     useEffect(() => {
+        // Publish result
         usepublishresult({
             result,
             username: userid,
@@ -29,6 +30,18 @@ function Result() {
             acheived: flag ? "Passed" : "Failed",
             quizId
         });
+
+        // Block back button
+        window.history.pushState(null, document.title, window.location.href);
+        const handlePopState = () => {
+            window.history.pushState(null, document.title, window.location.href);
+        };
+
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const navigate = useNavigate();

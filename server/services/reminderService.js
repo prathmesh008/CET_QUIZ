@@ -2,7 +2,6 @@ import cron from 'node-cron';
 import sgMail from '@sendgrid/mail';
 import prisma from '../Database/prisma.js';
 
-// Configure SendGrid
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendReminderEmail = async (email, testTitle, startTime) => {
@@ -53,7 +52,7 @@ const sendReminderEmail = async (email, testTitle, startTime) => {
 
     const msg = {
         to: email,
-        from: process.env.EMAIL_FROM, // Use the verified sender email here
+        from: process.env.EMAIL_FROM,
         subject: `Reminder: ${testTitle} Starts in 30 Minutes!`,
         html: htmlContent,
     };
@@ -76,7 +75,6 @@ const checkReminders = async () => {
     try {
         const now = new Date();
 
-        // Limit query to tests starting in the next hour
         const upcomingTests = await prisma.mockTest.findMany({
             where: {
                 scheduledDate: {
@@ -84,7 +82,7 @@ const checkReminders = async () => {
                     lt: new Date(now.getTime() + 60 * 60000)
                 }
             },
-            include: {    // Include the relation for Enrollment details
+            include: {
                 enrollmentDetails: true
             }
         });
@@ -99,15 +97,12 @@ const checkReminders = async () => {
 
             console.log(`   - "${test.title}" starts in ${minutesLeft.toFixed(1)} mins`);
 
-            // Logic: Send email if test is starting in <= 35 minutes (and we haven't sent it yet)
             if (minutesLeft <= 35 && minutesLeft > 0) {
-                // Check enrolled users
                 for (const enrollment of test.enrollmentDetails) {
                     if (enrollment.email && !enrollment.emailSent) {
                         console.log(`     📤 Sending email to ${enrollment.email}...`);
                         const sent = await sendReminderEmail(enrollment.email, test.title, test.scheduledDate);
                         if (sent) {
-                            // Update the specific Enrollment record
                             await prisma.enrollment.update({
                                 where: { id: enrollment.id },
                                 data: { emailSent: true }
@@ -120,7 +115,6 @@ const checkReminders = async () => {
                         console.log(`     ℹ️ Email already sent to ${enrollment.email}`);
                     }
                 }
-                // No need to "save" test manually in Prisma
             }
         }
     } catch (error) {
@@ -131,10 +125,8 @@ const checkReminders = async () => {
 const initReminderService = () => {
     console.log("Initializing Reminder Service...");
 
-    // Run immediately on start
     checkReminders();
 
-    // Run every minute
     cron.schedule('* * * * *', () => {
         checkReminders();
     });
